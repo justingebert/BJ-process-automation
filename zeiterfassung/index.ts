@@ -1,7 +1,23 @@
-import * as XLSX from 'xlsx';
+let start = Date.now();
 
-import * as fs from 'fs';
-XLSX.set_fs(fs);
+let maschine;
+let arbeitkraft;
+let arbeitschritt;
 
-import { Readable } from 'stream';
-XLSX.stream.set_readable(Readable);
+interface Zeit{
+    
+}
+
+class Zeit{
+
+    maschine: number;
+    arbeitkraft: string;
+    arbeitschritt: string;
+
+    constructor(){
+
+    }
+}
+
+console.log("test");
+console.log(start);
