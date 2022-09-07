@@ -11,11 +11,12 @@ interface Zeit{
 
 class Zeit{
 
-    arbeitsplatz: number = document.getElementById();
-    arbeitkraft: string;
-    arbeitschritt: string;  
-    sollmenge: number;
+    arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeisplatz')).value);
+    arbeitkraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
+    arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
+    sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
     istmenge: number;
+    notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
 
 
 
