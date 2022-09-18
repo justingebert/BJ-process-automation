@@ -1,10 +1,4 @@
-import * as XLSX from 'xlsx';
 
-import * as fs from 'fs';
-XLSX.set_fs(fs);
-
-import { Readable } from 'stream';
-XLSX.stream.set_readable(Readable);
 interface Zeit{
     
 }
@@ -26,12 +20,8 @@ class Zeit{
     pausenzeit : number;
     running = false;
 
-    constructor(arbeitsplatz:number, arbeitkraft: string, 
-                arbeitschritt: string,sollmenge: number){
-                    this.arbeitsplatz = arbeitsplatz;
-                    this.arbeitkraft = arbeitkraft;
-                    this.arbeitschritt = arbeitschritt;
-                    this.sollmenge = sollmenge;
+    constructor(){
+                    
 
     }
 
@@ -74,7 +64,7 @@ class Zeit{
             console.log("timer running")
         }else{
             let pausenzeit = Date.now() - this.startzeitpause;
-        console.log("timer resumed")
+            console.log("timer resumed")
         }
     }
 
@@ -85,9 +75,21 @@ class Zeit{
 
 function initTimer(){
     let timer01 = new Zeit();
-    
 }
 
-console.log(start);
+let testDate = Date.now();
 
-document.getElementById("startbutton").addEventListener("click",initTimer);
+const minute = 1000 * 60;
+const hour = minute * 60;
+const day = hour * 24;
+const year = day * 365;
+
+testDate = testDate/hour;
+
+console.log(testDate);
+
+const startbutton = document.querySelector('#startbutton');
+
+if(startbutton != null){
+    startbutton.addEventListener("click",initTimer);
+}
