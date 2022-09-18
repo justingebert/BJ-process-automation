@@ -1,23 +1,25 @@
+import { writeXLSX } from "xlsx";
 
+let XLSX = require("xlsx");
 interface Zeit{
     
 }
 
 class Zeit{
 
-    arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeisplatz')).value);
+    //arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeisplatz')).value);
     arbeitkraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
     arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
     sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
-    istmenge: number;
+    istmenge!: number;
     notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
 
 
 
-    zeit: number;
-    startzeit: number;
-    startzeitpause: number;
-    pausenzeit : number;
+    zeit!: number;
+    startzeit!: number;
+    startzeitpause!: number;
+    pausenzeit!: number;
     running = false;
 
     constructor(){
@@ -75,6 +77,7 @@ class Zeit{
 
 function initTimer(){
     let timer01 = new Zeit();
+    console.log("hello");
 }
 
 let testDate = Date.now();
@@ -88,8 +91,15 @@ testDate = testDate/hour;
 
 console.log(testDate);
 
-const startbutton = document.querySelector('#startbutton');
-
-if(startbutton != null){
-    startbutton.addEventListener("click",initTimer);
+if (typeof window !== 'undefined') {
+    const startbutton = document.querySelector('#startbutton');
+    if(startbutton != null){
+        startbutton.addEventListener("click",initTimer);
+    }
+} else {
+    console.log('You are on the server')
 }
+
+const workbook = XLSX.utils.book_new();
+
+//writeXLSX(workbook, test);
