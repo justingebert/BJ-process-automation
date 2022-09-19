@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-let XLSX = require("xlsx");
+const XLSX = require("xlsx");
 class Zeit {
     //arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeisplatz')).value);
     arbeitkraft = document.querySelector("#Arbeitskraft").value;
@@ -79,5 +79,15 @@ if (typeof window !== 'undefined') {
 else {
     console.log('You are on the server');
 }
-const workbook = XLSX.utils.book_new();
-//writeXLSX(workbook, test);
+const data = [
+    ["Name", "Age", "Location"],
+    ["Bob", 24, "NYC"],
+    ["Jason", 30, "LA"]
+];
+const worksheet = XLSX.utils.aoa_to_sheet(data);
+const workbook01 = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(workbook01, worksheet, "Sheet1");
+XLSX.writeFile(workbook01, "SheetJS.xlsx");
+//const workbook01 = XLSX.utils.book_new();
+//const worksheet = 
+//XLSX.writefile(workbook01, "testfile01.xlsx")
