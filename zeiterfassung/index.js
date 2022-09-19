@@ -80,9 +80,8 @@ else {
     console.log('You are on the server');
 }
 const data = [
-    ["Name", "Age", "Location"],
-    ["Bob", 24, "NYC"],
-    ["Jason", 30, "LA"]
+    ["Arbeitsplatz", "Arbeitskraft", "Arbeitsschritt", "SollMenge", "IstMenge", "Notiz"],
+    []
 ];
 const worksheet = XLSX.utils.aoa_to_sheet(data);
 const workbook01 = XLSX.utils.book_new();
