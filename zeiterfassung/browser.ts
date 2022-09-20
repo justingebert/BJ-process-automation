@@ -1,6 +1,4 @@
-import { writeXLSX } from "xlsx";
 
-const XLSX = require("xlsx");
 interface Zeit{
     
 }
@@ -74,7 +72,7 @@ class Zeit{
 }
 
 function initTimer(){
-    let timer01 = new Zeit();
+    //let timer01 = new Zeit();
     console.log("hello");
 }
 
@@ -89,6 +87,8 @@ testDate = testDate/hour;
 
 console.log(testDate);
 
+let timer01 = new Zeit();
+
 if (typeof window !== 'undefined') {
     const startbutton = document.querySelector('#startbutton');
     if(startbutton != null){
@@ -98,16 +98,3 @@ if (typeof window !== 'undefined') {
     console.log('You are on the server')
 }
 
-const data = [
-    ["Arbeitsplatz", "Arbeitskraft", "Arbeitsschritt", "SollMenge", "IstMenge", "Notiz"],
-    []
-];
-const worksheet = XLSX.utils.aoa_to_sheet(data);
-const workbook01 = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook01, worksheet, "Sheet1");
-XLSX.writeFile(workbook01, "SheetJS.xlsx");
-
-//const workbook01 = XLSX.utils.book_new();
-//const worksheet = 
-
-//XLSX.writefile(workbook01, "testfile01.xlsx")
