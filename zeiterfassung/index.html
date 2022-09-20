@@ -15,7 +15,7 @@
 <body>
     <label>Arbeitsplatz:</label>
     <br>
-    <input type="number" id="Arbeitsplatz" placeholder="00">
+    <input type="number" id="Arbeitsplatz" placeholder="00" value="01">
     <br>
     <label>Arbeitskraft:</label>
     <br>
@@ -23,24 +23,24 @@
     <br>
     <label>Arbeitsschritt:</label>
     <br>
-    <input type="number" id="Arbeitsschritt-Code" placeholder="xxx000">
+    <input type="text" id="Arbeitsschritt-Code" placeholder="xxx000" value="xxx001">
     <br>
     <label>SollMenge</label>
     <br>
-    <input type="number" id="SollMenge" placeholder="000">
+    <input type="number" id="SollMenge" placeholder="000" value="20">
     <br>
     <label>Notiz</label>
     <br>
-    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen" >
+    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen" value="muster">
     <br><br>
     <button type="button" id="startbutton">Start</button>
     <br>
     <label>IstMenge</label>
     <br>
-    <input type="number" id="IstMenge" placeholder="000">
+    <input type="number" id="IstMenge" placeholder="000" value="10">
     <br>
-    <button type="button">Pause</button>
+    <button type="button" id="pausebutton">Pause</button>
     <p>Zeit: <span>00:00:00</span></p>
-  <script src="/zeiterfassung/index.js"></script>
+  <script src="/zeiterfassung/browser.js"></script>
 </body>
 </html>

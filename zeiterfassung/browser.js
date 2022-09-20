@@ -1,14 +1,15 @@
-"use strict";
-exports.__esModule = true;
-var XLSX = require("xlsx");
 var Zeit = /** @class */ (function () {
     function Zeit() {
-        //arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeisplatz')).value);
+        //get inputs
+        this.arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
         this.arbeitkraft = document.querySelector("#Arbeitskraft").value;
         this.arbeitschritt = document.querySelector("#Arbeitsschritt-Code").value;
         this.sollmenge = parseInt(document.querySelector('#SollMenge').value);
+        this.istmenge = parseInt(document.querySelector('#IstMenge').value);
         this.notiz = document.querySelector("#Fehler").value;
+        this.pausenzeit = 0;
         this.running = false;
+        this.paused = false;
     }
     Zeit.prototype.startTimer = function () {
         if (this.running === true) {
@@ -28,25 +29,28 @@ var Zeit = /** @class */ (function () {
         else {
             var zeit = Date.now() - this.startzeit - this.pausenzeit;
             this.zeit = zeit;
+            this.running = false;
             console.log("timer stopped");
         }
     };
     Zeit.prototype.pauseTimer = function () {
-        if (this.running === false) {
+        if (this.paused === true) {
             console.log("timer not running");
         }
         else {
             var pausestart = Date.now();
             this.startzeitpause = pausestart;
+            this.paused = true;
             console.log("timer paused");
         }
     };
     Zeit.prototype.resumeTimer = function () {
-        if (this.running === true) {
+        if (this.paused === false) {
             console.log("timer running");
         }
         else {
             var pausenzeit = Date.now() - this.startzeitpause;
+            this.paused = false;
             console.log("timer resumed");
         }
     };
@@ -56,46 +60,66 @@ var Zeit = /** @class */ (function () {
     return Zeit;
 }());
 function initTimer() {
-    //let timer01 = new Zeit();
-    console.log("hello");
+    var timer01 = new Zeit();
+    //console.log("Objekt erzeugt"); 
+    /*  console.log(timer01.arbeitsplatz,
+                 timer01.arbeitkraft,
+                 timer01.arbeitschritt,
+                 timer01.sollmenge,
+                 timer01.notiz,
+                 timer01.istmenge
+                 ); */
+    return timer01;
 }
-var testDate = Date.now();
-var minute = 1000 * 60;
-var hour = minute * 60;
-var day = hour * 24;
-var year = day * 365;
-testDate = testDate / hour;
-console.log(testDate);
-var timer01 = new Zeit();
+function startStopButton(obj, button) {
+    if (obj.running === false) {
+        obj.startTimer();
+    }
+    else if (obj.running === true) {
+        obj.stopTimer();
+    }
+}
+function pauseResumeButton(obj, button) {
+    if (obj.paused === false) {
+        obj.pauseTimer();
+        button.innerHTML = 'Resume';
+    }
+    else {
+        obj.resumeTimer();
+        button.innerHTML = 'Pause';
+    }
+}
+var timerOBJ;
 if (typeof window !== 'undefined') {
-    var startbutton = document.querySelector('#startbutton');
-    if (startbutton != null) {
-        startbutton.addEventListener("click", createFirstXLSX);
+    var startbutton_1 = document.querySelector('#startbutton');
+    var pausebutton_1 = document.querySelector('#pausebutton');
+    if (startbutton_1 !== null) {
+        startbutton_1.addEventListener("click", function () {
+            if (startbutton_1.innerHTML === 'Start') {
+                timerOBJ = initTimer();
+                startStopButton(timerOBJ, startbutton_1);
+                startbutton_1.innerHTML = 'Stop';
+            }
+            else if (startbutton_1.innerHTML === 'Stop') {
+                //Object finished
+                //zweitfrage einbauen - bist du sicher das du den timer stoppen willst?
+                startStopButton(timerOBJ, startbutton_1);
+                var Zeit_1 = timerOBJ.getTime();
+                console.log(Zeit_1 / 1000);
+                startbutton_1.innerHTML = 'Start';
+                pausebutton_1.innerHTML = 'Pause';
+            }
+        });
+    }
+    if (pausebutton_1 !== null) {
+        pausebutton_1.addEventListener("click", function () {
+            if (startbutton_1.innerHTML === 'Stop') {
+                pauseResumeButton(timerOBJ, pausebutton_1);
+            }
+        });
     }
 }
 else {
     console.log('You are on the server');
 }
-var Arbeitskraefte = new Map([
-    ['name01', 'xx01'],
-    ['name02', 'xx02'],
-    ['name03', 'xx03'],
-    ['name04', 'xx04'],
-]);
-//start template Excel Datei - Erste Reihe
-var data = [
-    ["Arbeitsplatz", "Arbeitskraft", "Arbeitsschritt", "SollMenge", "IstMenge", "Notiz"],
-    []
-];
-function createFirstXLSX() {
-    var workbook01 = XLSX.utils.book_new();
-    var worksheet = XLSX.utils.aoa_to_sheet(data);
-    var Arbeitskraft = Arbeitskraefte.get(timer01.arbeitkraft);
-    XLSX.utils.book_append_sheet(workbook01, worksheet, Arbeitskraft);
-    XLSX.writeFile(workbook01, "Erfassung.xlsx");
-    console.log("passt");
-}
-//createFirstXLSX();
-//const workbook01 = XLSX.utils.book_new();
-//const worksheet = 
-//XLSX.writefile(workbook01, "testfile01.xlsx")
+module.exports = timerOBJ;
