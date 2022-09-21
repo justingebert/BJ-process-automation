@@ -61,7 +61,6 @@ var Zeit = /** @class */ (function () {
 }());
 function initTimer() {
     var timer01 = new Zeit();
-    //console.log("Objekt erzeugt"); 
     /*  console.log(timer01.arbeitsplatz,
                  timer01.arbeitkraft,
                  timer01.arbeitschritt,
@@ -122,4 +121,5 @@ if (typeof window !== 'undefined') {
 else {
     console.log('You are on the server');
 }
+//export 
 module.exports = timerOBJ;

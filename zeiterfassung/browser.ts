@@ -69,7 +69,6 @@ class Zeit{
 
 function initTimer():any{
     let timer01 = new Zeit();
-    //console.log("Objekt erzeugt"); 
    /*  console.log(timer01.arbeitsplatz,
                 timer01.arbeitkraft,
                 timer01.arbeitschritt,

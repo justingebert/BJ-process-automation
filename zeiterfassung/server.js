@@ -3,6 +3,8 @@ exports.__esModule = true;
 var XLSX = require("xlsx");
 var timerOBJ = require('./browser');
 console.log(timerOBJ.zeit / 1000);
+//check if website is requested -> if event stop pressed send object or json to server
+//put data into table /caculate values
 var Arbeitskraefte = new Map([
     ['name01', 'xx01'],
     ['name02', 'xx02'],
