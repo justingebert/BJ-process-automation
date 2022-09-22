@@ -13,34 +13,37 @@
 </head>
 
 <body>
+  <form action="">
     <label>Arbeitsplatz:</label>
     <br>
-    <input type="number" id="Arbeitsplatz" placeholder="00" value="01">
+    <input type="number" id="Arbeitsplatz" placeholder="00"  required>
     <br>
     <label>Arbeitskraft:</label>
     <br>
-    <input type="text" id="Arbeitskraft" placeholder="xx00" value="xx01">
+    <input type="text" id="Arbeitskraft" placeholder="xx00" value="xx01" required>
     <br>
     <label>Arbeitsschritt:</label>
     <br>
-    <input type="text" id="Arbeitsschritt-Code" placeholder="xxx000" value="xxx001">
+    <input type="text" id="Arbeitsschritt-Code" placeholder="xxx000" value="xxx001" required>
     <br>
     <label>SollMenge</label>
     <br>
-    <input type="number" id="SollMenge" placeholder="000" value="20">
+    <input type="number" id="SollMenge" placeholder="000" value="20" required>
     <br>
     <label>Notiz</label>
     <br>
-    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen" value="muster">
+    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen" value="muster" required>
     <br><br>
     <button type="button" id="startbutton">Start</button>
     <br>
     <label>IstMenge</label>
     <br>
-    <input type="number" id="IstMenge" placeholder="000" value="10">
+    <input type="number" id="IstMenge" placeholder="000" value="10" required>
     <br>
     <button type="button" id="pausebutton">Pause</button>
-    <p>Zeit: <span>00:00:00</span></p>
+    <p>Arbeitsplatz:<span id="aktuellerTimer">xx</span></p>
+    <p>Zeit: <span id="zeit">00:00:00</span></p>
+  </form>
   <script src="/zeiterfassung/browser.js"></script>
 </body>
 </html>
