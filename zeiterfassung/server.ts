@@ -1,11 +1,25 @@
+const express = require('express');
+const app = express();
 const XLSX = require("xlsx");
 
 import * as fs from 'fs';
+import test from 'node:test';
 import * as path from 'path';
 
-const timerOBJ = require('./browser');
+const port = 8080;
 
-console.log(timerOBJ.zeit/1000);
+app.use(express.static(path.join(__dirname,'/public')))
+
+/* app.get('/',(req:any,res:any)=>{
+    res.sendFile(path.join(__dirname,'public/index.html'));
+    //res.render('index.html');
+    //res.download(excel file) send excel file to device
+})  */
+app.listen(port, () => {console.log(`live on http://localhost:${port}`)})
+
+//const timerOBJ = require('./browser');
+//console.log("test");
+//console.log(timerOBJ.zeit/1000);
 
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values

@@ -179,7 +179,6 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
             }
             arbeitsplatzIn.value = '';
         }
-        
     });
     pausebutton.addEventListener("click", () => {
         if(timerCollection[arbeitsplatz] != null){
