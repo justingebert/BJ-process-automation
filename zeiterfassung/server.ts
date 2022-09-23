@@ -9,6 +9,9 @@ import * as path from 'path';
 const port = 8080;
 
 app.use(express.static(path.join(__dirname,'/public')))
+app.use(express.json());
+
+//use fetch to get put json object to server
 
 /* app.get('/',(req:any,res:any)=>{
     res.sendFile(path.join(__dirname,'public/index.html'));

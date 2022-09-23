@@ -29,6 +29,7 @@ const XLSX = require("xlsx");
 const path = __importStar(require("path"));
 const port = 8080;
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json());
 /* app.get('/',(req:any,res:any)=>{
     res.sendFile(path.join(__dirname,'public/index.html'));
     //res.render('index.html');

@@ -1,82 +1,78 @@
-"use strict";
-class Zeit {
-    //get inputs
-    arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
-    arbeitkraft = document.querySelector("#Arbeitskraft").value;
-    arbeitschritt = document.querySelector("#Arbeitsschritt-Code").value;
-    sollmenge = parseInt(document.querySelector('#SollMenge').value);
-    istmenge = parseInt(document.querySelector('#IstMenge').value);
-    notiz = document.querySelector("#Fehler").value;
-    //caculate time
-    zeit;
-    startzeit;
-    startzeitpause;
-    pausenzeit = 0;
-    running = false;
-    paused = false;
-    constructor() {
+var Zeit = /** @class */ (function () {
+    function Zeit() {
+        //get inputs
+        this.arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
+        this.arbeitkraft = document.querySelector("#Arbeitskraft").value;
+        this.arbeitschritt = document.querySelector("#Arbeitsschritt-Code").value;
+        this.sollmenge = parseInt(document.querySelector('#SollMenge').value);
+        this.istmenge = parseInt(document.querySelector('#IstMenge').value);
+        this.notiz = document.querySelector("#Fehler").value;
+        this.pausenzeit = 0;
+        this.running = false;
+        this.paused = false;
     }
-    startTimer() {
+    Zeit.prototype.startTimer = function () {
         if (this.running === true) {
             console.log("timer already running");
         }
         else {
-            let start = Date.now();
+            var start = Date.now();
             this.startzeit = start;
             this.running = true;
             console.log("timer" + this.arbeitsplatz + "started");
         }
-    }
-    stopTimer() {
+    };
+    Zeit.prototype.stopTimer = function () {
         if (this.running === false) {
             console.log("no timer running");
         }
         else {
-            let zeit = Date.now() - this.startzeit - this.pausenzeit;
+            var zeit = Date.now() - this.startzeit - this.pausenzeit;
             this.zeit = zeit;
             this.running = false;
             console.log("timer" + this.arbeitsplatz + "stopped");
         }
-    }
-    pauseTimer() {
+    };
+    Zeit.prototype.pauseTimer = function () {
         if (this.paused === true) {
             console.log("timer not running");
         }
         else {
-            let pausestart = Date.now();
+            var pausestart = Date.now();
             this.startzeitpause = pausestart;
             this.paused = true;
             console.log("timer" + this.arbeitsplatz + "paused");
         }
-    }
-    resumeTimer() {
+    };
+    Zeit.prototype.resumeTimer = function () {
         if (this.paused === false) {
             console.log("timer running");
         }
         else {
-            let pausenzeit = Date.now() - this.startzeitpause;
+            var pausenzeit = Date.now() - this.startzeitpause;
             this.paused = false;
             console.log("timer" + this.arbeitsplatz + "resumed");
         }
-    }
-    getTime() {
+    };
+    Zeit.prototype.getTime = function () {
         return this.zeit;
-    }
-}
-const arbeitsplatzIn = document.querySelector('#Arbeitsplatz');
+    };
+    return Zeit;
+}());
+var arbeitsplatzIn = document.querySelector('#Arbeitsplatz');
 arbeitsplatzIn.addEventListener('change', updateArbeitsplatz);
-let arbeitsplatz = getArbeitsplatz();
+var arbeitsplatz = getArbeitsplatz();
 function updateArbeitsplatz() {
     if (arbeitsplatzIn !== null) {
         arbeitsplatz = parseInt(arbeitsplatzIn.value);
     }
 }
 function getArbeitsplatz() {
-    const arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
+    var arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
     return arbeitsplatz;
 }
 function initTimer() {
-    const timer = new Zeit();
+    var timer = new Zeit();
     /*  console.log(timer01.arbeitsplatz,
                  timer01.arbeitkraft,
                  timer01.arbeitschritt,
@@ -104,7 +100,7 @@ function pauseResumeButton(obj, button) {
         button.innerHTML = 'Pause';
     }
 }
-let timerCollection = [];
+var timerCollection = [];
 /* if (typeof window !== 'undefined') {
 
     const startbutton: any = document.querySelector('#startbutton');
@@ -142,10 +138,10 @@ let timerCollection = [];
 else {
     console.log('You are on the server');
 }   */
-const startbutton = document.querySelector('#startbutton');
-const pausebutton = document.querySelector('#pausebutton');
+var startbutton = document.querySelector('#startbutton');
+var pausebutton = document.querySelector('#pausebutton');
 if (typeof window !== 'undefined' && startbutton !== null && pausebutton !== null) {
-    arbeitsplatzIn.addEventListener('change', () => {
+    arbeitsplatzIn.addEventListener('change', function () {
         if (timerCollection[arbeitsplatz] != null) {
             startbutton.innerHTML = 'Stop';
             if (timerCollection[arbeitsplatz].paused == false) {
@@ -165,8 +161,8 @@ if (typeof window !== 'undefined' && startbutton !== null && pausebutton !== nul
             else {
                 if (window.confirm('Timer Stoppen?')) {
                     startStopButton(timerCollection[arbeitsplatz]);
-                    const Zeit = timerCollection[arbeitsplatz].getTime();
-                    console.log(Zeit / 1000);
+                    var Zeit_1 = timerCollection[arbeitsplatz].getTime();
+                    console.log(Zeit_1 / 1000);
                     startbutton.innerHTML = 'Start';
                     pausebutton.innerHTML = 'Pause';
                     //export object => clear arrayindex
@@ -175,7 +171,7 @@ if (typeof window !== 'undefined' && startbutton !== null && pausebutton !== nul
             arbeitsplatzIn.value = '';
         }
     });
-    pausebutton.addEventListener("click", () => {
+    pausebutton.addEventListener("click", function () {
         if (timerCollection[arbeitsplatz] != null) {
             pauseResumeButton(timerCollection[arbeitsplatz], pausebutton);
         }
