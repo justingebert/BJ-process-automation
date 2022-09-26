@@ -18,6 +18,16 @@ app.use(express.json());
     //res.render('index.html');
     //res.download(excel file) send excel file to device
 })  */
+
+app.post('/', (req:any,res:any) => {
+    const {parcel} = JSON.parse(req.body);
+    console.log(parcel);
+    if(!parcel){
+        return res.status(400).send({status: 'failed'});
+    }
+    res.status(200).send({status: 'recieved'})
+}) 
+
 app.listen(port, () => {console.log(`live on http://localhost:${port}`)})
 
 //const timerOBJ = require('./browser');

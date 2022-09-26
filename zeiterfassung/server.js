@@ -30,11 +30,20 @@ const path = __importStar(require("path"));
 const port = 8080;
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.json());
+//use fetch to get put json object to server
 /* app.get('/',(req:any,res:any)=>{
     res.sendFile(path.join(__dirname,'public/index.html'));
     //res.render('index.html');
     //res.download(excel file) send excel file to device
 })  */
+app.post('/', (req, res) => {
+    const { parcel } = JSON.parse(req.body);
+    console.log(parcel);
+    if (!parcel) {
+        return res.status(400).send({ status: 'failed' });
+    }
+    res.status(200).send({ status: 'recieved' });
+});
 app.listen(port, () => { console.log(`live on http://localhost:${port}`); });
 //const timerOBJ = require('./browser');
 //console.log("test");

@@ -173,7 +173,11 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     console.log(Zeit/1000);
                     startbutton.innerHTML = 'Start';
                     pausebutton.innerHTML = 'Pause';
-    
+                    const obj = JSON.stringify(timerCollection[arbeitsplatz]);
+                    
+                    postInfo(obj);
+                    /* console.log(JSON.parse(obj)); */
+                    timerCollection[arbeitsplatz] = null;
                     //export object => clear arrayindex
                 }
             }
@@ -187,7 +191,18 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
     });
 }
 
+const baseUrl = 'http://localhost:8080';
 
+async function postInfo(e:any) {
+    const res = await fetch(baseUrl,
+    {
+        method: 'POST',
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(e)
+    })
+}
 //export 
 //module.exports = timerOBJ;
 
