@@ -148,7 +148,6 @@ const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
 
 
-
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
     arbeitsplatzIn.addEventListener('change',()=>{
         if(timerCollection[arbeitsplatz] != null){
@@ -173,10 +172,8 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     console.log(Zeit/1000);
                     startbutton.innerHTML = 'Start';
                     pausebutton.innerHTML = 'Pause';
-                    const obj = JSON.stringify(timerCollection[arbeitsplatz]);
-                    
+                    const obj = timerCollection[arbeitsplatz];
                     postInfo(obj);
-                    /* console.log(JSON.parse(obj)); */
                     timerCollection[arbeitsplatz] = null;
                     //export object => clear arrayindex
                 }
@@ -202,6 +199,7 @@ async function postInfo(e:any) {
         },
         body: JSON.stringify(e)
     })
+    const content = await res.json();
 }
 //export 
 //module.exports = timerOBJ;

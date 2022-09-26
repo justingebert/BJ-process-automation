@@ -1,20 +1,25 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 class Zeit {
-    //get inputs
-    arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
-    arbeitkraft = document.querySelector("#Arbeitskraft").value;
-    arbeitschritt = document.querySelector("#Arbeitsschritt-Code").value;
-    sollmenge = parseInt(document.querySelector('#SollMenge').value);
-    istmenge = parseInt(document.querySelector('#IstMenge').value);
-    notiz = document.querySelector("#Fehler").value;
-    //caculate time
-    zeit;
-    startzeit;
-    startzeitpause;
-    pausenzeit = 0;
-    running = false;
-    paused = false;
     constructor() {
+        //get inputs
+        this.arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
+        this.arbeitkraft = document.querySelector("#Arbeitskraft").value;
+        this.arbeitschritt = document.querySelector("#Arbeitsschritt-Code").value;
+        this.sollmenge = parseInt(document.querySelector('#SollMenge').value);
+        this.istmenge = parseInt(document.querySelector('#IstMenge').value);
+        this.notiz = document.querySelector("#Fehler").value;
+        this.pausenzeit = 0;
+        this.running = false;
+        this.paused = false;
     }
     startTimer() {
         if (this.running === true) {
@@ -169,9 +174,8 @@ if (typeof window !== 'undefined' && startbutton !== null && pausebutton !== nul
                     console.log(Zeit / 1000);
                     startbutton.innerHTML = 'Start';
                     pausebutton.innerHTML = 'Pause';
-                    const obj = JSON.stringify(timerCollection[arbeitsplatz]);
+                    const obj = timerCollection[arbeitsplatz];
                     postInfo(obj);
-                    /* console.log(JSON.parse(obj)); */
                     timerCollection[arbeitsplatz] = null;
                     //export object => clear arrayindex
                 }
@@ -186,13 +190,16 @@ if (typeof window !== 'undefined' && startbutton !== null && pausebutton !== nul
     });
 }
 const baseUrl = 'http://localhost:8080';
-async function postInfo(e) {
-    const res = await fetch(baseUrl, {
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(e)
+function postInfo(e) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch(baseUrl, {
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(e)
+        });
+        const content = yield res.json();
     });
 }
 //export 
