@@ -64,6 +64,17 @@ const datatop = [
     []
 ];
 const pathExcel = 'Erfassung.xlsx';
+const testData = [
+    {
+        arbeitsplatz: 99,
+        arbeitskraft: 'xx02',
+        arbeitschritt: 'xxx001',
+        notiz: 'muster',
+        zeit: 2.613,
+        artikelzeit: 0.2613
+    }
+];
+console.log(testData[0].);
 function createORappend(data) {
     fs.open(pathExcel, 'r', (err, fd) => {
         if (err) {
@@ -80,7 +91,7 @@ function prepareData(data) {
     delete data.running;
     delete data.paused;
     delete data.startzeit;
-    delete data.startzeit;
+    delete data.pausenzeit;
     data.zeit = data.zeit / 1000;
     data.artikelzeit = data.zeit / data.istmenge;
     delete data.sollmenge;
@@ -89,9 +100,17 @@ function prepareData(data) {
 function appendJSON(data) {
     const workbook01 = xlsx_1.default.readFile(pathExcel);
     const worksheet = workbook01.Sheets[data[0].arbeitskraft];
-    const worksheetjson = xlsx_1.default.utils.sheet_add_json(worksheet, data);
-    const sheetname = String(data[0].arbeitskraft);
-    xlsx_1.default.utils.book_append_sheet(workbook01, worksheetjson, sheetname);
+    if (worksheet == null) {
+        const worksheetjson = xlsx_1.default.utils.json_to_sheet(data);
+        const sheetname = String(data[0].arbeitskraft);
+        xlsx_1.default.utils.book_append_sheet(workbook01, worksheetjson, sheetname);
+    }
+    else {
+        const range = xlsx_1.default.utils.decode_range(worksheet['!ref']);
+        console.log((range.e.r));
+        xlsx_1.default.utils.sheet_add_json(worksheet, data);
+        xlsx_1.default.utils.sheet_add_json(worksheet, testData, { origin: -1 });
+    }
     xlsx_1.default.writeFile(workbook01, "Erfassung.xlsx");
     console.log("added");
 }
