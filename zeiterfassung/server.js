@@ -22,48 +22,92 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require('express');
-const app = express();
-const XLSX = require("xlsx");
+//const express = require('express');
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
+const xlsx_1 = __importDefault(require("xlsx"));
+const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const port = 8080;
-app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.json());
+app.use(express_1.default.static(path.join(__dirname, '/public')));
+app.use(express_1.default.json());
 //use fetch to get put json object to server
 /* app.get('/',(req:any,res:any)=>{
     res.sendFile(path.join(__dirname,'public/index.html'));
     //res.render('index.html');
     //res.download(excel file) send excel file to device
 })  */
-//let curData: any;
+let curData;
 app.post('/', (req, res) => {
     const parcel = req.body;
-    console.log(parcel);
+    //console.log(parcel);
     if (!parcel) {
         return res.status(400).send({ status: 'failed' });
     }
     res.status(200).send({ status: 'recieved' });
-    const curData = JSON.parse(parcel);
-    console.log();
-    createFirstXLSX(curData);
+    prepareData(parcel);
+    curData = [parcel];
+    createORappend(curData);
+    console.log(curData);
+    console.log(curData[0].arbeitskraft);
 });
 app.listen(port, () => { console.log(`live on http://localhost:${port}`); });
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values
 //start template Excel Datei - Erste Reihe
-const data = [
-    ["Arbeitsplatz", "Arbeitskraft", "Arbeitsschritt", "SollMenge", "IstMenge", "Notiz"],
+const datatop = [
+    ["Arbeitsplatz", "Arbeitskraft", "Arbeitsschritt", "Notiz", "Zeit", "Zeit pro Artikel"],
     []
 ];
-function createFirstXLSX(data) {
-    const workbook01 = XLSX.utils.book_new();
-    //const worksheet = XLSX.utils.aoa_to_sheet(data);
-    //XLSX.utils.sheet_add_json(worksheet,curData);
-    XLSX.
-    ;
-    const worksheetjson = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(workbook01, worksheetjson, 'Arbeitskraft');
-    XLSX.writeFile(workbook01, "Erfassung.xlsx");
-    console.log("passt");
+const pathExcel = 'Erfassung.xlsx';
+function createORappend(data) {
+    fs.open(pathExcel, 'r', (err, fd) => {
+        if (err) {
+            createXLSX(data);
+        }
+        else {
+            appendJSON(data);
+        }
+    });
 }
+//what is fd?
+//solve with lodash omit?
+function prepareData(data) {
+    delete data.running;
+    delete data.paused;
+    delete data.startzeit;
+    delete data.startzeit;
+    data.zeit = data.zeit / 1000;
+    data.artikelzeit = data.zeit / data.istmenge;
+    delete data.sollmenge;
+    delete data.istmenge;
+}
+function appendJSON(data) {
+    const workbook01 = xlsx_1.default.readFile(pathExcel);
+    const worksheet = workbook01.Sheets[data[0].arbeitskraft];
+    const worksheetjson = xlsx_1.default.utils.sheet_add_json(worksheet, data);
+    const sheetname = String(data[0].arbeitskraft);
+    xlsx_1.default.utils.book_append_sheet(workbook01, worksheetjson, sheetname);
+    xlsx_1.default.writeFile(workbook01, "Erfassung.xlsx");
+    console.log("added");
+}
+function createXLSX(data) {
+    const workbook = xlsx_1.default.utils.book_new();
+    const worksheet = xlsx_1.default.utils.aoa_to_sheet(datatop);
+    xlsx_1.default.utils.sheet_add_json(worksheet, data);
+    const sheetname = String(data[0].arbeitskraft);
+    xlsx_1.default.utils.book_append_sheet(workbook, worksheet, sheetname);
+    xlsx_1.default.writeFile(workbook, "Erfassung.xlsx");
+    console.log("created");
+}
+function getJsonStructure() {
+    let workbook = xlsx_1.default.readFile("test.xlsx");
+    let worksheet = workbook.Sheets['Tabelle1'];
+    let jsa = xlsx_1.default.utils.sheet_to_json(worksheet);
+    console.log(jsa);
+}
+//getJsonStructure();

@@ -2,7 +2,7 @@
 class Zeit{
     //get inputs
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
-    arbeitkraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
+    arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
     arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
     sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
     istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
@@ -189,6 +189,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 }
 
 const baseUrl = 'http://localhost:8080';
+const baas2 = 'test';
 
 async function postInfo(e:any) {
     const res = await fetch(baseUrl,

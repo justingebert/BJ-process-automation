@@ -12,7 +12,7 @@ class Zeit {
     constructor() {
         //get inputs
         this.arbeitsplatz = parseInt(document.querySelector('#Arbeitsplatz').value);
-        this.arbeitkraft = document.querySelector("#Arbeitskraft").value;
+        this.arbeitskraft = document.querySelector("#Arbeitskraft").value;
         this.arbeitschritt = document.querySelector("#Arbeitsschritt-Code").value;
         this.sollmenge = parseInt(document.querySelector('#SollMenge').value);
         this.istmenge = parseInt(document.querySelector('#IstMenge').value);
@@ -190,6 +190,7 @@ if (typeof window !== 'undefined' && startbutton !== null && pausebutton !== nul
     });
 }
 const baseUrl = 'http://localhost:8080';
+const baas2 = 'test';
 function postInfo(e) {
     return __awaiter(this, void 0, void 0, function* () {
         const res = yield fetch(baseUrl, {
