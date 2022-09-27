@@ -59,7 +59,7 @@ const testData = [
     }
   ]
 
-  console.log(testData[0].);
+  console.log(Object.keys(testData[0]).length);
 
 function createORappend(data: any){
     fs.open(pathExcel, 'r', (err, fd) => {
