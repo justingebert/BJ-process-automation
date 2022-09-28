@@ -1,7 +1,6 @@
 import express from 'express';
 const app = express();
 import XLSX from 'xlsx';
-
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -21,7 +20,6 @@ app.post('/', (req:any,res:any) => {
     prepareData(parcel);
     curData = Object.values(parcel);
     createORappend(curData);
-    //console.log(curData);
 }) 
 
 app.listen(port, () => {console.log(`live on http://localhost:${port}`)})
@@ -48,11 +46,10 @@ const testData = [
   ]
 
 //console.log(Object.values(testData[0]));
-
 //console.log(Object.keys(testData[0]).length);   //anzahl der attrtibute
 
 function createORappend(data: any){
-    fs.open(pathExcel, 'r', (err, fd) => {
+    fs.open(pathExcel, 'r', (err, fd) => {//what is fd?
         if (err){
             createXLSX(data);
         }else{
@@ -60,7 +57,7 @@ function createORappend(data: any){
         }
           });
 }
-//what is fd?
+
 
 //solve with lodash omit?
 function prepareData(data:any){
@@ -68,26 +65,35 @@ function prepareData(data:any){
     delete data.paused;
     delete data.startzeit;
     delete data.pausenzeit;
-    data.zeit = data.zeit/1000
-    data.artikelzeit = data.zeit/data.istmenge;
+    data.artikelzeit = msToTime(data.zeit/data.istmenge);
+    data.zeit = msToTime(data.zeit);
     delete data.sollmenge;
     delete data.istmenge;
     //delte whats not in data top
+}
+
+function msToTime(s: any){
+    let ms = s % 1000;
+    s = (s-ms) /1000;
+    let secs = s % 60;
+    s = (s - secs) / 60;
+    let mins = s / 60;
+    let hrs = (s-mins) / 60;
+    return hrs + ':' + mins + ':' + secs;
 }
 
 function appendJSON(data:any){
     const workbook01 = XLSX.readFile(pathExcel);
     const worksheet:any = workbook01.Sheets[data[1]];
     if(worksheet == null){
-        const worksheetjson = XLSX.utils.aoa_to_sheet(data);
+        const worksheet = XLSX.utils.aoa_to_sheet(datatop);
+        XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
         const sheetname: string = String(data[1]);
-        XLSX.utils.book_append_sheet(workbook01, worksheetjson, sheetname);
+        XLSX.utils.book_append_sheet(workbook01, worksheet, sheetname);
     }else{
         const range  = XLSX.utils.decode_range(worksheet['!ref'])
-        console.log((range.e.r));
-        console.log(data);
+        //console.log((range.e.r));
         XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
-        //XLSX.utils.sheet_add_json(worksheet,testData,{origin: -1});
     }
     XLSX.writeFile(workbook01, "Erfassung.xlsx");
     console.log("added");

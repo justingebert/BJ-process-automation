@@ -1,4 +1,3 @@
-
 class Zeit{
     //get inputs
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
@@ -18,6 +17,7 @@ class Zeit{
     constructor(){
                     
     }
+
     startTimer(): void{
         if(this.running === true){
             console.log("timer already running");
@@ -28,6 +28,7 @@ class Zeit{
             console.log("timer"+this.arbeitsplatz+"started")
         }     
     }
+
     stopTimer(): void{
         if(this.running === false){
             console.log("no timer running");
@@ -38,6 +39,7 @@ class Zeit{
             console.log("timer"+this.arbeitsplatz+"stopped")
         }    
     }
+
     pauseTimer(): void{
         if(this.paused === true){
             console.log("timer not running")
@@ -48,6 +50,7 @@ class Zeit{
             console.log("timer"+this.arbeitsplatz+"paused")
         } 
     }
+
     resumeTimer(): void{
         if(this.paused === false){
             console.log("timer running")
@@ -57,9 +60,11 @@ class Zeit{
             console.log("timer"+this.arbeitsplatz+"resumed")
         }
     }
+
     getTime(): number{
         return this.zeit
     }
+
 }
 
 const arbeitsplatzIn = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
@@ -76,6 +81,7 @@ function getArbeitsplatz(){
     const arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     return arbeitsplatz;
 }
+
 function initTimer():any{
     const timer  = new Zeit();
    /*  console.log(timer01.arbeitsplatz,
@@ -87,6 +93,7 @@ function initTimer():any{
                 ); */
     return timer;
 }
+
 function startStopButton(obj: any){
     if(obj.running === false){
         obj.startTimer();
@@ -94,6 +101,7 @@ function startStopButton(obj: any){
         obj.stopTimer();  
     }
 }
+
 function pauseResumeButton(obj: any, button:Element){
     if(obj.paused === false){
         obj.pauseTimer();
@@ -106,6 +114,72 @@ function pauseResumeButton(obj: any, button:Element){
 
 let timerCollection:any = [];
 
+const startbutton: any = document.querySelector('#startbutton');
+const pausebutton: any = document.querySelector('#pausebutton');
+
+
+if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
+
+    arbeitsplatzIn.addEventListener('change',()=>{
+        if(timerCollection[arbeitsplatz] != null){
+            startbutton.innerHTML = 'Stop';
+            if(timerCollection[arbeitsplatz].paused == false){
+                pausebutton.innerHTML = 'Pause';
+            }
+        }else if(timerCollection[arbeitsplatz] == null){
+            startbutton.innerHTML = 'Start';
+        }
+    });
+
+    startbutton.addEventListener("click",function() {
+        if(arbeitsplatzIn.validity.valid){
+            if(timerCollection[arbeitsplatz] == null){
+                timerCollection[arbeitsplatz] = initTimer();
+                startStopButton(timerCollection[arbeitsplatz]);
+            }
+            else {
+                if (window.confirm('Timer Stoppen?')){
+                    startStopButton(timerCollection[arbeitsplatz]);
+                    const Zeit = timerCollection[arbeitsplatz].getTime();
+                    console.log(Zeit/1000);
+                    startbutton.innerHTML = 'Start';
+                    pausebutton.innerHTML = 'Pause';
+                    const obj = timerCollection[arbeitsplatz];
+                    postInfo(obj);
+                    timerCollection[arbeitsplatz] = null;
+                    //export object => clear arrayindex
+                }
+            }
+            arbeitsplatzIn.value = '';
+        }
+    });
+
+    pausebutton.addEventListener("click", () => {
+        if(timerCollection[arbeitsplatz] != null){
+            pauseResumeButton(timerCollection[arbeitsplatz], pausebutton);
+        }
+    });
+
+}
+
+const baseUrl = 'http://localhost:8080';
+
+
+async function postInfo(e:any) {
+    const res = await fetch(baseUrl,
+    {
+        method: 'POST',
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(e)
+    })
+    const content = await res.json();
+}
+
+
+
+//not used
 /* if (typeof window !== 'undefined') {
 
     const startbutton: any = document.querySelector('#startbutton');
@@ -143,65 +217,3 @@ let timerCollection:any = [];
 else {
     console.log('You are on the server');
 }   */
-
-const startbutton: any = document.querySelector('#startbutton');
-const pausebutton: any = document.querySelector('#pausebutton');
-
-
-if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
-    arbeitsplatzIn.addEventListener('change',()=>{
-        if(timerCollection[arbeitsplatz] != null){
-            startbutton.innerHTML = 'Stop';
-            if(timerCollection[arbeitsplatz].paused == false){
-                pausebutton.innerHTML = 'Pause';
-            }
-        }else if(timerCollection[arbeitsplatz] == null){
-            startbutton.innerHTML = 'Start';
-        }
-    });
-    startbutton.addEventListener("click",function() {
-        if(arbeitsplatzIn.validity.valid){
-            if(timerCollection[arbeitsplatz] == null){
-                timerCollection[arbeitsplatz] = initTimer();
-                startStopButton(timerCollection[arbeitsplatz]);
-            }
-            else {
-                if (window.confirm('Timer Stoppen?')){
-                    startStopButton(timerCollection[arbeitsplatz]);
-                    const Zeit = timerCollection[arbeitsplatz].getTime();
-                    console.log(Zeit/1000);
-                    startbutton.innerHTML = 'Start';
-                    pausebutton.innerHTML = 'Pause';
-                    const obj = timerCollection[arbeitsplatz];
-                    postInfo(obj);
-                    timerCollection[arbeitsplatz] = null;
-                    //export object => clear arrayindex
-                }
-            }
-            arbeitsplatzIn.value = '';
-        }
-    });
-    pausebutton.addEventListener("click", () => {
-        if(timerCollection[arbeitsplatz] != null){
-            pauseResumeButton(timerCollection[arbeitsplatz], pausebutton);
-        }
-    });
-}
-
-const baseUrl = 'http://localhost:8080';
-const baas2 = 'test';
-
-async function postInfo(e:any) {
-    const res = await fetch(baseUrl,
-    {
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(e)
-    })
-    const content = await res.json();
-}
-//export 
-//module.exports = timerOBJ;
-
