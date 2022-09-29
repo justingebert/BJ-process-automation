@@ -4,10 +4,12 @@ import XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const port = 8080;
+
+const port = 80;
 
 app.use(express.static(path.join(__dirname,'/public')))
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 let curData: any;
 
@@ -20,9 +22,10 @@ app.post('/', (req:any,res:any) => {
     prepareData(parcel);
     curData = Object.values(parcel);
     createORappend(curData);
+    console.log('recieved');
 }) 
 
-app.listen(port, () => {console.log(`live on http://localhost:${port}`)})
+app.listen(port, '192.168.2.117', () => {console.log(`live on http://localhost:${port}`)})
 
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values

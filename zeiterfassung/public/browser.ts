@@ -122,12 +122,12 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
     arbeitsplatzIn.addEventListener('change',()=>{
         if(timerCollection[arbeitsplatz] != null){
-            startbutton.innerHTML = 'Stop';
+            startbutton.innerHTML = 'STOP';
             if(timerCollection[arbeitsplatz].paused == false){
                 pausebutton.innerHTML = 'Pause';
             }
         }else if(timerCollection[arbeitsplatz] == null){
-            startbutton.innerHTML = 'Start';
+            startbutton.innerHTML = 'START';
         }
     });
 
@@ -142,8 +142,8 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     startStopButton(timerCollection[arbeitsplatz]);
                     const Zeit = timerCollection[arbeitsplatz].getTime();
                     console.log(Zeit/1000);
-                    startbutton.innerHTML = 'Start';
-                    pausebutton.innerHTML = 'Pause';
+                    startbutton.innerHTML = 'START';
+                    pausebutton.innerHTML = 'PAUSE';
                     const obj = timerCollection[arbeitsplatz];
                     postInfo(obj);
                     timerCollection[arbeitsplatz] = null;
@@ -162,7 +162,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 }
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = '/';
 
 
 async function postInfo(e:any) {

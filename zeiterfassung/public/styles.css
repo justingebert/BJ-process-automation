@@ -1,15 +1,58 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #393D3F;
-    color:aliceblue;
+*,
+*::after,
+*::before{
+    box-sizing: border-box;
 }
 
-button{
-    background-color: #62929E;
+:root{
+    --color-BG:#323031;
+    --color-Font:rgb(199, 199, 199);
+    font-size: 15px;
+    color: var(--color-Font);
+    line-height: 15px;
+    width: 95%;
+    margin: auto;
+    
+}
+
+body{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+    Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    background-color: #161616;
+    
+}
+
+
+.button{
+    font-size: x-large;
+    background-color: #ffffff;
     border-radius: 10px;
-    border-color: #62929E;
-    font-weight: bolder;
-    box-shadow: 20px;
-    width: 180px;
-    height: 30px;
+    border-color: #000000;
+    font-weight: bold;
+    width: 215px;
+    height: 50px;
+    margin: 5px 0 5px 0;
+}
+
+
+input{
+    background-color: #393D3F;
+    color: white;
+    padding: 12px 20px;
+    margin: 0px 0px 10px 0px;
+    border: 2px solid rgb(87, 86, 86);
+    border-radius: 4px;
+}
+
+div{
+    /* padding: 0 50% 0 50%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo{
+    width: 215px;
+    margin: 10px 0 20px 0;
 }
