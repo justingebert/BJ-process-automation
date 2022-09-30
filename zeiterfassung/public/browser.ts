@@ -134,8 +134,10 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
     startbutton.addEventListener("click",function() {
         if(arbeitsplatzIn.validity.valid){
             if(timerCollection[arbeitsplatz] == null){
-                timerCollection[arbeitsplatz] = initTimer();
+                if (window.confirm('Timer Stoppen?')){
+                    timerCollection[arbeitsplatz] = initTimer();
                 startStopButton(timerCollection[arbeitsplatz]);
+                }
             }
             else {
                 if (window.confirm('Timer Stoppen?')){
