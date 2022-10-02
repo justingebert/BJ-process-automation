@@ -45,7 +45,7 @@ input{
     border-radius: 4px;
 }
 
-div{
+div:not(.interface){
     /* padding: 0 50% 0 50%; */
     display: flex;
     justify-content: center;
@@ -56,3 +56,23 @@ div{
     width: 215px;
     margin: 10px 0 20px 0;
 }
+
+.interface{
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px dotted red;
+    width: 215px;
+}
+/*group p together as flexbox item
+/* .interface > * {
+    margin: -5px 2px 0 0;
+} */
+
+.interfaceBut{
+    background-color: #ffffff;
+    border-radius: 10px;
+    border-color: #000000;
+    font-weight: bold;
+    height: 50px;
+ }

@@ -165,6 +165,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 }
 
 const baseUrl = '/';
+//const baseUrl2 = '/';
 
 
 async function postInfo(e:any) {
@@ -179,6 +180,30 @@ async function postInfo(e:any) {
     const content = await res.json();
 }
 
+function msToTime(s: any){
+    let ms = s % 1000;
+    s = (s-ms) /1000;
+    let secs = s % 60;
+    s = (s - secs) / 60;
+    let mins = s / 60;
+    let hrs = (s-mins) / 60;
+    return hrs + ':' + mins + ':' + secs;
+}
+
+//manipulate html
+function createTimerInferface(){
+    let temp:any = document.querySelector('#TimerInterface')
+    //temp.content.querySelector('#interfaceStopButton');
+    let area:any = document.querySelector('#running');
+    let clone = document.importNode(temp.content, true);
+    area.appendChild(clone);
+}
+
+createTimerInferface();
+
+function removeTimerInterface(id: any){
+
+}
 
 
 //not used
