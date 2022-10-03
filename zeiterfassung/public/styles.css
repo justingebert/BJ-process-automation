@@ -59,10 +59,13 @@ div:not(.interface){
 
 .interface{
     font-size: 13px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     border: 2px dotted red;
     width: 215px;
+}
+
+.interfaceText{
+    grid-column: ;
 }
 /*group p together as flexbox item
 /* .interface > * {
@@ -75,4 +78,8 @@ div:not(.interface){
     border-color: #000000;
     font-weight: bold;
     height: 50px;
+ }
+
+ #zeitinterface{
+    margin: -10px 0 -5px 0;
  }
