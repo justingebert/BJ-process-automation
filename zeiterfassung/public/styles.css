@@ -57,29 +57,30 @@ div:not(.interface){
     margin: 10px 0 20px 0;
 }
 
+#running{
+    display: grid;
+    grid-row: 1;
+}
+
 .interface{
     font-size: 13px;
     display: grid;
-    border: 2px dotted red;
+    justify-content: center;
+    border-radius: 5px;
+    border: 2px solid rgb(77, 77, 77);
     width: 215px;
 }
 
 .interfaceText{
-    grid-column: ;
+    grid-row: 1/2;
+    margin: 3px 5px 3px 5px;
 }
-/*group p together as flexbox item
-/* .interface > * {
-    margin: -5px 2px 0 0;
-} */
 
 .interfaceBut{
     background-color: #ffffff;
     border-radius: 10px;
     border-color: #000000;
     font-weight: bold;
-    height: 50px;
- }
-
- #zeitinterface{
-    margin: -10px 0 -5px 0;
+    height: 30px;
+    margin: 3px 5px 3px 5px;
  }

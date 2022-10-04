@@ -191,15 +191,16 @@ function msToTime(s: any){
 }
 
 //manipulate html
-function createTimerInferface(){
+function createTimerInferface(id:any){
     let temp:any = document.querySelector('#TimerInterface')
-    //temp.content.querySelector('#interfaceStopButton');
     let area:any = document.querySelector('#running');
+    temp.content.querySelector("p").textContent =  `Arbeitsplatz: ${id} `;
     let clone = document.importNode(temp.content, true);
     area.appendChild(clone);
 }
 
-createTimerInferface();
+createTimerInferface(5);
+createTimerInferface(56);
 
 function removeTimerInterface(id: any){
 
