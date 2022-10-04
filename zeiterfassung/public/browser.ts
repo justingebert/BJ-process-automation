@@ -105,10 +105,10 @@ function startStopButton(obj: any){
 function pauseResumeButton(obj: any, button:Element){
     if(obj.paused === false){
         obj.pauseTimer();
-        button.innerHTML = 'Resume';
+        button.innerHTML = 'RESUME';
     }else{
         obj.resumeTimer();
-        button.innerHTML = 'Pause';
+        button.innerHTML = 'PAUSE';
     }
 }
 
@@ -134,13 +134,13 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
     startbutton.addEventListener("click",function() {
         if(arbeitsplatzIn.validity.valid){
             if(timerCollection[arbeitsplatz] == null){
-                if (window.confirm('Timer Stoppen?')){
+                if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
                     timerCollection[arbeitsplatz] = initTimer();
                 startStopButton(timerCollection[arbeitsplatz]);
                 }
             }
             else {
-                if (window.confirm('Timer Stoppen?')){
+                if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
                     startStopButton(timerCollection[arbeitsplatz]);
                     const Zeit = timerCollection[arbeitsplatz].getTime();
                     console.log(Zeit/1000);
@@ -164,22 +164,6 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 }
 
-const baseUrl = '/';
-//const baseUrl2 = '/';
-
-
-async function postInfo(e:any) {
-    const res = await fetch(baseUrl,
-    {
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(e)
-    })
-    const content = await res.json();
-}
-
 function msToTime(s: any){
     let ms = s % 1000;
     s = (s-ms) /1000;
@@ -194,16 +178,75 @@ function msToTime(s: any){
 function createTimerInferface(id:any){
     let temp:any = document.querySelector('#TimerInterface')
     let area:any = document.querySelector('#running');
-    temp.content.querySelector("p").textContent =  `Arbeitsplatz: ${id} `;
+
     let clone = document.importNode(temp.content, true);
+    clone.querySelector("p").textContent =  `Arbeitsplatz: ${id} `;
+    clone.querySelector("div").id = id;
+
+    const stopbut = clone.getElementById("interfaceStopButton");
+    const pausebut = clone.getElementById("interfacePauseButton");
+    stopbut.id = `interface${id}StopButton`;
+    pausebut.id = `interface${id}PauseButton`;
+
+    console.log(stopbut);
+    console.log(pausebut);
+    //make seprate function Code used twice also in main Stop button
+    stopbut.addEventListener('click',() => {
+        console.log('wortks');
+        if(timerCollection[id] != null){
+            if (window.confirm(`Timer ${id} Stoppen?`)){
+                startStopButton(timerCollection[id]);
+                const Zeit = timerCollection[id].getTime();
+                console.log(Zeit/1000);
+                startbutton.innerHTML = 'START';
+                pausebutton.innerHTML = 'PAUSE';
+                const obj = timerCollection[id];
+                postInfo(obj);
+                timerCollection[id] = null;
+                //export object => clear arrayindex
+            }
+        }
+    })
+
+    pausebut.addEventListener("click", () => {
+        if(timerCollection[id] != null){
+            pauseResumeButton(timerCollection[id], pausebut);
+        }
+    });
     area.appendChild(clone);
+}
+
+async function interfaceEventListen(){
+
 }
 
 createTimerInferface(5);
 createTimerInferface(56);
 
 function removeTimerInterface(id: any){
+    let removeInterface:any = document.getElementById(id);
+    removeInterface.remove();
+}
 
+
+
+
+
+//send to Server
+const baseUrl = '/';
+//const baseUrl2 = '/';
+
+
+async function postInfo(e:any) {
+    const res = await fetch(baseUrl,
+    {
+        method: 'POST',
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(e)
+    })
+    const content = await res.json();
 }
 
 
