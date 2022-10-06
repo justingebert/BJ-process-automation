@@ -7,11 +7,22 @@ import * as path from 'path';
 
 const port = 80;
 
+//provide static html
 app.use(express.static(path.join(__dirname,'/public')))
+//revcieve json
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let curData: any;
+
+app.get('/:dynamic',(req:any,res:any)=>{
+    //res.sendFile(path.join(__dirname,'public/index.html'));
+    const {dynamic} = req.params;
+    console.log(dynamic);
+    //res.json();
+    //res.render('index.html');
+    //res.download(excel file) send excel file to device
+}) 
 
 app.post('/', (req:any,res:any) => {
     const parcel = req.body;
@@ -25,7 +36,82 @@ app.post('/', (req:any,res:any) => {
     console.log('recieved');
 }) 
 
+
+
 app.listen(port, '192.168.2.117', () => {console.log(`live on http://localhost:${port}`)})
+
+
+//timer setup
+class Zeit{
+    //get inputs
+    arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
+    arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
+    arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
+    sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
+    istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
+    notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
+    //caculate time
+    zeit!: number;
+    startzeit!: number;
+    startzeitpause!: number;
+    pausenzeit: number = 0;
+    running = false;
+    paused = false;
+
+    constructor(){
+                    
+    }
+
+    startTimer(): void{
+        if(this.running === true){
+            console.log("timer already running");
+        }else{
+            let start = Date.now();
+            this.startzeit = start;
+            this.running = true;
+            console.log("timer"+this.arbeitsplatz+"started")
+        }     
+    }
+
+    stopTimer(): void{
+        if(this.running === false){
+            console.log("no timer running");
+        }else{
+            let zeit = Date.now() - this.startzeit - this.pausenzeit;
+            this.zeit = zeit;
+            this.running = false;
+            console.log("timer"+this.arbeitsplatz+"stopped")
+        }    
+    }
+
+    pauseTimer(): void{
+        if(this.paused === true){
+            console.log("timer not running")
+        }else{
+            let pausestart = Date.now();
+            this.startzeitpause = pausestart;
+            this.paused = true;
+            console.log("timer"+this.arbeitsplatz+"paused")
+        } 
+    }
+
+    resumeTimer(): void{
+        if(this.paused === false){
+            console.log("timer running")
+        }else{
+            let pausenzeit = Date.now() - this.startzeitpause;
+            this.paused = false;
+            console.log("timer"+this.arbeitsplatz+"resumed")
+        }
+    }
+
+    getTime(): number{
+        return this.zeit
+    }
+
+}
+
+let timerCollection:any = [];
 
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values
@@ -118,11 +204,7 @@ function createXLSX(data:any){
 
 //not used 
 /* 
-app.get('/',(req:any,res:any)=>{
-    res.sendFile(path.join(__dirname,'public/index.html'));
-    //res.render('index.html');
-    //res.download(excel file) send excel file to device
-}) 
+
 
 
 function getJsonStructure(){

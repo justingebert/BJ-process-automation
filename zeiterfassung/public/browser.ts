@@ -1,175 +1,78 @@
-class Zeit{
-    //get inputs
+class Data{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
     arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
     sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
     istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
     notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
-    //caculate time
-    zeit!: number;
-    startzeit!: number;
-    startzeitpause!: number;
-    pausenzeit: number = 0;
-    running = false;
-    paused = false;
 
-    constructor(){
-                    
-    }
-
-    startTimer(): void{
-        if(this.running === true){
-            console.log("timer already running");
-        }else{
-            let start = Date.now();
-            this.startzeit = start;
-            this.running = true;
-            console.log("timer"+this.arbeitsplatz+"started")
-        }     
-    }
-
-    stopTimer(): void{
-        if(this.running === false){
-            console.log("no timer running");
-        }else{
-            let zeit = Date.now() - this.startzeit - this.pausenzeit;
-            this.zeit = zeit;
-            this.running = false;
-            console.log("timer"+this.arbeitsplatz+"stopped")
-        }    
-    }
-
-    pauseTimer(): void{
-        if(this.paused === true){
-            console.log("timer not running")
-        }else{
-            let pausestart = Date.now();
-            this.startzeitpause = pausestart;
-            this.paused = true;
-            console.log("timer"+this.arbeitsplatz+"paused")
-        } 
-    }
-
-    resumeTimer(): void{
-        if(this.paused === false){
-            console.log("timer running")
-        }else{
-            let pausenzeit = Date.now() - this.startzeitpause;
-            this.paused = false;
-            console.log("timer"+this.arbeitsplatz+"resumed")
-        }
-    }
-
-    getTime(): number{
-        return this.zeit
-    }
+    pause:boolean = false;
+    stop: boolean = false;
 
 }
 
-const arbeitsplatzIn = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
-arbeitsplatzIn.addEventListener('change',updateArbeitsplatz);
-let arbeitsplatz: number = getArbeitsplatz();
-
-function updateArbeitsplatz(): void{
-    if(arbeitsplatzIn !== null){
-        arbeitsplatz = parseInt(arbeitsplatzIn.value);
-    }
-}
-
-function getArbeitsplatz(){
-    const arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
-    return arbeitsplatz;
-}
-
-function initTimer():any{
-    const timer  = new Zeit();
-   /*  console.log(timer01.arbeitsplatz,
-                timer01.arbeitkraft,
-                timer01.arbeitschritt,
-                timer01.sollmenge,
-                timer01.notiz,
-                timer01.istmenge
-                ); */
-    return timer;
-}
-
-function startStopButton(obj: any){
-    if(obj.running === false){
-        obj.startTimer();
-    }else if(obj.running === true){
-        obj.stopTimer();  
-    }
-}
-
-function pauseResumeButton(obj: any, button:Element){
-    if(obj.paused === false){
-        obj.pauseTimer();
-        button.innerHTML = 'RESUME';
-    }else{
-        obj.resumeTimer();
-        button.innerHTML = 'PAUSE';
-    }
-}
-
-let timerCollection:any = [];
 
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
 
+const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
+arbeitsplatzInput.addEventListener('change',updateUI);
+let arbeitsplatz:number;
 
+let curData: Data;
+
+function getArbeitsplatz(): void{
+    if(arbeitsplatzInput !== null){
+        arbeitsplatz = parseInt(arbeitsplatzInput.value);
+    }
+}
+
+//update Buttons for current Timer
+function updateUI(){
+    //get info if timer is running
+    getArbeitsplatz();
+    getInfo(arbeitsplatz);
+}
+
+
+//button listeners
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
 
-    arbeitsplatzIn.addEventListener('change',()=>{
-        if(timerCollection[arbeitsplatz] != null){
-            startbutton.innerHTML = 'STOP';
-            if(timerCollection[arbeitsplatz].paused == false){
-                pausebutton.innerHTML = 'Pause';
-            }
-        }else if(timerCollection[arbeitsplatz] == null){
-            startbutton.innerHTML = 'START';
-        }
-    });
-
     startbutton.addEventListener("click",function() {
-        if(arbeitsplatzIn.validity.valid){
-            if(timerCollection[arbeitsplatz] == null){
+        if(arbeitsplatzInput.validity.valid){
+            const obj = new Data();
+            if(startbutton.innerHTML == 'START'){
                 if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
-                    timerCollection[arbeitsplatz] = initTimer();
-                    startStopButton(timerCollection[arbeitsplatz]);
-                    createTimerInferface(arbeitsplatz);
-                    
-
-                }
-            }
-            else {
-                if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-                    startStopButton(timerCollection[arbeitsplatz]);
-                    const Zeit = timerCollection[arbeitsplatz].getTime();
-                    removeTimerInterface(arbeitsplatz);
-                    console.log(Zeit/1000);
-                    startbutton.innerHTML = 'START';
-                    pausebutton.innerHTML = 'PAUSE';
-                    const obj = timerCollection[arbeitsplatz];
+                    obj.stop == false;
                     postInfo(obj);
-                    timerCollection[arbeitsplatz] = null;
-                    //export object => clear arrayindex
+                }
+            }else if(startbutton.innerHTML == 'STOP'){
+                if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
+                    obj.stop == true;
+                    postInfo(obj);
                 }
             }
-            arbeitsplatzIn.value = '';
+                arbeitsplatzInput.value = '';
         }
     });
 
     pausebutton.addEventListener("click", () => {
-        if(timerCollection[arbeitsplatz] != null){
-            pauseResumeButton(timerCollection[arbeitsplatz], pausebutton);
+        if(arbeitsplatzInput.validity.valid){
+            if(pausebutton.innerHTML == 'PAUSE'){
+                if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
+                    curData
+                    postInfo(curData);
+                }
+            }
+            
+            arbeitsplatzInput.value = '';
         }
     });
 
 }
 
 //todo update zeit
-setInterval(()=>{
+/* setInterval(()=>{
     let zeit:string = msToTime(timerCollection[arbeitsplatz].getTime());
     console.log(timerCollection[arbeitsplatz].getTime());
     let curinterface:any = document.getElementById(String(arbeitsplatz));
@@ -233,14 +136,14 @@ function removeTimerInterface(id: any){
     let removeInterface:any = document.getElementById(id);
     removeInterface.remove();
 }
-
+ */
 
 //send to Server
 const baseUrl = '/';
 //const baseUrl2 = '/';
 
 
-async function postInfo(e:any) {
+async function postInfo(e:Data) {
     const res = await fetch(baseUrl,
     {
         method: 'POST',
@@ -250,6 +153,16 @@ async function postInfo(e:any) {
         body: JSON.stringify(e)
     })
     const content = await res.json();
+}
+
+async function getInfo(e:any) {
+    e.preventDefault();
+    const res = await fetch(baseUrl + e,{
+        method: 'GET'
+    });
+    console.log(res);
+    const data = await res.json();
+    
 }
 
 
