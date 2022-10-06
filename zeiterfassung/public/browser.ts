@@ -28,12 +28,20 @@ function getArbeitsplatz(): void{
 }
 
 //update Buttons for current Timer
-function updateUI(){
+async function updateUI(){
     //get info if timer is running
-    getArbeitsplatz();
-    getInfo(arbeitsplatz);
+    await getArbeitsplatz();
+    await getInfo(arbeitsplatz);
     if(curData == "no Timer active"){
-        startbutton.innerHTML = "Test";
+        startbutton.innerHTML = "START";
+        pausebutton.innerHTML = "PAUSE";
+    }else{
+        startbutton.innerHTML = "STOP";
+        if(curData.paused){
+            pausebutton.innerHTML + "RESUME";
+        }else{
+            pausebutton.innerHTML + "PAUSE";
+        }    
     }
 }
 

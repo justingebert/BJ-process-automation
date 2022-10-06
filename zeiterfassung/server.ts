@@ -17,7 +17,7 @@ let curData: any;
 
 let timerCollection:any = [];
 
-
+timerCollection[1] = "test";
 
 app.get('/:dynamic',(req:any,res:any)=>{
     //res.sendFile(path.join(__dirname,'public/index.html'));
@@ -40,10 +40,12 @@ app.post('/', (req:any,res:any) => {
         return res.status(400).send({status: 'failed'});
     }
     res.status(200).send({status: 'recieved'})
-    prepareData(parcel);
+    console.log(parcel);
+
+    /* prepareData(parcel);
     curData = Object.values(parcel);
     createORappend(curData);
-    console.log('recieved');
+    console.log('recieved'); */
 }) 
 
 
