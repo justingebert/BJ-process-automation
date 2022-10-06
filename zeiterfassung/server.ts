@@ -4,8 +4,8 @@ import XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
 
-
 const port = 80;
+const ip = '192.168.178.110';
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -15,11 +15,21 @@ app.use(express.urlencoded({ extended: true }));
 
 let curData: any;
 
+let timerCollection:any = [];
+
+
+
 app.get('/:dynamic',(req:any,res:any)=>{
     //res.sendFile(path.join(__dirname,'public/index.html'));
     const {dynamic} = req.params;
     console.log(dynamic);
-    //res.json();
+
+    if(timerCollection[dynamic] != null){
+        res.json(timerCollection[dynamic]);
+    }else{
+        res.json("no Timer active");
+    }
+
     //res.render('index.html');
     //res.download(excel file) send excel file to device
 }) 
@@ -37,8 +47,7 @@ app.post('/', (req:any,res:any) => {
 }) 
 
 
-
-app.listen(port, '192.168.2.117', () => {console.log(`live on http://localhost:${port}`)})
+app.listen(port, ip, () => {console.log(`live on ${ip}:${port}`)})
 
 
 //timer setup
@@ -111,7 +120,6 @@ class Zeit{
 
 }
 
-let timerCollection:any = [];
 
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values

@@ -19,7 +19,7 @@ const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplat
 arbeitsplatzInput.addEventListener('change',updateUI);
 let arbeitsplatz:number;
 
-let curData: Data;
+let curData: any;
 
 function getArbeitsplatz(): void{
     if(arbeitsplatzInput !== null){
@@ -32,6 +32,9 @@ function updateUI(){
     //get info if timer is running
     getArbeitsplatz();
     getInfo(arbeitsplatz);
+    if(curData == "no Timer active"){
+        startbutton.innerHTML = "Test";
+    }
 }
 
 
@@ -156,13 +159,13 @@ async function postInfo(e:Data) {
 }
 
 async function getInfo(e:any) {
-    e.preventDefault();
+
     const res = await fetch(baseUrl + e,{
         method: 'GET'
     });
-    console.log(res);
     const data = await res.json();
-    
+    curData = data;
+    console.log(curData);
 }
 
 
