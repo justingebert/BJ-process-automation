@@ -3,10 +3,12 @@ const app = express();
 import XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
+import { json } from 'stream/consumers';
 
 const port = 80;
 //const ip = '192.168.178.110';
-const ip = '192.168.2.117';
+//const ip = '192.168.2.117';
+const ip = '141.45.32.146'; //uni
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -41,7 +43,10 @@ app.post('/', (req:any,res:any) => {
         return res.status(400).send({status: 'failed'});
     }
     res.status(200).send({status: 'recieved'})
-    console.log(parcel);
+
+    if(timerCollection[parcel.arbeitsplatz] == null){
+        timerCollection[parcel.arbeitsplatz] = copyParameters(parcel);
+    }
     //create zeit instance if Start otherwise stop -> Store in Array
 
     /* prepareData(parcel);
@@ -51,18 +56,20 @@ app.post('/', (req:any,res:any) => {
 }) 
 
 
+
+
 app.listen(port, ip, () => {console.log(`live on ${ip}:${port}`)})
 
 
 //timer setup
 class Zeit{
     //get inputs
-    arbeitsplatz: number;
-    arbeitskraft: string; 
-    arbeitschritt: string; 
-    sollmenge: number;
-    istmenge: number; 
-    notiz: string;
+    arbeitsplatz!: number;
+    arbeitskraft!: string; 
+    arbeitschritt!: string; 
+    sollmenge!: number;
+    istmenge!: number; 
+    notiz!: string;
     //caculate time
     zeit!: number;
     startzeit!: number;
@@ -124,7 +131,16 @@ class Zeit{
 
 }
 
-
+function copyParameters(obj:any):Zeit{
+    const timer = new Zeit();
+    timer.arbeitsplatz = obj.arbeitsplatz;
+    timer.arbeitskraft = obj.arbeitskraft
+    timer.arbeitschritt = obj.arbeitschritt;
+    timer.sollmenge = obj.sollmenge;
+    timer.istmenge = obj.istmenge;
+    timer.notiz = obj.notiz;
+    return timer;
+}
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values
 
