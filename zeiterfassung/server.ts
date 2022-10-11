@@ -5,7 +5,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const port = 80;
-const ip = '192.168.178.110';
+//const ip = '192.168.178.110';
+const ip = '192.168.2.117';
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -17,7 +18,7 @@ let curData: any;
 
 let timerCollection:any = [];
 
-timerCollection[1] = "test";
+let dataCollection:any = [];
 
 app.get('/:dynamic',(req:any,res:any)=>{
     //res.sendFile(path.join(__dirname,'public/index.html'));
@@ -41,6 +42,7 @@ app.post('/', (req:any,res:any) => {
     }
     res.status(200).send({status: 'recieved'})
     console.log(parcel);
+    //create zeit instance if Start otherwise stop -> Store in Array
 
     /* prepareData(parcel);
     curData = Object.values(parcel);
@@ -55,12 +57,12 @@ app.listen(port, ip, () => {console.log(`live on ${ip}:${port}`)})
 //timer setup
 class Zeit{
     //get inputs
-    arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
-    arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
-    arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
-    sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
-    istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
-    notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
+    arbeitsplatz: number;
+    arbeitskraft: string; 
+    arbeitschritt: string; 
+    sollmenge: number;
+    istmenge: number; 
+    notiz: string;
     //caculate time
     zeit!: number;
     startzeit!: number;
