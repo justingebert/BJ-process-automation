@@ -54,8 +54,8 @@ app.post('/', async (req:any,res:any) => {
         timerCollection[timerID].stopTimer();
         //console.log(JSON.stringify(timerCollection[timerID]));
         timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
-        curData = timerCollection[timerID];
-        await prepareData(curData)
+        await prepareData(timerCollection[timerID]);
+        curData = Object.values(timerCollection[timerID]);
         await createORappend(curData)
         res.send({status: 'timer stopped'});
     }
@@ -183,7 +183,6 @@ function createORappend(data: any){
         if (err){
             await createXLSX(data);
         }else{
-            console.log("test2")
             await appendJSON(data);
         }
           });
@@ -218,13 +217,13 @@ function appendJSON(data:any){
     const worksheet:any = workbook01.Sheets[data[1]];
     if(worksheet == null){
         const worksheet = XLSX.utils.aoa_to_sheet(datatop);
-        XLSX.utils.sheet_add_aoa(worksheet,data,{origin: -1});
+        XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
         const sheetname: string = String(data[1]);
         XLSX.utils.book_append_sheet(workbook01, worksheet, sheetname);
     }else{
         const range  = XLSX.utils.decode_range(worksheet['!ref'])
         //console.log((range.e.r));
-        XLSX.utils.sheet_add_aoa(worksheet,data,{origin: -1});
+        XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
     }
     XLSX.writeFile(workbook01, "Erfassung.xlsx");
     console.log("added");
@@ -233,14 +232,14 @@ function appendJSON(data:any){
 
 
 
+
+
 function createXLSX(data:any){
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(datatop);
-    data = [data];
-    data = [data];
-    console.log(data);
-    XLSX.utils.sheet_add_json(worksheet,testData,{origin: -1});
-    const sheetname: string = String(data[0].arbeitsplatz);
+    console.log([data]);
+    XLSX.utils.sheet_add_json(worksheet,[data],{origin: -1});
+    const sheetname: string = String(data[1]);
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
     XLSX.writeFile(workbook, "Erfassung.xlsx");
     console.log("created");
