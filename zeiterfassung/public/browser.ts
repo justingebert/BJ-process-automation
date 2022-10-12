@@ -61,6 +61,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                 if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
                     obj.stop == true;
                     postInfo(obj);
+                    startbutton.innerHTML = "START";
                 }
             }
                 arbeitsplatzInput.value = '';

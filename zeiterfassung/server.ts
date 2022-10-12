@@ -6,9 +6,9 @@ import * as path from 'path';
 import { json } from 'stream/consumers';
 
 const port = 80;
-//const ip = '192.168.178.110';
+const ip = '192.168.178.110'; //arbeit
 //const ip = '192.168.2.117';
-const ip = '141.45.32.146'; //uni
+//const ip = '141.45.32.146'; //uni
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -37,17 +37,30 @@ app.get('/:dynamic',(req:any,res:any)=>{
     //res.download(excel file) send excel file to device
 }) 
 
-app.post('/', (req:any,res:any) => {
+app.post('/', async (req:any,res:any) => {
     const parcel = req.body;
     if(!parcel){
         return res.status(400).send({status: 'failed'});
     }
-    res.status(200).send({status: 'recieved'})
+    //res.status(200).send({status: 'recieved'})
 
-    if(timerCollection[parcel.arbeitsplatz] == null){
-        timerCollection[parcel.arbeitsplatz] = copyParameters(parcel);
+    const timerID = parcel.arbeitsplatz;
+
+    if(timerCollection[timerID] == null){
+        timerCollection[timerID] = copyParameters(parcel);
+        timerCollection[timerID].startTimer();
+        res.send({status: 'timer startet'});
+    }else{
+        timerCollection[timerID].stopTimer();
+        //console.log(JSON.stringify(timerCollection[timerID]));
+        timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
+        curData = timerCollection[timerID];
+        await prepareData(curData)
+        await createORappend(curData)
+        res.send({status: 'timer stopped'});
     }
     //create zeit instance if Start otherwise stop -> Store in Array
+
 
     /* prepareData(parcel);
     curData = Object.values(parcel);
@@ -131,7 +144,7 @@ class Zeit{
 
 }
 
-function copyParameters(obj:any):Zeit{
+function copyParameters(obj:any): Zeit{
     const timer = new Zeit();
     timer.arbeitsplatz = obj.arbeitsplatz;
     timer.arbeitskraft = obj.arbeitskraft
@@ -166,11 +179,12 @@ const testData = [
 //console.log(Object.keys(testData[0]).length);   //anzahl der attrtibute
 
 function createORappend(data: any){
-    fs.open(pathExcel, 'r', (err, fd) => {//what is fd?
+    fs.open(pathExcel, 'r',async (err, fd) => {//what is fd?
         if (err){
-            createXLSX(data);
+            await createXLSX(data);
         }else{
-            appendJSON(data);
+            console.log("test2")
+            await appendJSON(data);
         }
           });
 }
@@ -204,28 +218,35 @@ function appendJSON(data:any){
     const worksheet:any = workbook01.Sheets[data[1]];
     if(worksheet == null){
         const worksheet = XLSX.utils.aoa_to_sheet(datatop);
-        XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
+        XLSX.utils.sheet_add_aoa(worksheet,data,{origin: -1});
         const sheetname: string = String(data[1]);
         XLSX.utils.book_append_sheet(workbook01, worksheet, sheetname);
     }else{
         const range  = XLSX.utils.decode_range(worksheet['!ref'])
         //console.log((range.e.r));
-        XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
+        XLSX.utils.sheet_add_aoa(worksheet,data,{origin: -1});
     }
     XLSX.writeFile(workbook01, "Erfassung.xlsx");
     console.log("added");
 }
 
 
+
+
 function createXLSX(data:any){
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(datatop);
-    XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
-    const sheetname: string = String(data[1]);
+    data = [data];
+    data = [data];
+    console.log(data);
+    XLSX.utils.sheet_add_json(worksheet,testData,{origin: -1});
+    const sheetname: string = String(data[0].arbeitsplatz);
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
     XLSX.writeFile(workbook, "Erfassung.xlsx");
     console.log("created");
 }
+
+
 
 
 
