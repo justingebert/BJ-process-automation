@@ -87,13 +87,18 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 let interfaceData: any;
 //todo interrate over intefaceData and create interfaceses ++ update Time
- setInterval(()=>{
-    getInfo(0);
+ setInterval(async()=>{
+    await getInfo(0);
     for(let i = 1; i<interfaceData.length; i++){
-        if(interfaceData[i] !== null){
+        if(interfaceData[i] !== null && interfaceData[i].interface === false){
             const id = interfaceData[i].arbeitsplatz;
-            createTimerInferface(id);
+            await createTimerInferface(id);
             interfaceData[i].interface = true;
+            postInfo(interfaceData[i]);
+        }else if(interfaceData[i] == null && interfaceData[i].interface === true){
+            await removeTimerInterface(i);
+            interfaceData[i].interface = false;
+            postInfo(interfaceData[i]);
         }
     }
 },10000);
@@ -135,8 +140,11 @@ function createTimerInferface(id:any){
     })
 
     pausebut.addEventListener("click", () => {
-        if(timerCollection[id] != null){
-            pauseResumeButton(timerCollection[id], pausebut);
+        if(pausebutton.innerHTML == 'PAUSE'){
+            if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
+                curData
+                postInfo(curData);
+            }
         }
     });
 
@@ -175,7 +183,7 @@ async function getInfo(e:any) {
     const data = await res.json();
     curData = data;
     interfaceData = data
-    console.log(curData);
+    console.log(interfaceData);
 }
 
 

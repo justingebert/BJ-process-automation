@@ -6,8 +6,8 @@ import * as path from 'path';
 import { json } from 'stream/consumers';
 
 const port = 80;
-//const ipWork = '192.168.178.110'; //arbeit
-//const ipHome = '192.168.2.117'; //Zuhause
+const ipWork = '192.168.178.110'; //arbeit
+const ipHome = '192.168.2.117'; //Zuhause
 
 const ipUni = '141.45.37.232'; //uni
 
@@ -22,6 +22,7 @@ let curData: any;
 let timerCollection:any = [];
 
 let dataCollection:any = [];
+
 
 
 app.get('/:dynamic',(req:any,res:any)=>{
@@ -39,7 +40,6 @@ app.get('/:dynamic',(req:any,res:any)=>{
             res.json("no Timer active");
         }
     }
-    
 
     //res.render('index.html');
     //res.download(excel file) send excel file to device
@@ -52,6 +52,7 @@ app.post('/', async (req:any,res:any) => {
     }
     //res.status(200).send({status: 'recieved'})
 
+
     const timerID = parcel.arbeitsplatz;
 
     if(timerCollection[timerID] == null){
@@ -59,13 +60,20 @@ app.post('/', async (req:any,res:any) => {
         timerCollection[timerID].startTimer();
         res.send({status: 'timer startet'});
     }else{
-        timerCollection[timerID].stopTimer();
-        //console.log(JSON.stringify(timerCollection[timerID]));
-        timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
-        await prepareData(timerCollection[timerID]);
-        curData = Object.values(timerCollection[timerID]);
-        await createORappend(curData)
-        res.send({status: 'timer stopped'});
+        if(timerCollection[timerID].stop == true){
+            timerCollection[timerID].interface = true;
+        }else{
+            timerCollection[timerID].interface = false;
+            timerCollection[timerID].stopTimer();
+            //console.log(JSON.stringify(timerCollection[timerID]));
+            timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
+            await prepareData(timerCollection[timerID]);
+            curData = Object.values(timerCollection[timerID]);
+            await createORappend(curData)
+            res.send({status: 'timer stopped'});
+            timerCollection[timerID] = null;
+        } 
+
     }
     //create zeit instance if Start otherwise stop -> Store in Array
 
@@ -79,7 +87,8 @@ app.post('/', async (req:any,res:any) => {
 
 
 
-app.listen(port, ipUni, () => {console.log(`live on ${ipUni}:${port}`)})
+
+app.listen(port, ipHome, () => {console.log(`live on ${ipHome}:${port}`)})
 
 
 //timer setup
@@ -91,6 +100,7 @@ class Zeit{
     sollmenge!: number;
     istmenge!: number; 
     notiz!: string;
+    
     //caculate time
     zeit!: number;
     startzeit!: number;
@@ -98,6 +108,7 @@ class Zeit{
     pausenzeit: number = 0;
     running = false;
     paused = false;
+    interface:boolean = false;
 
     constructor(){
                     
@@ -147,7 +158,7 @@ class Zeit{
     }
 
     getCurTime(){
-        this.zeit =Date.now() - this.startzeit;
+        this.zeit = Date.now() - this.startzeit;
     }
 
     getTime(): number{
