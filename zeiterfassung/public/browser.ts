@@ -84,13 +84,18 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 }
 
 //todo update zeit
-/* setInterval(()=>{
-    let zeit:string = msToTime(timerCollection[arbeitsplatz].getTime());
-    console.log(timerCollection[arbeitsplatz].getTime());
-    let curinterface:any = document.getElementById(String(arbeitsplatz));
-    curinterface.querySelectorAll("p")[1].textContent =  `Zeit: ${zeit} `;
-},1000);
 
+let interfaceData: any;
+//todo interrate over intefaceData and create interfaceses ++ update Time
+/* setInterval(()=>{
+    getInfo(0);
+    for(let i = 1, i<interfaceData,i++){
+        if(interfaceData[i] !== null){
+
+        }
+    }
+},1000);
+ */
 
 function msToTime(s: number):string{
     let ms = s % 1000;
@@ -117,21 +122,14 @@ function createTimerInferface(id:any){
     pausebut.id = `interface${id}PauseButton`;
 
     //make seprate function Code used twice also in main Stop button
+    //todo get info from interface data 
     stopbut.addEventListener('click',() => {
-        if(timerCollection[id] != null){
-            if (window.confirm(`Timer ${id} Stoppen?`)){
-                startStopButton(timerCollection[id]);
-                const Zeit = timerCollection[id].getTime();
-                removeTimerInterface(arbeitsplatz);
-                console.log(Zeit/1000);
-                startbutton.innerHTML = 'START';
-                pausebutton.innerHTML = 'PAUSE';
-                const obj = timerCollection[id];
-                postInfo(obj);
-                timerCollection[id] = null;
-                //export object => clear arrayindex
-            }
-        }
+        const obj = 
+        if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
+                    obj.stop == true;
+                    postInfo(obj);
+                    startbutton.innerHTML = "START";
+                }
     })
 
     pausebut.addEventListener("click", () => {
@@ -148,7 +146,7 @@ function removeTimerInterface(id: any){
     let removeInterface:any = document.getElementById(id);
     removeInterface.remove();
 }
- */
+
 
 //send to Server
 const baseUrl = '/';
@@ -174,6 +172,7 @@ async function getInfo(e:any) {
     });
     const data = await res.json();
     curData = data;
+    interfaceData = data
     console.log(curData);
 }
 

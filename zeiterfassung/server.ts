@@ -6,8 +6,8 @@ import * as path from 'path';
 import { json } from 'stream/consumers';
 
 const port = 80;
-const ip = '192.168.178.110'; //arbeit
-//const ip = '192.168.2.117';
+//const ip = '192.168.178.110'; //arbeit
+const ip = '192.168.2.117'; //Zuhause
 //const ip = '141.45.32.146'; //uni
 
 //provide static html
@@ -22,16 +22,23 @@ let timerCollection:any = [];
 
 let dataCollection:any = [];
 
+
 app.get('/:dynamic',(req:any,res:any)=>{
     //res.sendFile(path.join(__dirname,'public/index.html'));
     const {dynamic} = req.params;
     console.log(dynamic);
-
-    if(timerCollection[dynamic] != null){
-        res.json(timerCollection[dynamic]);
+    if(dynamic == 0){   
+        timerCollection.filter(x => x !== null);
+        res.json(timerCollection);
     }else{
-        res.json("no Timer active");
+        if(timerCollection[dynamic] != null){
+            timerCollection[dynamic].getCurTime();
+            res.json(timerCollection[dynamic]);
+        }else{
+            res.json("no Timer active");
+        }
     }
+    
 
     //res.render('index.html');
     //res.download(excel file) send excel file to device
@@ -136,6 +143,10 @@ class Zeit{
             this.paused = false;
             console.log("timer"+this.arbeitsplatz+"resumed")
         }
+    }
+
+    getCurTime(){
+        this.zeit =Date.now() - this.startzeit;
     }
 
     getTime(): number{
