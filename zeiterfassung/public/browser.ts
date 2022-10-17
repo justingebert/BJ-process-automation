@@ -87,15 +87,17 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 let interfaceData: any;
 //todo interrate over intefaceData and create interfaceses ++ update Time
-/* setInterval(()=>{
+ setInterval(()=>{
     getInfo(0);
-    for(let i = 1, i<interfaceData,i++){
+    for(let i = 1; i<interfaceData.length; i++){
         if(interfaceData[i] !== null){
-
+            const id = interfaceData[i].arbeitsplatz;
+            createTimerInferface(id);
+            interfaceData[i].interface = true;
         }
     }
-},1000);
- */
+},10000);
+ 
 
 function msToTime(s: number):string{
     let ms = s % 1000;
@@ -124,7 +126,7 @@ function createTimerInferface(id:any){
     //make seprate function Code used twice also in main Stop button
     //todo get info from interface data 
     stopbut.addEventListener('click',() => {
-        const obj = 
+        const obj = interfaceData[id];
         if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
                     obj.stop == true;
                     postInfo(obj);

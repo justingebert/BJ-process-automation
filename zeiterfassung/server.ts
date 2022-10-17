@@ -6,9 +6,10 @@ import * as path from 'path';
 import { json } from 'stream/consumers';
 
 const port = 80;
-//const ip = '192.168.178.110'; //arbeit
-const ip = '192.168.2.117'; //Zuhause
-//const ip = '141.45.32.146'; //uni
+//const ipWork = '192.168.178.110'; //arbeit
+//const ipHome = '192.168.2.117'; //Zuhause
+
+const ipUni = '141.45.37.232'; //uni
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -78,7 +79,7 @@ app.post('/', async (req:any,res:any) => {
 
 
 
-app.listen(port, ip, () => {console.log(`live on ${ip}:${port}`)})
+app.listen(port, ipUni, () => {console.log(`live on ${ipUni}:${port}`)})
 
 
 //timer setup
