@@ -1,4 +1,4 @@
-class Data{
+class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
     arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
@@ -6,9 +6,17 @@ class Data{
     istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
     notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
 
+
+    zeit!: number;
+    startzeit!: number;
+    startzeitpause!: number;
+    pausenzeit: number = 0;
+    running = false;
+    paused = false;
+
     pause:boolean = false;
     stop: boolean = false;
-
+    interface: boolean = false;
 }
 
 
@@ -49,18 +57,22 @@ async function updateUI(){
 //button listeners
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
 
-    startbutton.addEventListener("click",function() {
+    startbutton.addEventListener("click",async function() {
         if(arbeitsplatzInput.validity.valid){
-            const obj = new Data();
             if(startbutton.innerHTML == 'START'){
                 if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
-                    obj.stop == false;
-                    postInfo(obj);
+                    const obj = new Zeit();
+                    obj.stop = false;
+                    obj.interface = true;
+                    await postInfo(obj);
                 }
             }else if(startbutton.innerHTML == 'STOP'){
                 if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-                    obj.stop == true;
-                    postInfo(obj);
+                    await getInfo(arbeitsplatz)
+                    const obj =  timerCollection[arbeitsplatz]
+                    obj.stop = true;
+                    obj.interface = false;
+                    await postInfo(obj);
                     startbutton.innerHTML = "START";
                 }
             }
@@ -72,8 +84,8 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
         if(arbeitsplatzInput.validity.valid){
             if(pausebutton.innerHTML == 'PAUSE'){
                 if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-                    curData
-                    postInfo(curData);
+
+                    postInfo(timerCollection[arbeitsplatz]);
                 }
             }
             
@@ -85,20 +97,21 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 //todo update zeit
 
-let interfaceData: any;
+let timerCollection: any = [];
 //todo interrate over intefaceData and create interfaceses ++ update Time
  setInterval(async()=>{
     await getInfo(0);
-    for(let i = 1; i<interfaceData.length; i++){
-        if(interfaceData[i] !== null && interfaceData[i].interface === false){
-            const id = interfaceData[i].arbeitsplatz;
+    for(let i = 1; i<timerCollection.length; i++){
+        const obj = timerCollection[i];
+        if(obj !== null && obj.interface === false){
+            const id = obj.arbeitsplatz;
             await createTimerInferface(id);
-            interfaceData[i].interface = true;
-            postInfo(interfaceData[i]);
-        }else if(interfaceData[i] == null && interfaceData[i].interface === true){
+            obj.interface = true;
+            await postInfo(obj);
+        }else if(obj == null && obj.interface === true){
             await removeTimerInterface(i);
-            interfaceData[i].interface = false;
-            postInfo(interfaceData[i]);
+            obj.interface = false;
+            await postInfo(obj);
         }
     }
 },10000);
@@ -131,7 +144,7 @@ function createTimerInferface(id:any){
     //make seprate function Code used twice also in main Stop button
     //todo get info from interface data 
     stopbut.addEventListener('click',() => {
-        const obj = interfaceData[id];
+        const obj = timerCollection[id];
         if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
                     obj.stop == true;
                     postInfo(obj);
@@ -163,7 +176,7 @@ const baseUrl = '/';
 //const baseUrl2 = '/';
 
 
-async function postInfo(e:Data) {
+async function postInfo(e:Zeit) {
     const res = await fetch(baseUrl,
     {
         method: 'POST',
@@ -182,8 +195,8 @@ async function getInfo(e:any) {
     });
     const data = await res.json();
     curData = data;
-    interfaceData = data
-    console.log(interfaceData);
+    timerCollection = data
+    console.log(timerCollection);
 }
 
 

@@ -3,19 +3,24 @@ const app = express();
 import XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
+const ip = require("ip");
 import { json } from 'stream/consumers';
 
 const port = 80;
-const ipWork = '192.168.178.110'; //arbeit
-const ipHome = '192.168.2.117'; //Zuhause
+const curIP = ip.address();
+//const os = require('os');
+//const ip = os.networkInterfaces();
 
-const ipUni = '141.45.37.232'; //uni
+
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
 //revcieve json
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
+
 
 let curData: any;
 
@@ -30,7 +35,7 @@ app.get('/:dynamic',(req:any,res:any)=>{
     const {dynamic} = req.params;
     console.log(dynamic);
     if(dynamic == 0){   
-        timerCollection.filter(x => x !== null);
+        //timerCollection.filter(x => x !== null);
         res.json(timerCollection);
     }else{
         if(timerCollection[dynamic] != null){
@@ -52,28 +57,22 @@ app.post('/', async (req:any,res:any) => {
     }
     //res.status(200).send({status: 'recieved'})
 
-
     const timerID = parcel.arbeitsplatz;
 
-    if(timerCollection[timerID] == null){
+    if(timerCollection[timerID] == null && parcel.stop == false){
         timerCollection[timerID] = copyParameters(parcel);
         timerCollection[timerID].startTimer();
         res.send({status: 'timer startet'});
-    }else{
-        if(timerCollection[timerID].stop == true){
-            timerCollection[timerID].interface = true;
-        }else{
-            timerCollection[timerID].interface = false;
-            timerCollection[timerID].stopTimer();
-            //console.log(JSON.stringify(timerCollection[timerID]));
-            timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
-            await prepareData(timerCollection[timerID]);
-            curData = Object.values(timerCollection[timerID]);
-            await createORappend(curData)
-            res.send({status: 'timer stopped'});
-            timerCollection[timerID] = null;
-        } 
-
+    }else{ 
+        timerCollection[timerID].stopTimer();
+        timerCollection[timerID].interface = false;
+        //console.log(JSON.stringify(timerCollection[timerID]));
+        timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
+        await prepareData(timerCollection[timerID]);
+        curData = Object.values(timerCollection[timerID]);
+        await createORappend(curData)
+        res.send({status: 'timer stopped'});
+        timerCollection[timerID] = null;
     }
     //create zeit instance if Start otherwise stop -> Store in Array
 
@@ -83,12 +82,6 @@ app.post('/', async (req:any,res:any) => {
     createORappend(curData);
     console.log('recieved'); */
 }) 
-
-
-
-
-
-app.listen(port, ipHome, () => {console.log(`live on ${ipHome}:${port}`)})
 
 
 //timer setup
@@ -108,6 +101,9 @@ class Zeit{
     pausenzeit: number = 0;
     running = false;
     paused = false;
+
+    pause:boolean = false;
+    stop: boolean = false;
     interface:boolean = false;
 
     constructor(){
