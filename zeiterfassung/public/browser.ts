@@ -103,12 +103,13 @@ let timerCollection: any = [];
     await getInfo(0);
     for(let i = 1; i<timerCollection.length; i++){
         const obj = timerCollection[i];
+        let hasInterface:any = document.getElementById(obj.arbeitsplatz);
         if(obj !== null && obj.interface === false){
             const id = obj.arbeitsplatz;
             await createTimerInferface(id);
             obj.interface = true;
             await postInfo(obj);
-        }else if(obj == null && obj.interface === true){
+        }else if(hasInterface){
             await removeTimerInterface(i);
             obj.interface = false;
             await postInfo(obj);

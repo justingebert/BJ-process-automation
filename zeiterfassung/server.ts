@@ -59,11 +59,14 @@ app.post('/', async (req:any,res:any) => {
 
     const timerID = parcel.arbeitsplatz;
 
-    if(timerCollection[timerID] == null && parcel.stop == false){
+    
+    if(timerCollection[timerID] === null && parcel.stop == false){
         timerCollection[timerID] = copyParameters(parcel);
         timerCollection[timerID].startTimer();
         res.send({status: 'timer startet'});
-    }else{ 
+    }else if(!parcel.interface){ 
+        timerCollection[timerID].interface = false;
+    }else{
         timerCollection[timerID].stopTimer();
         timerCollection[timerID].interface = false;
         //console.log(JSON.stringify(timerCollection[timerID]));
