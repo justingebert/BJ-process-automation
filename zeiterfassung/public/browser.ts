@@ -40,7 +40,7 @@ async function updateUI(){
     //get info if timer is running
     await getArbeitsplatz();
     await getInfo(arbeitsplatz);
-    if(curData == "no Timer active"){
+    if(curData == null){
         startbutton.innerHTML = "START";
         pausebutton.innerHTML = "PAUSE";
     }else{
@@ -108,28 +108,34 @@ let timerCollection: any = [];
     await getInfo(0);
     for(let i = 1; i<timerCollection.length; i++){
         const obj = timerCollection[i];
-        let hasInterface:any = document.getElementById(obj.arbeitsplatz);
-        if(obj !== null && obj.interface === false){
+        
+        let hasInterface:any = document.getElementById(String(i)); 
+        if(obj != null && obj.interface == true && hasInterface == null){
             const id = obj.arbeitsplatz;
             await createTimerInferface(id);
             obj.interface = true;
             await postInfo(obj);
-        }else if(hasInterface){
-            await removeTimerInterface(i);
-            obj.interface = false;
-            await postInfo(obj);
         }
+        if(obj != null && hasInterface){
+            const zeit = msToTime(obj.zeit);
+            hasInterface.querySelectorAll("p")[1].textContent = `Zeit: ${zeit}`;
+        }
+        if(obj == null && hasInterface){
+            await removeTimerInterface(i);
+        }
+        
     }
-},10000);
+},5000);
  
 
 function msToTime(s: number):string{
     let ms = s % 1000;
     s = (s-ms) /1000;
-    let secs = s % 60;
+    let secs = Math.round(s % 60);
     s = (s - secs) / 60;
-    let mins = s / 60;
-    let hrs = (s-mins) / 60;
+    let mins = Math.round(s / 60);
+    let hrs = Math.round((s-mins) / 60);
+    //todo round numbers to 2 digits
     return hrs + ':' + mins + ':' + secs;
 }
 
@@ -151,26 +157,26 @@ function createTimerInferface(id:any){
     //todo get info from interface data 
     const obj = timerCollection[id];
 
-    stopbut.addEventListener('click',() => {
-        if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-                    obj.stop == true;
-                    postInfo(obj);
-                    startbutton.innerHTML = "START";
+    stopbut.addEventListener('click',async() => {
+        if (window.confirm(`Timer ${id} Stoppen?`)){
+                    await getInfo(id)
+                    const obj =  timerCollection[id]
+                    console.log(id);
+                    obj.stop = true;
+                    await postInfo(obj);
                 }
     })
 
     pausebut.addEventListener("click", () => {
         if(pausebut.innerHTML == 'PAUSE'){
-            if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
+            if (window.confirm(`Timer ${id} Pausieren?`)){
                 obj.pause = true; 
                 postInfo(obj);
-                pausebut.innerHTML == 'RESUME';
             }
         }else if(pausebut.innerHTML == 'RESUME'){
-            if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
+            if (window.confirm(`Timer ${id} Fortsetzen?`)){
                 obj.pause = true; 
                 postInfo(obj);
-                pausebut.innerHTML == 'PAUSE';
             }
         }
     });

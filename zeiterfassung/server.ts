@@ -36,13 +36,18 @@ app.get('/:dynamic',(req:any,res:any)=>{
     console.log(dynamic);
     if(dynamic == 0){   
         //timerCollection.filter(x => x !== null);
+        for(let i = 1;i<timerCollection.length;i++){
+            if(timerCollection[i] != null){
+                timerCollection[i].getCurTime();
+            }
+        }
         res.json(timerCollection);
     }else{
         if(timerCollection[dynamic] != null){
             timerCollection[dynamic].getCurTime();
             res.json(timerCollection[dynamic]);
         }else{
-            res.json("no Timer active");
+            res.json(null);
         }
     }
 
@@ -66,13 +71,14 @@ app.post('/', async (req:any,res:any) => {
         obj.interface = true;
         timerCollection[timerID] = obj;
         res.send({status: 'timer startet'});
-    }else if(obj !== null){ 
+    }else if(obj != null){ 
         if(parcel.stop){
             obj.stopTimer();
             obj.interface = false;
             //console.log(JSON.stringify(obj));
             obj = JSON.parse(JSON.stringify(obj))
             await prepareData(obj);
+
             curData = Object.values(obj);
             await createORappend(curData)
             res.send({status: 'timer stopped'});
