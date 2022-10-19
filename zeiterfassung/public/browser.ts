@@ -63,7 +63,6 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                 if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
                     const obj = new Zeit();
                     obj.stop = false;
-                    obj.interface = true;
                     await postInfo(obj);
                 }
             }else if(startbutton.innerHTML == 'STOP'){
@@ -71,7 +70,6 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     await getInfo(arbeitsplatz)
                     const obj =  timerCollection[arbeitsplatz]
                     obj.stop = true;
-                    obj.interface = false;
                     await postInfo(obj);
                     startbutton.innerHTML = "START";
                 }
@@ -82,13 +80,20 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
     pausebutton.addEventListener("click", () => {
         if(arbeitsplatzInput.validity.valid){
+            const obj:Zeit = timerCollection[arbeitsplatz];
             if(pausebutton.innerHTML == 'PAUSE'){
-                if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-
-                    postInfo(timerCollection[arbeitsplatz]);
+                if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
+                    obj.pause = true; 
+                    postInfo(obj);
+                    pausebutton.innerHTML == 'RESUME';
+                }
+            }else if(pausebutton.innerHTML == 'RESUME'){
+                if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
+                    obj.pause = true; 
+                    postInfo(obj);
+                    pausebutton.innerHTML == 'PAUSE';
                 }
             }
-            
             arbeitsplatzInput.value = '';
         }
     });
@@ -144,8 +149,9 @@ function createTimerInferface(id:any){
 
     //make seprate function Code used twice also in main Stop button
     //todo get info from interface data 
+    const obj = timerCollection[id];
+
     stopbut.addEventListener('click',() => {
-        const obj = timerCollection[id];
         if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
                     obj.stop == true;
                     postInfo(obj);
@@ -154,10 +160,17 @@ function createTimerInferface(id:any){
     })
 
     pausebut.addEventListener("click", () => {
-        if(pausebutton.innerHTML == 'PAUSE'){
-            if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-                curData
-                postInfo(curData);
+        if(pausebut.innerHTML == 'PAUSE'){
+            if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
+                obj.pause = true; 
+                postInfo(obj);
+                pausebut.innerHTML == 'RESUME';
+            }
+        }else if(pausebut.innerHTML == 'RESUME'){
+            if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
+                obj.pause = true; 
+                postInfo(obj);
+                pausebut.innerHTML == 'PAUSE';
             }
         }
     });
@@ -196,7 +209,11 @@ async function getInfo(e:any) {
     });
     const data = await res.json();
     curData = data;
-    timerCollection = data
+    if(e == 0){
+        timerCollection = data
+    }else{
+        timerCollection[e] = data;
+    }
     console.log(timerCollection);
 }
 

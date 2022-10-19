@@ -58,24 +58,35 @@ app.post('/', async (req:any,res:any) => {
     //res.status(200).send({status: 'recieved'})
 
     const timerID = parcel.arbeitsplatz;
-
+    let obj:Zeit = timerCollection[timerID];
     
-    if(timerCollection[timerID] === null && parcel.stop == false){
-        timerCollection[timerID] = copyParameters(parcel);
-        timerCollection[timerID].startTimer();
+    if(obj == null && parcel.stop == false){
+        obj = copyParameters(parcel);
+        obj.startTimer();
+        obj.interface = true;
+        timerCollection[timerID] = obj;
         res.send({status: 'timer startet'});
-    }else if(!parcel.interface){ 
-        timerCollection[timerID].interface = false;
-    }else{
-        timerCollection[timerID].stopTimer();
-        timerCollection[timerID].interface = false;
-        //console.log(JSON.stringify(timerCollection[timerID]));
-        timerCollection[timerID] = JSON.parse(JSON.stringify(timerCollection[timerID]))
-        await prepareData(timerCollection[timerID]);
-        curData = Object.values(timerCollection[timerID]);
-        await createORappend(curData)
-        res.send({status: 'timer stopped'});
-        timerCollection[timerID] = null;
+    }else if(obj !== null){ 
+        if(parcel.stop){
+            obj.stopTimer();
+            obj.interface = false;
+            //console.log(JSON.stringify(obj));
+            obj = JSON.parse(JSON.stringify(obj))
+            await prepareData(obj);
+            curData = Object.values(obj);
+            await createORappend(curData)
+            res.send({status: 'timer stopped'});
+            timerCollection[timerID] = null;
+        }
+        if(!obj.paused && parcel.pause){
+            obj.pauseTimer();
+            timerCollection[timerID] = obj;
+        }
+
+        if(obj.paused && !parcel.pause){
+            obj.resumeTimer();
+            timerCollection[timerID] = obj;
+        }
     }
     //create zeit instance if Start otherwise stop -> Store in Array
 
@@ -174,6 +185,7 @@ function copyParameters(obj:any): Zeit{
     timer.sollmenge = obj.sollmenge;
     timer.istmenge = obj.istmenge;
     timer.notiz = obj.notiz;
+    timer.interface = obj.interface;
     return timer;
 }
 //check if website is requested -> if event stop pressed send object or json to server
