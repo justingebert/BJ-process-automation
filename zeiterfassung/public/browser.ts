@@ -20,6 +20,11 @@ class Zeit{
 }
 
 
+
+//todo auftragsnummer + modellnummer (welcher endartikel?)
+//todo arbeitsschritt sollzeit
+//todo richtzeit in interface 
+
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
 

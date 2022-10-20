@@ -77,8 +77,10 @@ app.post('/', async (req:any,res:any) => {
             obj.interface = false;
             //console.log(JSON.stringify(obj));
             obj = JSON.parse(JSON.stringify(obj))
+            console.log(obj);
+            console.log('test');
             await prepareData(obj);
-
+            console.log(obj);
             curData = Object.values(obj);
             await createORappend(curData)
             res.send({status: 'timer stopped'});
@@ -235,6 +237,10 @@ function prepareData(data:any){
     delete data.paused;
     delete data.startzeit;
     delete data.pausenzeit;
+    delete data.startzeitpause;
+    delete data.pause;
+    delete data.stop;
+    delete data.interface;
     data.artikelzeit = msToTime(data.zeit/data.istmenge);
     data.zeit = msToTime(data.zeit);
     delete data.sollmenge;
