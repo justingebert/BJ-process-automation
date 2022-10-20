@@ -11,7 +11,7 @@ const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-
+//todo install barcode module
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
