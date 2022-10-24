@@ -10,41 +10,62 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  
   <div>
     <img src="/img/logow.png" id="logo">
   </div>
-  <div>
+  <div id="form">
   <form action="">
-    <label>Arbeitsplatz:</label>
-    <br>
-    <input type="number" id="Arbeitsplatz" placeholder="00"  required>
-    <br>
-    <label>Arbeitskraft:</label>
-    <br>
-    <input type="text" id="Arbeitskraft" placeholder="xx00" required>
-    <br>
-    <label>Arbeitsschritt:</label>
-    <br>
-    <input type="text" id="Arbeitsschritt-Code" placeholder="xxx000" value="xxx001" required>
-    <br>
-    <label>SollMenge:</label>
-    <br>
-    <input type="number" id="SollMenge" placeholder="000" value="10" required>
-    <br>
-    <label>Notiz:</label>
-    <br>
-    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen" required>
-    <br>
-    <label>IstMenge:</label>
-    <br>
-    <input type="number" id="IstMenge" placeholder="000" value="2" required>
-    <br><br>
-    <button type="button" id="startbutton" class="button" role="button">START</button>
-    <br>
-    <button type="button" id="pausebutton" class="button" role="button">PAUSE</button>
+    <div class="input full">
+      <label>Arbeitsplatz:</label>
+      <input type="number" id="Arbeitsplatz" placeholder="00"  required>
+    </div>
+
+    <div class="input full">
+      <label>Arbeitskraft:</label>
+      <input type="text" id="Arbeitskraft" placeholder="xx00" required>
+    </div>
+
+    <div class="input left">
+      <label>Auftragsnummer:</label>
+      <input type="text" id="Auftragsnummer" placeholder="000" value="001" required>
+    </div>
+
+    <div class="input right">
+      <label>Modellnummer:</label>
+      <input type="text" id="Modellnummer" placeholder="000" value="xxx001" required>
+    </div>
+
+    <div>
+      <label>Arbeitsschritt:</label>
+      <input type="text" id="Arbeitsschritt-Code" placeholder="xxx000" value="xxx001" required>
+    </div>
+
+    <div class="input left">
+      <label>SollMenge:</label>
+      <input type="number" id="SollMenge" placeholder="000" value="10" required>
+    </div>
+    
+    <div class="input right">
+      <label>IstMenge:</label>
+      <input type="number" id="IstMenge" placeholder="000" required>
+    </div>
+    
+    <div class="input full">
+      <label>Notiz:</label>
+    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen"> 
+    </div>
+    
+    <div class="input full">
+      <button type="button" id="startbutton" class="button" role="button">START</button>
+    </div>
+    
+    <div class="input full">
+      <button type="button" id="pausebutton" class="button" role="button">PAUSE</button>
+    </div>
+
     </form>
   </div>
+
   <template id="TimerInterface">
     <div class="interface" id="">
       <p class="interfaceText"> Arbeitsplatz: xx </p>
@@ -53,9 +74,11 @@
       <p class="interfaceText">Zeit: 0:0:0</p>
     </div>
   </template>
+
   <div id="running">
 
   </div>
+
   <script src="/browser.js"></script>
 </body>
 </html>

@@ -12,7 +12,6 @@ const curIP = ip.address();
 //const ip = os.networkInterfaces();
 
 
-
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
 //revcieve json
@@ -25,9 +24,6 @@ app.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
 let curData: any;
 
 let timerCollection:any = [];
-
-let dataCollection:any = [];
-
 
 
 app.get('/:dynamic',(req:any,res:any)=>{
@@ -85,6 +81,7 @@ app.post('/', async (req:any,res:any) => {
             await createORappend(curData)
             res.send({status: 'timer stopped'});
             timerCollection[timerID] = null;
+            //todo clear array size
         }
         if(!obj.paused && parcel.pause){
             obj.pauseTimer();
@@ -110,7 +107,9 @@ app.post('/', async (req:any,res:any) => {
 class Zeit{
     //get inputs
     arbeitsplatz!: number;
-    arbeitskraft!: string; 
+    arbeitskraft!: string;
+    auftragsnummer!: string; 
+    modellnummer!: string;
     arbeitschritt!: string; 
     sollmenge!: number;
     istmenge!: number; 
@@ -188,7 +187,9 @@ class Zeit{
 function copyParameters(obj:any): Zeit{
     const timer = new Zeit();
     timer.arbeitsplatz = obj.arbeitsplatz;
-    timer.arbeitskraft = obj.arbeitskraft
+    timer.arbeitskraft = obj.arbeitskraft;
+    timer.auftragsnummer = obj.auftragsnummer;
+    timer.modellnummer = obj.modellnummer;
     timer.arbeitschritt = obj.arbeitschritt;
     timer.sollmenge = obj.sollmenge;
     timer.istmenge = obj.istmenge;
@@ -201,24 +202,10 @@ function copyParameters(obj:any): Zeit{
 
 //start template Excel Datei - Erste Reihe
 const datatop = [
-    ["Arbeitsplatz", "Arbeitskraft", "Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel"],
+    ["Arbeitsplatz", "Arbeitskraft","Auftragsnummer", "Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel"],
     ];
 
 const pathExcel = 'Erfassung.xlsx';
-
-const testData = [
-    {
-      arbeitsplatz: 99,
-      arbeitskraft: 'xx02',
-      arbeitschritt: 'xxx001',
-      notiz: 'muster',
-      zeit: 2.613,
-      artikelzeit: 0.2613
-    }
-  ]
-
-//console.log(Object.values(testData[0]));
-//console.log(Object.keys(testData[0]).length);   //anzahl der attrtibute
 
 function createORappend(data: any){
     fs.open(pathExcel, 'r',async (err, fd) => {//what is fd?
@@ -230,7 +217,6 @@ function createORappend(data: any){
           });
 }
 
-
 //solve with lodash omit?
 function prepareData(data:any){
     delete data.running;
@@ -241,20 +227,24 @@ function prepareData(data:any){
     delete data.pause;
     delete data.stop;
     delete data.interface;
-    data.artikelzeit = msToTime(data.zeit/data.istmenge);
+    if(data.istmenge != null){
+        data.artikelzeit = msToTime(data.zeit/data.istmenge);
+    }else{
+        data.artikelzeit = msToTime(data.zeit/data.sollmenge);
+    }
     data.zeit = msToTime(data.zeit);
     delete data.sollmenge;
     delete data.istmenge;
     //delte whats not in data top
 }
 
-function msToTime(s: any){
+function msToTime(s: number):string{
     let ms = s % 1000;
     s = (s-ms) /1000;
-    let secs = s % 60;
+    let secs = Math.round(s % 60);
     s = (s - secs) / 60;
-    let mins = s / 60;
-    let hrs = (s-mins) / 60;
+    let mins = Math.round(s / 60);
+    let hrs = Math.round((s-mins) / 60);
     return hrs + ':' + mins + ':' + secs;
 }
 
