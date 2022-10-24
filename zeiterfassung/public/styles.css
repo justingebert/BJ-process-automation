@@ -1,9 +1,9 @@
+/* GENERAL */
 *,
 *::after,
 *::before{
     box-sizing: border-box;
 }
-
 :root{
     --color-BG:#323031;
     --color-Font:rgb(199, 199, 199);
@@ -12,17 +12,26 @@
     line-height: 15px;
     width: 95%;
     margin: auto;
-    
 }
-
 body{
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
     Helvetica, Arial, sans-serif;
     font-weight: 400;
     background-color: #161616;
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+/* IMAGE */
+
+#logo{
+    width: 220px;
+    margin: 10px 0 20px 0;
+}
+
+/* MAIN BUTTONS */
 
 .button{
     font-size: x-large;
@@ -35,6 +44,34 @@ body{
     margin: 5px 0 5px 0;
 }
 
+/* INPUTS */
+
+#form{
+    width: 220px;
+}
+
+form{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.input{
+    display: grid;
+    grid-template-rows: 30% 70%;
+}
+
+.full{
+    grid-column: 1/2;
+}
+
+.left{
+    grid-column: 1;
+}
+
+.right{
+    grid-column: 2;
+}
+
 
 input{
     background-color: #393D3F;
@@ -43,20 +80,11 @@ input{
     margin: 0px 0px 10px 0px;
     border: 2px solid rgb(87, 86, 86);
     border-radius: 4px;
-    width: 215px;
+    
 }
 
-div:not(.interface){
-    /* padding: 0 50% 0 50%; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-#logo{
-    width: 215px;
-    margin: 10px 0 20px 0;
-}
+/* INTERFACE */
 
 #running{
     display: grid;
