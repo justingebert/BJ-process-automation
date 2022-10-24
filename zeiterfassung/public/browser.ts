@@ -1,4 +1,4 @@
-class  hceZeit{
+class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
     auftragsnummer: string = (<HTMLInputElement>document.querySelector("#Auftragsnummer")).value;
@@ -135,16 +135,22 @@ let timerCollection: any = [];
 },5000);
  
 //todo fix ms not / 1000
-function msToTime(s: number):string{
-    let ms = s % 1000;
-    s = (s-ms) /1000;
-    let secs = Math.round(s % 60);
-    s = (s - secs) / 60;
-    let mins = Math.round(s / 60);
-    let hrs = Math.round((s-mins) / 60);
-    //todo round numbers to 2 digits
-    return hrs + ':' + mins + ':' + secs;
+
+function padTo2Digits(num:any) {
+    return num.toString().padStart(2, '0');
+  }
+
+function msToTime(ms: number):string{
+    let sec = Math.floor(ms / 1000);
+    let min = Math.floor(sec / 60);
+    let h = Math.floor(min/60);
+
+    sec = sec % 60;
+    min = min % 60;
+
+    return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
+
 
 //manipulate html
 function createTimerInferface(id:any){

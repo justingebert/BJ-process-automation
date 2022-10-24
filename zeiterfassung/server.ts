@@ -11,10 +11,6 @@ const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-<<<<<<< HEAD
-//todo install barcode module
-=======
->>>>>>> 8f3f520f6d6dbd06efd69c102a02fa1c0ff16303
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -242,15 +238,21 @@ function prepareData(data:any){
     //delte whats not in data top
 }
 
-function msToTime(s: number):string{
-    let ms = s % 1000;
-    s = (s-ms) /1000;
-    let secs = Math.round(s % 60);
-    s = (s - secs) / 60;
-    let mins = Math.round(s / 60);
-    let hrs = Math.round((s-mins) / 60);
-    return hrs + ':' + mins + ':' + secs;
+function padTo2Digits(num:any) {
+    return num.toString().padStart(2, '0');
+  }
+
+function msToTime(ms: number):string{
+    let sec = Math.floor(ms / 1000);
+    let min = Math.floor(sec / 60);
+    let h = Math.floor(min/60);
+
+    sec = sec % 60;
+    min = min % 60;
+
+    return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
+
 
 function appendJSON(data:any){
     const workbook01 = XLSX.readFile(pathExcel);
