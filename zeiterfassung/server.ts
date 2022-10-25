@@ -73,21 +73,20 @@ app.post('/', async (req:any,res:any) => {
             obj.interface = false;
             //console.log(JSON.stringify(obj));
             obj = JSON.parse(JSON.stringify(obj))
-            console.log(obj);
-            console.log('test');
             await prepareData(obj);
-            console.log(obj);
             curData = Object.values(obj);
             await createORappend(curData)
             res.send({status: 'timer stopped'});
             timerCollection[timerID] = null;
+            cleanArray(timerCollection);
             //todo clear array size
+            
         }
         if(!obj.paused && parcel.pause){
             obj.pauseTimer();
+            console.log("test");
             timerCollection[timerID] = obj;
         }
-
         if(obj.paused && !parcel.pause){
             obj.resumeTimer();
             timerCollection[timerID] = obj;
@@ -102,6 +101,12 @@ app.post('/', async (req:any,res:any) => {
     console.log('recieved'); */
 }) 
 
+function cleanArray(arr: Array<Object>):void{
+    let arrlen = arr.length;
+            for(let i = arrlen-1;i>=0;i--){
+                arr.splice(i,1);
+            }
+}
 
 //timer setup
 class Zeit{
@@ -155,11 +160,12 @@ class Zeit{
 
     pauseTimer(): void{
         if(this.paused === true){
-            console.log("timer not running")
+            console.log("timer is paused")
         }else{
             let pausestart = Date.now();
             this.startzeitpause = pausestart;
             this.paused = true;
+            this.running = false;
             console.log("timer"+this.arbeitsplatz+"paused")
         } 
     }
@@ -170,12 +176,16 @@ class Zeit{
         }else{
             let pausenzeit = Date.now() - this.startzeitpause;
             this.paused = false;
+            this.running = true;
             console.log("timer"+this.arbeitsplatz+"resumed")
         }
     }
 
     getCurTime(){
-        this.zeit = Date.now() - this.startzeit;
+        if(this.paused){
+            this.pausenzeit = Date.now() - this.startzeitpause;
+        }
+        this.zeit = Date.now() - this.startzeit - this.pausenzeit;
     }
 
     getTime(): number{
@@ -202,7 +212,7 @@ function copyParameters(obj:any): Zeit{
 
 //start template Excel Datei - Erste Reihe
 const datatop = [
-    ["Arbeitsplatz", "Arbeitskraft","Auftragsnummer", "Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel"],
+    ["Arbeitsplatz", "Arbeitskraft","Auftrags-NR", "Modell-NR","Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel"],
     ];
 
 const pathExcel = 'Erfassung.xlsx';
@@ -253,7 +263,6 @@ function msToTime(ms: number):string{
     return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
 
-
 function appendJSON(data:any){
     const workbook01 = XLSX.readFile(pathExcel);
     const worksheet:any = workbook01.Sheets[data[1]];
@@ -270,11 +279,6 @@ function appendJSON(data:any){
     XLSX.writeFile(workbook01, "Erfassung.xlsx");
     console.log("added");
 }
-
-
-
-
-
 
 function createXLSX(data:any){
     const workbook = XLSX.utils.book_new();

@@ -52,14 +52,17 @@ async function updateUI(){
         pausebutton.innerHTML = "PAUSE";
     }else{
         startbutton.innerHTML = "STOP";
+        console.log(curData);   
         if(curData.paused){
-            pausebutton.innerHTML + "RESUME";
-        }else{
-            pausebutton.innerHTML + "PAUSE";
+            pausebutton.innerHTML = 'RESUME';
+        }else if(!curData.paused){
+            pausebutton.innerHTML = 'PAUSE';
         }    
     }
 }
 
+//todo stop stays when arbeitsplatz is empty
+//todo when stopped on interface mainbutton doesnt change 
 
 //button listeners
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
@@ -92,19 +95,18 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                 if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
                     obj.pause = true; 
                     postInfo(obj);
-                    pausebutton.innerHTML == 'RESUME';
+                    pausebutton.innerHTML = 'RESUME';
                 }
             }else if(pausebutton.innerHTML == 'RESUME'){
                 if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
-                    obj.pause = true; 
+                    obj.pause = false; 
                     postInfo(obj);
-                    pausebutton.innerHTML == 'PAUSE';
+                    pausebutton.innerHTML = 'PAUSE';
                 }
             }
             arbeitsplatzInput.value = '';
         }
     });
-
 }
 
 //todo update zeit
@@ -126,6 +128,11 @@ let timerCollection: any = [];
         if(obj != null && hasInterface){
             const zeit = msToTime(obj.zeit);
             hasInterface.querySelectorAll("p")[1].textContent = `Zeit: ${zeit}`;
+            if(obj.paused){
+                hasInterface.querySelectorAll("button")[1].innerHTML = "RESUME";
+            }else if(!obj.paused){
+                hasInterface.querySelectorAll("button")[1].innerHTML = "PAUSE";
+            }
         }
         if(obj == null && hasInterface){
             await removeTimerInterface(i);
@@ -185,11 +192,13 @@ function createTimerInferface(id:any){
             if (window.confirm(`Timer ${id} Pausieren?`)){
                 obj.pause = true; 
                 postInfo(obj);
+                pausebut.innerHTML = 'RESUME';
             }
         }else if(pausebut.innerHTML == 'RESUME'){
             if (window.confirm(`Timer ${id} Fortsetzen?`)){
-                obj.pause = true; 
+                obj.pause = false; 
                 postInfo(obj);
+                pausebut.innerHTML = 'PAUSE';
             }
         }
     });
