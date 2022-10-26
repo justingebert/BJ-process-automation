@@ -1,3 +1,5 @@
+import * as qrcode from 'html5-qrcode';
+
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -246,4 +248,20 @@ async function getInfo(e:any) {
 }
 
 
+let resultContainer = document.getElementById('qr-reader-results');
+let lastResult = 0;
+let countResults = 0;
+
+function onScanSuccess(decodedText, decodedResult) {
+    if (decodedText !== lastResult) {
+        ++countResults;
+        lastResult = decodedText;
+        // Handle on success condition with the decoded message.
+        console.log(`Scan result ${decodedText}`, decodedResult);
+    }
+}
+
+let html5QrcodeScanner = new Html5QrcodeScanner(
+    "qr-reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess);
 //not used
