@@ -15,8 +15,11 @@
   </div>
 
 
-  <div id="qr-reader" style="width:500px"></div>
-  <div id="qr-reader-results"></div>
+  <div class="input-field">
+    <label for="isbn_input">EAN:</label>
+    <input id="isbn_input" class="isbn" type="text" />
+    <button type="button" class="icon-barcode button scan"> </button>
+  </div>
 
 
   <div id="form">
@@ -86,6 +89,7 @@
   </div>
 
   <script src="/browser.js"></script>
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/quagga.js"></script>
 </body>
+
 </html>
