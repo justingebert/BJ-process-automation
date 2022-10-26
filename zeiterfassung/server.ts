@@ -291,15 +291,8 @@ function createXLSX(data:any){
     console.log("created");
 }
 
-
-
-
-
-
 //not used 
 /* 
-
-
 
 function getJsonStructure(){
     let workbook = XLSX.readFile("test.xlsx");

@@ -1,5 +1,3 @@
-import * as qrcode from 'html5-qrcode';
-
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -24,10 +22,8 @@ class Zeit{
 }
 
 
-
-//todo auftragsnummer + modellnummer (welcher endartikel?)
-//todo arbeitsschritt sollzeit
-//todo richtzeit in interface 
+//todo arbeitsschritt sollzeit ???
+//todo richtzeit in interface ???
 
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
@@ -38,29 +34,34 @@ let arbeitsplatz:number;
 
 let curData: any;
 
+let timerCollection: any = [];
+
+
 function getArbeitsplatz(): void{
     if(arbeitsplatzInput !== null){
         arbeitsplatz = parseInt(arbeitsplatzInput.value);
+    }else{
+        arbeitsplatz = 0;
     }
 }
 
 //update Buttons for current Timer
 async function updateUI(){
     //get info if timer is running
-    await getArbeitsplatz();
-    await getInfo(arbeitsplatz);
-    if(curData == null){
-        startbutton.innerHTML = "START";
-        pausebutton.innerHTML = "PAUSE";
-    }else{
-        startbutton.innerHTML = "STOP";
-        console.log(curData);   
-        if(curData.paused){
-            pausebutton.innerHTML = 'RESUME';
-        }else if(!curData.paused){
-            pausebutton.innerHTML = 'PAUSE';
-        }    
-    }
+        await getArbeitsplatz();
+        await getInfo(arbeitsplatz);
+        if(curData == null){
+            startbutton.innerHTML = "START";
+            pausebutton.innerHTML = "PAUSE";
+        }else{
+            startbutton.innerHTML = "STOP";
+            console.log(curData);   
+            if(curData.paused){
+                pausebutton.innerHTML = 'RESUME';
+            }else if(!curData.paused){
+                pausebutton.innerHTML = 'PAUSE';
+            }    
+        } 
 }
 
 //todo stop stays when arbeitsplatz is empty
@@ -76,6 +77,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     const obj = new Zeit();
                     obj.stop = false;
                     await postInfo(obj);
+                    
                 }
             }else if(startbutton.innerHTML == 'STOP'){
                 if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
@@ -83,6 +85,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     const obj =  timerCollection[arbeitsplatz]
                     obj.stop = true;
                     await postInfo(obj);
+                    
                     startbutton.innerHTML = "START";
                 }
             }
@@ -113,7 +116,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 //todo update zeit
 
-let timerCollection: any = [];
+
 //todo interrate over intefaceData and create interfaceses ++ update Time
  setInterval(async()=>{
     await getInfo(0);
@@ -124,6 +127,7 @@ let timerCollection: any = [];
         if(obj != null && obj.interface == true && hasInterface == null){
             const id = obj.arbeitsplatz;
             await createTimerInferface(id);
+            
             obj.interface = true;
             await postInfo(obj);
         }
@@ -139,11 +143,14 @@ let timerCollection: any = [];
         if(obj == null && hasInterface){
             await removeTimerInterface(i);
         }
-        
+       
     }
-},5000);
- 
-//todo fix ms not / 1000
+    if(timerCollection.length === 0){
+        await removeAllInterfaces();
+    }
+},2000);
+
+
 
 function padTo2Digits(num:any) {
     return num.toString().padStart(2, '0');
@@ -186,6 +193,7 @@ function createTimerInferface(id:any){
                     console.log(id);
                     obj.stop = true;
                     await postInfo(obj);
+                    ;
                 }
     })
 
@@ -212,6 +220,13 @@ function createTimerInferface(id:any){
 function removeTimerInterface(id: any){
     let removeInterface:any = document.getElementById(id);
     removeInterface.remove();
+}
+
+function removeAllInterfaces(){
+    let removeInterface:any = document.getElementById('running');
+    if(removeInterface != null){
+        removeInterface.innerHTML = '';
+    }
 }
 
 
@@ -244,24 +259,5 @@ async function getInfo(e:any) {
     }else{
         timerCollection[e] = data;
     }
-    console.log(timerCollection);
+    //console.log(timerCollection);
 }
-
-
-let resultContainer = document.getElementById('qr-reader-results');
-let lastResult = 0;
-let countResults = 0;
-
-function onScanSuccess(decodedText, decodedResult) {
-    if (decodedText !== lastResult) {
-        ++countResults;
-        lastResult = decodedText;
-        // Handle on success condition with the decoded message.
-        console.log(`Scan result ${decodedText}`, decodedResult);
-    }
-}
-
-let html5QrcodeScanner = new Html5QrcodeScanner(
-    "qr-reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess);
-//not used
