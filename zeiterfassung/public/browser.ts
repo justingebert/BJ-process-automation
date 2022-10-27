@@ -1,4 +1,4 @@
-//const Quagga = require('quagga').default;
+/* const Quagga = require('quagga').default; */
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -236,8 +236,10 @@ const baseUrl = '/';
 //const baseUrl2 = '/';
 
 
+const baseUrl2 = 'https://localhost';
+
 async function postInfo(e:Zeit) {
-    const res = await fetch(baseUrl,
+    const res = await fetch(baseUrl2,
     {
         method: 'POST',
         headers: {
@@ -250,7 +252,7 @@ async function postInfo(e:Zeit) {
 
 async function getInfo(e:any) {
 
-    const res = await fetch(baseUrl + e,{
+    const res = await fetch(baseUrl2 + e,{
         method: 'GET'
     });
     const data = await res.json();
@@ -263,84 +265,20 @@ async function getInfo(e:any) {
     //console.log(timerCollection);
 }
 
-/* let Quagga = window.Quagga;
-let App = {
-    _scanner: null,
-    init: function() {
-        this.attachListeners();
+/* Quagga.init({
+    inputStream : {
+      name : "Live",
+      type : "LiveStream",
+      target: document.querySelector('#isbn_input')    // Or '#yourElement' (optional)
     },
-    activateScanner: function() {
-        let scanner = this.configureScanner('.overlay__content'),
-            onDetected = function (result) {
-                document.querySelector('input.isbn').value = result.codeResult.code;
-                stop();
-            }.bind(this),
-            stop = function() {
-                scanner.stop();  // should also clear all event-listeners?
-                scanner.removeEventListener('detected', onDetected);
-                this.hideOverlay();
-                this.attachListeners();
-            }.bind(this);
-
-        this.showOverlay(stop);
-        scanner.addEventListener('detected', onDetected).start();
-    },
-    attachListeners: function() {
-        let self = this,
-            button = document.querySelector('.input-field input + button.scan');
-
-        button.addEventListener("click", function onClick(e) {
-            e.preventDefault();
-            button.removeEventListener("click", onClick);
-            self.activateScanner();
-        });
-    },
-    showOverlay: function(cancelCb) {
-        if (!this._overlay) {
-            let content = document.createElement('div'),
-                closeButton = document.createElement('div');
-
-            closeButton.appendChild(document.createTextNode('X'));
-            content.className = 'overlay__content';
-            closeButton.className = 'overlay__close';
-            this._overlay = document.createElement('div');
-            this._overlay.className = 'overlay';
-            this._overlay.appendChild(content);
-            content.appendChild(closeButton);
-            closeButton.addEventListener('click', function closeClick() {
-                closeButton.removeEventListener('click', closeClick);
-                cancelCb();
-            });
-            document.body.appendChild(this._overlay);
-        } else {
-            let closeButton = document.querySelector('.overlay__close');
-            closeButton.addEventListener('click', function closeClick() {
-                closeButton.removeEventListener('click', closeClick);
-                cancelCb();
-            });
-        }
-        this._overlay.style.display = "block";
-    },
-    hideOverlay: function() {
-        if (this._overlay) {
-            this._overlay.style.display = "none";
-        }
-    },
-    configureScanner: function(selector) {
-        if (!this._scanner) {
-            this._scanner = Quagga
-                .decoder({readers: ['ean_reader']})
-                .locator({patchSize: 'medium'})
-                .fromVideo({
-                    target: selector,
-                    constraints: {
-                        width: 800,
-                        height: 600,
-                        facingMode: "environment"
-                    }
-                });
-        }
-        return this._scanner;
+    decoder : {
+      readers : ["code_128_reader"]
     }
-};
-App.init(); */
+  }, function(err:any) {
+      if (err) {
+          console.log(err);
+          return
+      }
+      console.log("Initialization finished. Ready to start");
+      Quagga.start();
+  }); */

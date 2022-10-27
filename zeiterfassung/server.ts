@@ -7,10 +7,11 @@ const ip = require("ip");
 import { json } from 'stream/consumers';
 
 const port = 80;
-const curIP = ip.address();
+//const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
+let curIP = 'localhost';
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
+
 
 
 let curData: any;
