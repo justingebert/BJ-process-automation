@@ -1,4 +1,4 @@
-/* const Quagga = require('quagga').default; */
+//let Quagga = require('quagga').default;
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -239,7 +239,7 @@ const baseUrl = '/';
 const baseUrl2 = 'https://localhost';
 
 async function postInfo(e:Zeit) {
-    const res = await fetch(baseUrl2,
+    const res = await fetch(baseUrl,
     {
         method: 'POST',
         headers: {
@@ -252,7 +252,7 @@ async function postInfo(e:Zeit) {
 
 async function getInfo(e:any) {
 
-    const res = await fetch(baseUrl2 + e,{
+    const res = await fetch(baseUrl + e,{
         method: 'GET'
     });
     const data = await res.json();
@@ -264,21 +264,3 @@ async function getInfo(e:any) {
     }
     //console.log(timerCollection);
 }
-
-/* Quagga.init({
-    inputStream : {
-      name : "Live",
-      type : "LiveStream",
-      target: document.querySelector('#isbn_input')    // Or '#yourElement' (optional)
-    },
-    decoder : {
-      readers : ["code_128_reader"]
-    }
-  }, function(err:any) {
-      if (err) {
-          console.log(err);
-          return
-      }
-      console.log("Initialization finished. Ready to start");
-      Quagga.start();
-  }); */

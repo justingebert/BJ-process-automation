@@ -4,14 +4,22 @@ import XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
 const ip = require("ip");
+const https = require("https");
 import { json } from 'stream/consumers';
 
 const port = 80;
-//const curIP = ip.address();
+const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-let curIP = 'localhost';
+//let curIP = 'localhost';
+
+
+const sslServer = https.createServer({
+    key: '',
+    cert: '',
+
+},app)
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))
@@ -19,8 +27,9 @@ app.use(express.static(path.join(__dirname,'/public')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
+sslServer.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
 
+//req -new -key key.pem -out csr.pem
 
 
 let curData: any;
