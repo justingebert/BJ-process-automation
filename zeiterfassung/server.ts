@@ -7,7 +7,7 @@ const ip = require("ip");
 const https = require("https");
 import { json } from 'stream/consumers';
 
-const port = 80;
+const port = 8080;
 const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
@@ -16,10 +16,10 @@ const curIP = ip.address();
 
 
 const sslServer = https.createServer({
-    key: '',
-    cert: '',
-
+    key: fs.readFileSync(path.join(__dirname, 'cert','key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert','cert.pem')),
 },app)
+
 
 //provide static html
 app.use(express.static(path.join(__dirname,'/public')))

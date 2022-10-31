@@ -134,5 +134,8 @@ dist
 
 #Exclude tsc generated files
 
-*.js
+browser.js
+server.js
+rt.js
+data.js
 *.xlsx
