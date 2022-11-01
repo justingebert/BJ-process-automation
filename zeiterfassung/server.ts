@@ -8,11 +8,11 @@ const https = require("https");
 import { json } from 'stream/consumers';
 
 const port = 8080;
-const curIP = ip.address();
+//const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-//let curIP = 'localhost';
+let curIP = 'localhost';
 
 
 const sslServer = https.createServer({
@@ -22,14 +22,23 @@ const sslServer = https.createServer({
 
 
 //provide static html
-app.use(express.static(path.join(__dirname,'/public')))
+
 //revcieve json
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "views")));
 
 sslServer.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
 
+app.get('/:id',function(req,res){
+    let idAP = req.params.id;
+    res.render("index", {idAP: idAP});
+    
+})
 //req -new -key key.pem -out csr.pem
+
+
 
 
 let curData: any;

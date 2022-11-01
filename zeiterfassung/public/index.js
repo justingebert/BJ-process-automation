@@ -7,7 +7,7 @@ var App = {
     activateScanner: function() {
         var scanner = this.configureScanner('.overlay__content'),
             onDetected = function (result) {
-                document.querySelector('input.hasBut').value = result.codeResult.code;
+                document.querySelector('input.').value = result.codeResult.code;
                 stop();
             }.bind(this),
             stop = function() {
