@@ -8,11 +8,11 @@ const https = require("https");
 import { json } from 'stream/consumers';
 
 const port = 8080;
-//const curIP = ip.address();
+const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-let curIP = 'localhost';
+//let curIP = 'localhost';
 
 
 const sslServer = https.createServer({
@@ -21,19 +21,24 @@ const sslServer = https.createServer({
 },app)
 
 
+
+
 //provide static html
 
 //revcieve json
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.set('views', path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "views")));
+app.use(express.static(path.join(__dirname, "public")));
 
-sslServer.listen(port, curIP, () => {console.log(`live on ${curIP}:${port}`)})
+sslServer.listen(port, curIP, () => {console.log(`live on https://${curIP}:${port}`)})
+
+
 
 app.get('/:id',function(req,res){
     let idAP = req.params.id;
-    res.render("index", {idAP: idAP});
+    res.render('index',{user: idAP});
     
 })
 //req -new -key key.pem -out csr.pem
@@ -46,10 +51,10 @@ let curData: any;
 let timerCollection:any = [];
 
 
-app.get('/:dynamic',(req:any,res:any)=>{
+app.get('/data/:dynamic',(req:any,res:any)=>{
     //res.sendFile(path.join(__dirname,'public/index.html'));
     const {dynamic} = req.params;
-    console.log(dynamic);
+    //console.log(dynamic);
     if(dynamic == 0){   
         //timerCollection.filter(x => x !== null);
         for(let i = 1;i<timerCollection.length;i++){
@@ -71,7 +76,8 @@ app.get('/:dynamic',(req:any,res:any)=>{
     //res.download(excel file) send excel file to device
 }) 
 
-app.post('/', async (req:any,res:any) => {
+
+app.post('/:id', async (req:any,res:any) => {
     const parcel = req.body;
     if(!parcel){
         return res.status(400).send({status: 'failed'});
