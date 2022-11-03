@@ -1,4 +1,3 @@
-//let Quagga = require('quagga').default;
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -30,7 +29,7 @@ const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
 
 const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
-arbeitsplatzInput.addEventListener('change',updateUI);
+//arbeitsplatzInput.addEventListener('change',updateUI);
 let arbeitsplatz:number;
 
 let curData: any;
@@ -56,7 +55,7 @@ async function updateUI(){
             pausebutton.innerHTML = "PAUSE";
         }else{
             startbutton.innerHTML = "STOP";
-            console.log(curData);   
+            
             if(curData.paused){
                 pausebutton.innerHTML = 'RESUME';
             }else if(!curData.paused){
@@ -64,6 +63,7 @@ async function updateUI(){
             }    
         } 
 }
+
 
 //todo stop stays when arbeitsplatz is empty
 //todo when stopped on interface mainbutton doesnt change 
@@ -90,7 +90,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     startbutton.innerHTML = "START";
                 }
             }
-                arbeitsplatzInput.value = '';
+                //arbeitsplatzInput.value = '';
         }
     });
 
@@ -119,8 +119,9 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 
 //todo interrate over intefaceData and create interfaceses ++ update Time
- setInterval(async()=>{
+setInterval(async()=>{
     await getInfo(0);
+    updateUI();
     for(let i = 1; i<timerCollection.length; i++){
         const obj = timerCollection[i];
         
@@ -232,14 +233,14 @@ function removeAllInterfaces(){
 
 
 //send to Server
-const baseUrl = '/';
+const baseUrl = '';
 //const baseUrl2 = '/';
 
 
 const baseUrl2 = 'https://localhost';
 
 async function postInfo(e:Zeit) {
-    const res = await fetch(baseUrl,
+    const res = await fetch(baseUrl + '/e',
     {
         method: 'POST',
         headers: {
@@ -252,7 +253,7 @@ async function postInfo(e:Zeit) {
 
 async function getInfo(e:any) {
 
-    const res = await fetch(baseUrl + e,{
+    const res = await fetch(baseUrl +'data/'+ e,{
         method: 'GET'
     });
     const data = await res.json();
