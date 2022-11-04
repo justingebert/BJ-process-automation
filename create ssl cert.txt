@@ -1,0 +1,13 @@
+openssl
+
+mkdir cert
+
+cd cert
+
+openssl
+
+genrsa -out key.pem
+
+req -new -key key.pem -out csr.pem
+
+509x -req -days 365 -in csr.pem -signkey key.pem -out cert.pem

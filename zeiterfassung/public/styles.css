@@ -14,6 +14,7 @@
     margin: auto;
 }
 body{
+    
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
     Helvetica, Arial, sans-serif;
     font-weight: 400;
@@ -29,6 +30,11 @@ body{
 #logo{
     width: 220px;
     margin: 10px 0 20px 0;
+}
+
+#barcode{
+    width: 25px;
+    margin-top: -2px;
 }
 
 /* MAIN BUTTONS */
@@ -58,6 +64,26 @@ form{
 .input{
     display: grid;
     grid-template-rows: 30% 70%;
+    height: 65px;
+    margin-top: -5px;
+}
+
+
+.input .hasBut{
+    grid-row: 2;
+}
+
+.scanbut{
+    display: flex;
+    justify-content: center;
+    width: 35px;
+    height: 25px;
+    grid-row: 2;
+    margin-left: -42px;
+    margin-top: 5px;
+    border: 1px solid rgb(78, 78, 78);
+    border-radius: 3px;
+    
     
 }
 
@@ -82,8 +108,7 @@ input{
     padding: 12px 20px;
     margin: 0px 0px 10px 0px;
     border: 2px solid rgb(87, 86, 86);
-    border-radius: 4px;
-    
+    border-radius: 4px;  
 }
 
 
