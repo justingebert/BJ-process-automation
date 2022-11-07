@@ -7,12 +7,12 @@ const ip = require("ip");
 const https = require("https");
 import { json } from 'stream/consumers';
 
-const port = 8080;
-const curIP = ip.address();
+const port = 50055;
+//const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-//let curIP = 'localhost';
+let curIP = 'localhost';
 
 
 const sslServer = https.createServer({
@@ -36,12 +36,29 @@ sslServer.listen(port, curIP, () => {console.log(`live on https://${curIP}:${por
 
 
 
-app.get('/:id',function(req,res){
-    let idAP = req.params.id;
-    res.render('index',{user: idAP});
+
+app.get('/arbeitsplatz/:id',function(req,res){
+   
+        let idAP = req.params.id;
+        res.render('index',{user: idAP});
+    
+    
     
 })
 //req -new -key key.pem -out csr.pem
+
+app.get('/download',function(req,res){
+    console.log(req.body);
+    const file = `${__dirname}/${pathExcel}`;
+    console.log("works");
+    res.download("index.html");
+    res.send("hello")
+})
+
+
+
+
+
 
 
 
@@ -104,7 +121,7 @@ app.post('/:id', async (req:any,res:any) => {
             await createORappend(curData)
             res.send({status: 'timer stopped'});
             timerCollection[timerID] = null;
-            cleanArray(timerCollection);
+            //cleanArray(timerCollection);
             //todo clear array size
             
         }

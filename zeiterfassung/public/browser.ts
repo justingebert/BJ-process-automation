@@ -27,6 +27,7 @@ class Zeit{
 
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
+const downloadbutton: any = document.querySelector("#downloadbutton");
 
 const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
 //arbeitsplatzInput.addEventListener('change',updateUI);
@@ -66,7 +67,7 @@ async function updateUI(){
 
 
 //todo stop stays when arbeitsplatz is empty
-//todo when stopped on interface mainbutton doesnt change 
+
 
 //button listeners
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
@@ -113,6 +114,14 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
             arbeitsplatzInput.value = '';
         }
     });
+}
+
+//downloadbutton listneer
+if(typeof window !== 'undefined' && downloadbutton !== null){
+    downloadbutton.addEventListener("click", async() => { 
+        await getExcel();
+        console.log("test");
+    })
 }
 
 //todo update zeit
@@ -237,6 +246,12 @@ const baseUrl = '';
 //const baseUrl2 = '/';
 
 
+function getCurURL(){
+    return window.location.href;
+}
+
+const url = getCurURL;
+
 const baseUrl2 = 'https://localhost';
 
 async function postInfo(e:Zeit) {
@@ -265,3 +280,13 @@ async function getInfo(e:any) {
     }
     //console.log(timerCollection);
 }
+
+async function getExcel() {
+    const res = await fetch(baseUrl + '/download',{
+        method: 'GET'
+    });
+    let data = res;
+    console.log(data);
+    }
+
+
