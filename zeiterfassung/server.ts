@@ -8,18 +8,17 @@ const https = require("https");
 import { json } from 'stream/consumers';
 
 const port = 50055;
-//const curIP = ip.address();
+const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-let curIP = 'localhost';
+//let curIP = 'localhost';
 
 
 const sslServer = https.createServer({
     key: fs.readFileSync(path.join(__dirname, 'cert','key.pem')),
     cert: fs.readFileSync(path.join(__dirname, 'cert','cert.pem')),
 },app)
-
 
 
 
@@ -38,37 +37,25 @@ sslServer.listen(port, curIP, () => {console.log(`live on https://${curIP}:${por
 
 
 app.get('/arbeitsplatz/:id',function(req,res){
-   
         let idAP = req.params.id;
         res.render('index',{user: idAP});
-    
-    
     
 })
 //req -new -key key.pem -out csr.pem
 
-app.get('/download',function(req,res){
+/* app.get('/download',function(req,res){
     console.log(req.body);
     const file = `${__dirname}/${pathExcel}`;
     console.log("works");
     res.download("index.html");
     res.send("hello")
-})
-
-
-
-
-
-
-
-
+}) */
 
 let curData: any;
 
 let timerCollection:any = [];
 
-
-app.get('/data/:dynamic',(req:any,res:any)=>{
+app.get('/:arbeitsplatz/data/:dynamic',(req:any,res:any)=>{
     //res.sendFile(path.join(__dirname,'public/index.html'));
     const {dynamic} = req.params;
     //console.log(dynamic);

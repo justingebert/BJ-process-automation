@@ -27,7 +27,7 @@ class Zeit{
 
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
-const downloadbutton: any = document.querySelector("#downloadbutton");
+//const downloadbutton: any = document.querySelector("#downloadbutton");
 
 const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
 //arbeitsplatzInput.addEventListener('change',updateUI);
@@ -63,6 +63,22 @@ async function updateUI(){
                 pausebutton.innerHTML = 'PAUSE';
             }    
         } 
+}
+
+//convert ms to Time Format
+function padTo2Digits(num:any) {
+    return num.toString().padStart(2, '0');
+  }
+
+function msToTime(ms: number):string{
+    let sec = Math.floor(ms / 1000);
+    let min = Math.floor(sec / 60);
+    let h = Math.floor(min/60);
+
+    sec = sec % 60;
+    min = min % 60;
+
+    return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
 
 
@@ -117,67 +133,57 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 }
 
 //downloadbutton listneer
-if(typeof window !== 'undefined' && downloadbutton !== null){
+/* if(typeof window !== 'undefined' && downloadbutton !== null){
     downloadbutton.addEventListener("click", async() => { 
         await getExcel();
         console.log("test");
     })
+} */
+
+
+const user = document.getElementById('zeit');
+//SITE WITHOUT INTERFACES
+if(user === null){
+
+
 }
-
-//todo update zeit
-
-
-//todo interrate over intefaceData and create interfaceses ++ update Time
-setInterval(async()=>{
-    await getInfo(0);
-    updateUI();
-    for(let i = 1; i<timerCollection.length; i++){
-        const obj = timerCollection[i];
-        
-        let hasInterface:any = document.getElementById(String(i)); 
-        if(obj != null && obj.interface == true && hasInterface == null){
-            const id = obj.arbeitsplatz;
-            await createTimerInferface(id);
+//SITE WITH INTERFACES
+else{
+    //update interfaces and timercollection
+    setInterval(async()=>{
+        await getInfo(0);
+        updateUI();
+        for(let i = 1; i<timerCollection.length; i++){
+            const obj = timerCollection[i];
             
-            obj.interface = true;
-            await postInfo(obj);
-        }
-        if(obj != null && hasInterface){
-            const zeit = msToTime(obj.zeit);
-            hasInterface.querySelectorAll("p")[1].textContent = `Zeit: ${zeit}`;
-            if(obj.paused){
-                hasInterface.querySelectorAll("button")[1].innerHTML = "RESUME";
-            }else if(!obj.paused){
-                hasInterface.querySelectorAll("button")[1].innerHTML = "PAUSE";
+            let hasInterface:any = document.getElementById(String(i)); 
+            if(obj != null && obj.interface == true && hasInterface == null){
+                const id = obj.arbeitsplatz;
+                await createTimerInferface(id);
+                
+                obj.interface = true;
+                await postInfo(obj);
             }
+            if(obj != null && hasInterface){
+                const zeit = msToTime(obj.zeit);
+                hasInterface.querySelectorAll("p")[1].textContent = `Zeit: ${zeit}`;
+                if(obj.paused){
+                    hasInterface.querySelectorAll("button")[1].innerHTML = "RESUME";
+                }else if(!obj.paused){
+                    hasInterface.querySelectorAll("button")[1].innerHTML = "PAUSE";
+                }
+            }
+            if(obj == null && hasInterface){
+                await removeTimerInterface(i);
+            }
+           
         }
-        if(obj == null && hasInterface){
-            await removeTimerInterface(i);
+        if(timerCollection.length === 0){
+            await removeAllInterfaces();
         }
-       
-    }
-    if(timerCollection.length === 0){
-        await removeAllInterfaces();
-    }
-},2000);
+    },2000);
 
-
-
-function padTo2Digits(num:any) {
-    return num.toString().padStart(2, '0');
-  }
-
-function msToTime(ms: number):string{
-    let sec = Math.floor(ms / 1000);
-    let min = Math.floor(sec / 60);
-    let h = Math.floor(min/60);
-
-    sec = sec % 60;
-    min = min % 60;
-
-    return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
-
 
 //manipulate html
 function createTimerInferface(id:any){
@@ -227,7 +233,6 @@ function createTimerInferface(id:any){
     area.appendChild(clone);
 }
 
-
 function removeTimerInterface(id: any){
     let removeInterface:any = document.getElementById(id);
     removeInterface.remove();
@@ -241,6 +246,10 @@ function removeAllInterfaces(){
 }
 
 
+
+
+
+
 //send to Server
 const baseUrl = '';
 //const baseUrl2 = '/';
@@ -250,7 +259,8 @@ function getCurURL(){
     return window.location.href;
 }
 
-const url = getCurURL;
+const url = getCurURL();
+console.log(url)
 
 const baseUrl2 = 'https://localhost';
 
@@ -268,7 +278,7 @@ async function postInfo(e:Zeit) {
 
 async function getInfo(e:any) {
 
-    const res = await fetch(baseUrl +'data/'+ e,{
+    const res = await fetch(baseUrl +'/arbeitsplatz/data/'+ e,{
         method: 'GET'
     });
     const data = await res.json();
