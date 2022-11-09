@@ -51,15 +51,14 @@ async function updateUI(){
     //get info if timer is running
         await getArbeitsplatz();
         await getInfo(arbeitsplatz);
-        if(curData == null){
+        if(timerCollection[arbeitsplatz] == null){
             startbutton.innerHTML = "START";
             pausebutton.innerHTML = "PAUSE";
         }else{
             startbutton.innerHTML = "STOP";
-            
-            if(curData.paused){
+            if(timerCollection[arbeitsplatz].paused){
                 pausebutton.innerHTML = 'RESUME';
-            }else if(!curData.paused){
+            }else if(!timerCollection[arbeitsplatz].paused){
                 pausebutton.innerHTML = 'PAUSE';
             }    
         } 
@@ -95,7 +94,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     const obj = new Zeit();
                     obj.stop = false;
                     await postInfo(obj);
-                    
+                    startbutton.innerHTML = "STOP";
                 }
             }else if(startbutton.innerHTML == 'STOP'){
                 if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
@@ -127,7 +126,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
                     pausebutton.innerHTML = 'PAUSE';
                 }
             }
-            arbeitsplatzInput.value = '';
+            //arbeitsplatzInput.value = '';
         }
     });
 }
@@ -142,13 +141,10 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
 
 
 const user = document.getElementById('zeit');
-//SITE WITHOUT INTERFACES
+
+//SITE WITH INTERFACES
 if(user === null){
 
-
-}
-//SITE WITH INTERFACES
-else{
     //update interfaces and timercollection
     setInterval(async()=>{
         await getInfo(0);
@@ -183,6 +179,23 @@ else{
         }
     },2000);
 
+}
+//SITE WITHOUT INTERFACES
+else{
+    setInterval(async () => {
+        await getInfo(0);
+        await updateUI
+        getArbeitsplatz();
+        //console.log(timerCollection)
+        //console.log(curData)
+        if(timerCollection[arbeitsplatz] != null){
+            const obj = timerCollection[arbeitsplatz];
+        const zeit = msToTime(obj.zeit);
+        user.innerHTML = `Zeit: ${zeit}`;
+        }else{
+            user.innerHTML = `Zeit: 00:00:00`;
+        }
+    },1000);
 }
 
 //manipulate html

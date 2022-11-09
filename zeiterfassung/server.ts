@@ -21,7 +21,6 @@ const sslServer = https.createServer({
 },app)
 
 
-
 //provide static html
 
 //revcieve json
@@ -32,9 +31,6 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 sslServer.listen(port, curIP, () => {console.log(`live on https://${curIP}:${port}`)})
-
-
-
 
 app.get('/arbeitsplatz/:id',function(req,res){
         let idAP = req.params.id;
