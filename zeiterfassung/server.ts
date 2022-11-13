@@ -77,6 +77,7 @@ app.get('/:arbeitsplatz/data/:dynamic',(req:any,res:any)=>{
 }) 
 
 
+
 app.post('/:id', async (req:any,res:any) => {
     const parcel = req.body;
     if(!parcel){
@@ -123,13 +124,18 @@ app.post('/:id', async (req:any,res:any) => {
             timerCollection[timerID] = obj;
         }
     }
+
     //create zeit instance if Start otherwise stop -> Store in Array
+
 
     /* prepareData(parcel);
     curData = Object.values(parcel);
     createORappend(curData);
     console.log('recieved'); */
 }) 
+
+
+
 
 function cleanArray(arr: Array<Object>):void{
     let arrlen = arr.length;
@@ -279,16 +285,16 @@ function prepareData(data:any){
     delete data.pause;
     delete data.stop;
     delete data.interface;
-    if(data.istmenge != null){
-        data.artikelzeit = msToTime(data.zeit/data.istmenge);
-    }else{
-        data.artikelzeit = msToTime(data.zeit/data.sollmenge);
-    }
+    data.artikelzeit = msToTime(data.zeit/data.istmenge);
+    
     data.zeit = msToTime(data.zeit);
     delete data.sollmenge;
     delete data.istmenge;
     //delte whats not in data top
 }
+
+
+
 
 function padTo2Digits(num:any) {
     return num.toString().padStart(2, '0');

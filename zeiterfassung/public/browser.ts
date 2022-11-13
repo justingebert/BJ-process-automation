@@ -1,4 +1,3 @@
-
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -57,6 +56,7 @@ async function updateUI(){
         await getArbeitsplatz();
         await getInfo(arbeitsplatz);
         if(timerCollection[arbeitsplatz] == null){
+           
             startbutton.innerHTML = "START";
             pausebutton.innerHTML = "PAUSE";
         }else{
@@ -106,27 +106,42 @@ function msToTime(ms: number):string{
 //todo stop stays when arbeitsplatz is empty
 
 //start & stop button with input checking
+const istMengeInput:HTMLInputElement | any = document.getElementById('IstMenge');
+
 const form:any = document.getElementById('formwinputs');
 async function handleForm(event:Event) { 
     event.preventDefault(); 
+    
     if(startbutton.innerHTML == 'START'){
         if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
+            
             const obj = new Zeit();
             obj.stop = false;
-            await postInfo(obj);
+            //console.log("hallo")
             startbutton.innerHTML = "STOP";
-        }
-    }else if(startbutton.innerHTML == 'STOP'){
-        if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-            await getInfo(arbeitsplatz)
-            const inputobj = new Zeit();
-            copyData(inputobj); 
-            const obj =  timerCollection[arbeitsplatz]
-            obj.stop = true;
             await postInfo(obj);
             
-            startbutton.innerHTML = "START";
+            
         }
+    }else if(startbutton.innerHTML == 'STOP'){
+        const istMengeValue = istMengeInput.value;
+        
+        if(istMengeValue != ''){
+            if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
+                await getInfo(arbeitsplatz)
+                const inputobj = new Zeit();
+                copyData(inputobj); 
+                const obj =  timerCollection[arbeitsplatz]
+                obj.stop = true;
+                await postInfo(obj);
+                startbutton.innerHTML = "START";
+            }
+        }else{
+            alert("Istmenge ausfüllen!");   
+           
+            
+        }
+        //sollmenge nicht ausgefuellt? fehlermeldung 
     }
 
 } 
@@ -291,7 +306,7 @@ function getCurURL(){
 }
 
 const url = getCurURL();
-console.log(url)
+//console.log(url)
 
 const baseUrl2 = 'https://localhost';
 
