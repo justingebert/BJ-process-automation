@@ -8,11 +8,11 @@ const https = require("https");
 import { json } from 'stream/consumers';
 
 const port = 50055;
-const curIP = ip.address();
+//const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-//let curIP = 'localhost';
+let curIP = 'localhost';
 
 
 const sslServer = https.createServer({
@@ -32,12 +32,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 sslServer.listen(port, curIP, () => {console.log(`live on https://${curIP}:${port}`)})
 
+
 app.get('/arbeitsplatz/:id',function(req,res){
         let idAP = req.params.id;
         res.render('index',{user: idAP});
     
 })
-//req -new -key key.pem -out csr.pem
 
 /* app.get('/download',function(req,res){
     console.log(req.body);
@@ -86,15 +86,18 @@ app.post('/:id', async (req:any,res:any) => {
 
     const timerID = parcel.arbeitsplatz;
     let obj:Zeit = timerCollection[timerID];
-    
+    //copy inputs and start timer
     if(obj == null && parcel.stop == false){
         obj = copyParameters(parcel);
         obj.startTimer();
         obj.interface = true;
         timerCollection[timerID] = obj;
-        res.send({status: 'timer startet'});
-    }else if(obj != null){ 
+    }
+    //place has already been filled with data
+    else if(obj != null){ 
+        //stop timer
         if(parcel.stop){
+            copyToExisting(parcel,obj);
             obj.stopTimer();
             obj.interface = false;
             //console.log(JSON.stringify(obj));
@@ -108,18 +111,19 @@ app.post('/:id', async (req:any,res:any) => {
             //todo clear array size
             
         }
+        //pause timer
         if(!obj.paused && parcel.pause){
             obj.pauseTimer();
             console.log("test");
             timerCollection[timerID] = obj;
         }
+        //resume timer
         if(obj.paused && !parcel.pause){
             obj.resumeTimer();
             timerCollection[timerID] = obj;
         }
     }
     //create zeit instance if Start otherwise stop -> Store in Array
-
 
     /* prepareData(parcel);
     curData = Object.values(parcel);
@@ -232,6 +236,18 @@ function copyParameters(obj:any): Zeit{
     timer.notiz = obj.notiz;
     timer.interface = obj.interface;
     return timer;
+}
+
+function copyToExisting(obj:any,goal:Zeit){
+    goal.arbeitsplatz = obj.arbeitsplatz;
+    goal.arbeitskraft = obj.arbeitskraft;
+    goal.auftragsnummer = obj.auftragsnummer;
+    goal.modellnummer = obj.modellnummer;
+    goal.arbeitschritt = obj.arbeitschritt;
+    goal.sollmenge = obj.sollmenge;
+    goal.istmenge = obj.istmenge;
+    goal.notiz = obj.notiz;
+    goal.interface = obj.interface;
 }
 //check if website is requested -> if event stop pressed send object or json to server
 //put data into table /caculate values

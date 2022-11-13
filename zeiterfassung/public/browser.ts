@@ -1,3 +1,4 @@
+
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -21,7 +22,6 @@ class Zeit{
     interface: boolean = false;
 }
 
-
 //todo arbeitsschritt sollzeit ???
 //todo richtzeit in interface ???
 
@@ -38,12 +38,17 @@ let curData: any;
 let timerCollection: any = [];
 
 
+
 function getArbeitsplatz(): void{
     if(arbeitsplatzInput !== null){
         arbeitsplatz = parseInt(arbeitsplatzInput.value);
     }else{
         arbeitsplatz = 0;
     }
+}
+
+function inputsValid(){
+    
 }
 
 //update Buttons for current Timer
@@ -62,6 +67,23 @@ async function updateUI(){
                 pausebutton.innerHTML = 'PAUSE';
             }    
         } 
+}
+
+
+function copyData(obj: Zeit){
+    const sendtimer:Zeit = timerCollection[obj.arbeitsplatz];
+    if(sendtimer != null){
+        sendtimer.arbeitsplatz = obj.arbeitsplatz;
+        sendtimer.arbeitskraft = obj.arbeitskraft;
+        sendtimer.auftragsnummer = obj.auftragsnummer;
+        sendtimer.modellnummer = obj.modellnummer;
+        sendtimer.arbeitschritt = obj.arbeitschritt;
+        sendtimer.sollmenge = obj.sollmenge;
+        sendtimer.istmenge = obj.istmenge;
+        sendtimer.notiz = obj.notiz;
+        sendtimer.interface = obj.interface;
+    }
+    timerCollection[obj.arbeitsplatz] = sendtimer;
 }
 
 //convert ms to Time Format
@@ -83,33 +105,35 @@ function msToTime(ms: number):string{
 
 //todo stop stays when arbeitsplatz is empty
 
+//start & stop button with input checking
+const form:any = document.getElementById('formwinputs');
+async function handleForm(event:Event) { 
+    event.preventDefault(); 
+    if(startbutton.innerHTML == 'START'){
+        if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
+            const obj = new Zeit();
+            obj.stop = false;
+            await postInfo(obj);
+            startbutton.innerHTML = "STOP";
+        }
+    }else if(startbutton.innerHTML == 'STOP'){
+        if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
+            await getInfo(arbeitsplatz)
+            const inputobj = new Zeit();
+            copyData(inputobj); 
+            const obj =  timerCollection[arbeitsplatz]
+            obj.stop = true;
+            await postInfo(obj);
+            
+            startbutton.innerHTML = "START";
+        }
+    }
+
+} 
+form.addEventListener('submit', handleForm);
 
 //button listeners
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
-
-    startbutton.addEventListener("click",async function() {
-        if(arbeitsplatzInput.validity.valid){
-            if(startbutton.innerHTML == 'START'){
-                if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
-                    const obj = new Zeit();
-                    obj.stop = false;
-                    await postInfo(obj);
-                    startbutton.innerHTML = "STOP";
-                }
-            }else if(startbutton.innerHTML == 'STOP'){
-                if (window.confirm(`Timer ${arbeitsplatz} Stoppen?`)){
-                    await getInfo(arbeitsplatz)
-                    const obj =  timerCollection[arbeitsplatz]
-                    obj.stop = true;
-                    await postInfo(obj);
-                    
-                    startbutton.innerHTML = "START";
-                }
-            }
-                //arbeitsplatzInput.value = '';
-        }
-    });
-
     pausebutton.addEventListener("click", () => {
         if(arbeitsplatzInput.validity.valid){
             const obj:Zeit = timerCollection[arbeitsplatz];
@@ -129,7 +153,7 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
             //arbeitsplatzInput.value = '';
         }
     });
-}
+} 
 
 //downloadbutton listneer
 /* if(typeof window !== 'undefined' && downloadbutton !== null){
@@ -258,15 +282,9 @@ function removeAllInterfaces(){
     }
 }
 
-
-
-
-
-
 //send to Server
 const baseUrl = '';
 //const baseUrl2 = '/';
-
 
 function getCurURL(){
     return window.location.href;
@@ -304,12 +322,12 @@ async function getInfo(e:any) {
     //console.log(timerCollection);
 }
 
-async function getExcel() {
+/* async function getExcel() {
     const res = await fetch(baseUrl + '/download',{
         method: 'GET'
     });
     let data = res;
     console.log(data);
-    }
-
+}
+ */
 
