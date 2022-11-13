@@ -8,11 +8,11 @@ const https = require("https");
 import { json } from 'stream/consumers';
 
 const port = 50055;
-//const curIP = ip.address();
+const curIP = ip.address();
 //const os = require('os');
 //const ip = os.networkInterfaces();
 
-let curIP = 'localhost';
+//let curIP = 'localhost';
 
 
 const sslServer = https.createServer({
