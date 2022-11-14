@@ -1,0 +1,10 @@
+Learning Docker - install an go though documentaiton tutorial
+
+commands:
+
+view containers: docker ps
+stop and remove container: docker rm -f <container-id>
+
+named volume:
+create volume: docker volume create todo-db
+start container and assign volume: docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
