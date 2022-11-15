@@ -256,14 +256,19 @@ function createTimerInferface(id:any){
     const obj = timerCollection[id];
 
     stopbut.addEventListener('click',async() => {
-        if (window.confirm(`Timer ${id} Stoppen?`)){
+        const istMengeValue = istMengeInput.value;
+        
+        if(istMengeValue != ''){
+            if (window.confirm(`Timer ${id} Stoppen?`)){
                     await getInfo(id)
                     const obj =  timerCollection[id]
                     console.log(id);
                     obj.stop = true;
                     await postInfo(obj);
-                    ;
-                }
+            }
+        }else{
+            alert("Istmenge ausfüllen!");   
+        }
     })
 
     pausebut.addEventListener("click", () => {

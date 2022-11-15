@@ -1,4 +1,14 @@
-Learning Docker - install an go though documentaiton tutorial
+LEARNING Javascript:
+Basics - Classes
+
+Fireship Videos
+
+
+
+
+
+LEARNING Docker:
+install an go though documentaiton tutorial
 
 commands:
 
@@ -8,3 +18,18 @@ stop and remove container: docker rm -f <container-id>
 named volume:
 create volume: docker volume create todo-db
 start container and assign volume: docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
+
+
+
+
+
+LEARNING DevOps CI/CD:
+
+CD - Continuos integration -> merge code in (with e.g testing etc)
+example: jest and webpack for pull request - set up with github action : yml file
+
+
+
+Problems-Solutions:
+Camera access -> browser requires ssl certificate
+
