@@ -110,14 +110,18 @@ app.post('/:id', async (req:any,res:any) => {
             //todo clear array size
         }
         //pause timer
+        console.log(obj)
         if(!obj.paused && parcel.pause){
             await obj.pauseTimer();
             timerCollection[timerID] = obj;
+            console.log(obj)
         }
         //resume timer
+        
         if(obj.paused && !parcel.pause){
             await obj.resumeTimer();
             timerCollection[timerID] = obj;
+            console.log(obj)
         }
     }
 

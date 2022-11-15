@@ -37,7 +37,6 @@ let curData: any;
 let timerCollection: any = [];
 
 
-
 function getArbeitsplatz(): void{
     if(arbeitsplatzInput !== null){
         arbeitsplatz = parseInt(arbeitsplatzInput.value);
@@ -155,13 +154,15 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
             const obj:Zeit = timerCollection[arbeitsplatz];
             if(pausebutton.innerHTML == 'PAUSE'){
                 if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
-                    obj.pause = true; 
+                    obj.pause = true;
+                    console.log(obj)
                     postInfo(obj);
                     pausebutton.innerHTML = 'RESUME';
                 }
             }else if(pausebutton.innerHTML == 'RESUME'){
                 if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
-                    obj.pause = false; 
+                    obj.pause = false;
+                    console.log(obj)
                     postInfo(obj);
                     pausebutton.innerHTML = 'PAUSE';
                 }
