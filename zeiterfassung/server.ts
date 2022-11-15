@@ -71,11 +71,9 @@ app.get('/:arbeitsplatz/data/:dynamic',(req:any,res:any)=>{
             res.json(null);
         }
     }
-
     //res.render('index.html');
     //res.download(excel file) send excel file to device
 }) 
-
 
 
 app.post('/:id', async (req:any,res:any) => {
@@ -110,31 +108,26 @@ app.post('/:id', async (req:any,res:any) => {
             timerCollection[timerID] = null;
             //cleanArray(timerCollection);
             //todo clear array size
-            
         }
         //pause timer
         if(!obj.paused && parcel.pause){
-            obj.pauseTimer();
-            console.log("test");
+            await obj.pauseTimer();
             timerCollection[timerID] = obj;
         }
         //resume timer
         if(obj.paused && !parcel.pause){
-            obj.resumeTimer();
+            await obj.resumeTimer();
             timerCollection[timerID] = obj;
         }
     }
 
     //create zeit instance if Start otherwise stop -> Store in Array
 
-
     /* prepareData(parcel);
     curData = Object.values(parcel);
     createORappend(curData);
     console.log('recieved'); */
 }) 
-
-
 
 
 function cleanArray(arr: Array<Object>):void{
@@ -260,7 +253,7 @@ function copyToExisting(obj:any,goal:Zeit){
 
 //start template Excel Datei - Erste Reihe
 const datatop = [
-    ["Arbeitsplatz", "Arbeitskraft","Auftrags-NR", "Modell-NR","Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel"],
+    ["Arbeitsplatz", "Arbeitskraft","Auftrags-NR", "Modell-NR","Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel","Datum"],
     ];
 
 const pathExcel = 'Erfassung.xlsx';
@@ -290,6 +283,7 @@ function prepareData(data:any){
     data.zeit = msToTime(data.zeit);
     delete data.sollmenge;
     delete data.istmenge;
+    data.date = new Date();
     //delte whats not in data top
 }
 

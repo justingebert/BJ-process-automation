@@ -149,8 +149,9 @@ form.addEventListener('submit', handleForm);
 
 //button listeners
 if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
-    pausebutton.addEventListener("click", () => {
+    pausebutton.addEventListener("click", async () => {
         if(arbeitsplatzInput.validity.valid){
+            await getInfo(arbeitsplatz)
             const obj:Zeit = timerCollection[arbeitsplatz];
             if(pausebutton.innerHTML == 'PAUSE'){
                 if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
@@ -271,7 +272,8 @@ function createTimerInferface(id:any){
         }
     })
 
-    pausebut.addEventListener("click", () => {
+    pausebut.addEventListener("click", async () => {
+        await getInfo(arbeitsplatz)
         if(pausebut.innerHTML == 'PAUSE'){
             if (window.confirm(`Timer ${id} Pausieren?`)){
                 obj.pause = true; 
