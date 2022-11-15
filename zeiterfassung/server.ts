@@ -326,7 +326,7 @@ function createXLSX(data:any){
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(datatop);
     console.log([data]);
-    XLSX.utils.sheet_add_json(worksheet,[data],{origin: -1});
+    XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
     const sheetname: string = String(data[1]);
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
     XLSX.writeFile(workbook, "Erfassung.xlsx");
