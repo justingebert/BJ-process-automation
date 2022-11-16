@@ -330,7 +330,7 @@ else{
 
 // * SERVER FUNCTIONS (communication)
 
-
+//send inputs to Server
 async function postInfo(e:Zeit) {
     const res = await fetch(baseUrl + '/e',
     {
@@ -343,6 +343,7 @@ async function postInfo(e:Zeit) {
     const content = await res.json();
 }
 
+//get timerData from Server
 async function getInfo(e:any) {
 
     const res = await fetch(baseUrl +'/arbeitsplatz/data/'+ e,{
