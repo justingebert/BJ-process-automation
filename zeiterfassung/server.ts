@@ -337,8 +337,19 @@ function createXLSX(data:any){
     console.log("created");
 }
 
+setInterval(()=>{
+    fs.copyFile("Erfassung.xlsx","../Erfassungcopy.xlsx",(err) => {
+        if (err){
+            throw err;
+        }
+        console.log('source.txt was copied to destination.txt');}
+    )
+},5000);
+
 //not used 
 /* 
+
+
 
 function getJsonStructure(){
     let workbook = XLSX.readFile("test.xlsx");

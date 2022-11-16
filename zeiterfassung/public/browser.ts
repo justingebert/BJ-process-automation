@@ -1,3 +1,7 @@
+
+//todo arbeitsschritt sollzeit ???
+//todo richtzeit in interface ???
+// * TIMER OBJECT TEMPLATE
 class Zeit{
     arbeitsplatz: number = parseInt((<HTMLInputElement>document.querySelector('#Arbeitsplatz')).value);
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
@@ -21,22 +25,34 @@ class Zeit{
     interface: boolean = false;
 }
 
-//todo arbeitsschritt sollzeit ???
-//todo richtzeit in interface ???
-
+// * ELEMENTS
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
 //const downloadbutton: any = document.querySelector("#downloadbutton");
 
 const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
+const istMengeInput:HTMLInputElement | any = document.getElementById('IstMenge');
+const form:any = document.getElementById('formwinputs');
+const user = document.getElementById('zeit');
+
+
 //arbeitsplatzInput.addEventListener('change',updateUI);
+
+// * VARIALBES
 let arbeitsplatz:number;
 
 let curData: any;
 
 let timerCollection: any = [];
 
+const url = getCurURL();
 
+const baseUrl = '';
+const baseUrlLocal = 'https://localhost';
+
+
+// * FUNCTIONS (DATA)
+//get current arbeitsplatzinput if empty set 0 - public
 function getArbeitsplatz(): void{
     if(arbeitsplatzInput !== null){
         arbeitsplatz = parseInt(arbeitsplatzInput.value);
@@ -45,51 +61,56 @@ function getArbeitsplatz(): void{
     }
 }
 
+//get current URL
+function getCurURL(){
+    return window.location.href;
+}
+
+//TODO check if inputs are vaild eg with AA in beginning
 function inputsValid(){
     
 }
 
-//update Buttons for current Timer
+//update Buttons for current input
 async function updateUI(){
     //get info if timer is running
         await getArbeitsplatz();
         await getInfo(arbeitsplatz);
-        if(timerCollection[arbeitsplatz] == null){
-           
+        const curTimer = timerCollection[arbeitsplatz]
+        if(curTimer == null){
             startbutton.innerHTML = "START";
             pausebutton.innerHTML = "PAUSE";
         }else{
             startbutton.innerHTML = "STOP";
-            if(timerCollection[arbeitsplatz].paused){
+            if(curTimer.paused){
                 pausebutton.innerHTML = 'RESUME';
-            }else if(!timerCollection[arbeitsplatz].paused){
+            }else if(!curTimer.paused){
                 pausebutton.innerHTML = 'PAUSE';
             }    
         } 
 }
 
-
+//copy object to Array
 function copyData(obj: Zeit){
-    const sendtimer:Zeit = timerCollection[obj.arbeitsplatz];
-    if(sendtimer != null){
-        sendtimer.arbeitsplatz = obj.arbeitsplatz;
-        sendtimer.arbeitskraft = obj.arbeitskraft;
-        sendtimer.auftragsnummer = obj.auftragsnummer;
-        sendtimer.modellnummer = obj.modellnummer;
-        sendtimer.arbeitschritt = obj.arbeitschritt;
-        sendtimer.sollmenge = obj.sollmenge;
-        sendtimer.istmenge = obj.istmenge;
-        sendtimer.notiz = obj.notiz;
-        sendtimer.interface = obj.interface;
+    const newTimer:Zeit = timerCollection[obj.arbeitsplatz];
+    if(newTimer != null){
+        newTimer.arbeitsplatz = obj.arbeitsplatz;
+        newTimer.arbeitskraft = obj.arbeitskraft;
+        newTimer.auftragsnummer = obj.auftragsnummer;
+        newTimer.modellnummer = obj.modellnummer;
+        newTimer.arbeitschritt = obj.arbeitschritt;
+        newTimer.sollmenge = obj.sollmenge;
+        newTimer.istmenge = obj.istmenge;
+        newTimer.notiz = obj.notiz;
+        newTimer.interface = obj.interface;
     }
-    timerCollection[obj.arbeitsplatz] = sendtimer;
+    timerCollection[obj.arbeitsplatz] = newTimer;
 }
 
 //convert ms to Time Format
 function padTo2Digits(num:any) {
     return num.toString().padStart(2, '0');
   }
-
 function msToTime(ms: number):string{
     let sec = Math.floor(ms / 1000);
     let min = Math.floor(sec / 60);
@@ -101,13 +122,7 @@ function msToTime(ms: number):string{
     return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
 
-
-//todo stop stays when arbeitsplatz is empty
-
 //start & stop button with input checking
-const istMengeInput:HTMLInputElement | any = document.getElementById('IstMenge');
-
-const form:any = document.getElementById('formwinputs');
 async function handleForm(event:Event) { 
     event.preventDefault(); 
     
@@ -144,100 +159,9 @@ async function handleForm(event:Event) {
     }
 
 } 
-form.addEventListener('submit', handleForm);
-
-//button listeners
-if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
-    pausebutton.addEventListener("click", async () => {
-        if(arbeitsplatzInput.validity.valid){
-            await getInfo(arbeitsplatz)
-            const obj:Zeit = timerCollection[arbeitsplatz];
-            if(pausebutton.innerHTML == 'PAUSE'){
-                if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
-                    obj.pause = true;
-                    console.log(obj)
-                    postInfo(obj);
-                    pausebutton.innerHTML = 'RESUME';
-                }
-            }else if(pausebutton.innerHTML == 'RESUME'){
-                if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
-                    obj.pause = false;
-                    console.log(obj)
-                    postInfo(obj);
-                    pausebutton.innerHTML = 'PAUSE';
-                }
-            }
-            //arbeitsplatzInput.value = '';
-        }
-    });
-} 
-
-//downloadbutton listneer
-/* if(typeof window !== 'undefined' && downloadbutton !== null){
-    downloadbutton.addEventListener("click", async() => { 
-        await getExcel();
-        console.log("test");
-    })
-} */
 
 
-const user = document.getElementById('zeit');
-
-//SITE WITH INTERFACES
-if(user === null){
-
-    //update interfaces and timercollection
-    setInterval(async()=>{
-        await getInfo(0);
-        updateUI();
-        for(let i = 1; i<timerCollection.length; i++){
-            const obj = timerCollection[i];
-            
-            let hasInterface:any = document.getElementById(String(i)); 
-            if(obj != null && obj.interface == true && hasInterface == null){
-                const id = obj.arbeitsplatz;
-                await createTimerInferface(id);
-                
-                obj.interface = true;
-                await postInfo(obj);
-            }
-            if(obj != null && hasInterface){
-                const zeit = msToTime(obj.zeit);
-                hasInterface.querySelectorAll("p")[1].textContent = `Zeit: ${zeit}`;
-                if(obj.paused){
-                    hasInterface.querySelectorAll("button")[1].innerHTML = "RESUME";
-                }else if(!obj.paused){
-                    hasInterface.querySelectorAll("button")[1].innerHTML = "PAUSE";
-                }
-            }
-            if(obj == null && hasInterface){
-                await removeTimerInterface(i);
-            }
-           
-        }
-        if(timerCollection.length === 0){
-            await removeAllInterfaces();
-        }
-    },2000);
-
-}
-//SITE WITHOUT INTERFACES
-else{
-    setInterval(async () => {
-        await getInfo(0);
-        await updateUI
-        getArbeitsplatz();
-        //console.log(timerCollection)
-        //console.log(curData)
-        if(timerCollection[arbeitsplatz] != null){
-            const obj = timerCollection[arbeitsplatz];
-        const zeit = msToTime(obj.zeit);
-        user.innerHTML = `Zeit: ${zeit}`;
-        }else{
-            user.innerHTML = `Zeit: 00:00:00`;
-        }
-    },1000);
-}
+//* FUNCTIONS (MANIPULATE HTML)
 
 //manipulate html
 function createTimerInferface(id:any){
@@ -305,18 +229,107 @@ function removeAllInterfaces(){
     }
 }
 
-//send to Server
-const baseUrl = '';
-//const baseUrl2 = '/';
 
-function getCurURL(){
-    return window.location.href;
+
+//* EVENT LISTENERS
+
+form.addEventListener('submit', handleForm);
+
+//button listeners
+if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null){
+    pausebutton.addEventListener("click", async () => {
+        if(arbeitsplatzInput.validity.valid){
+            await getInfo(arbeitsplatz)
+            const obj:Zeit = timerCollection[arbeitsplatz];
+            if(pausebutton.innerHTML == 'PAUSE'){
+                if (window.confirm(`Timer ${arbeitsplatz} Pausieren?`)){
+                    obj.pause = true;
+                    console.log(obj)
+                    postInfo(obj);
+                    pausebutton.innerHTML = 'RESUME';
+                }
+            }else if(pausebutton.innerHTML == 'RESUME'){
+                if (window.confirm(`Timer ${arbeitsplatz} Fortsetzen?`)){
+                    obj.pause = false;
+                    console.log(obj)
+                    postInfo(obj);
+                    pausebutton.innerHTML = 'PAUSE';
+                }
+            }
+            //arbeitsplatzInput.value = '';
+        }
+    });
+} 
+
+//downloadbutton listner
+/*
+    downloadbutton.addEventListener("click", async() => { 
+        await getExcel();
+        console.log("test");
+    })
+*/
+
+
+//*UPDATE SITE 
+
+//SITE WITH INTERFACES
+if(user === null){
+
+    //update interfaces and timercollection
+    setInterval(async()=>{
+        await getInfo(0);
+        updateUI();
+        for(let i = 1; i<timerCollection.length; i++){
+            const obj = timerCollection[i];
+            
+            let hasInterface:any = document.getElementById(String(i)); 
+            if(obj != null && obj.interface == true && hasInterface == null){
+                const id = obj.arbeitsplatz;
+                await createTimerInferface(id);
+                
+                obj.interface = true;
+                await postInfo(obj);
+            }
+            if(obj != null && hasInterface){
+                const zeit = msToTime(obj.zeit);
+                hasInterface.querySelectorAll("p")[1].textContent = `Zeit: ${zeit}`;
+                if(obj.paused){
+                    hasInterface.querySelectorAll("button")[1].innerHTML = "RESUME";
+                }else if(!obj.paused){
+                    hasInterface.querySelectorAll("button")[1].innerHTML = "PAUSE";
+                }
+            }
+            if(obj == null && hasInterface){
+                await removeTimerInterface(i);
+            }
+           
+        }
+        if(timerCollection.length === 0){
+            await removeAllInterfaces();
+        }
+    },5000);
+
+}
+//SITE WITHOUT INTERFACES
+else{
+    setInterval(async () => {
+        await getInfo(0);
+        await updateUI
+        getArbeitsplatz();
+        //console.log(timerCollection)
+        //console.log(curData)
+        if(timerCollection[arbeitsplatz] != null){
+            const obj = timerCollection[arbeitsplatz];
+        const zeit = msToTime(obj.zeit);
+        user.innerHTML = `Zeit: ${zeit}`;
+        }else{
+            user.innerHTML = `Zeit: 00:00:00`;
+        }
+    },5000);
 }
 
-const url = getCurURL();
-//console.log(url)
+// * SERVER FUNCTIONS (communication)
 
-const baseUrl2 = 'https://localhost';
 
 async function postInfo(e:Zeit) {
     const res = await fetch(baseUrl + '/e',
