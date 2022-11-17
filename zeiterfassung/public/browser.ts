@@ -307,7 +307,7 @@ if(user === null){
         if(timerCollection.length === 0){
             await removeAllInterfaces();
         }
-    },5000);
+    },1000);
 
 }
 //SITE WITHOUT INTERFACES
@@ -325,7 +325,7 @@ else{
         }else{
             user.innerHTML = `Zeit: 00:00:00`;
         }
-    },5000);
+    },1000);
 }
 
 // * SERVER FUNCTIONS (communication)

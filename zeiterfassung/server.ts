@@ -131,7 +131,9 @@ const datatop = [
     ["Arbeitsplatz", "Arbeitskraft","Auftrags-NR", "Modell-NR","Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel","Datum"],
     ];
 
-const pathExcel = 'Erfassung.xlsx';
+const pathExcelOriginal = '/excel/original/';
+const pathExcelCopy = '/excel/ErfassungCopy.xlsx'
+
 
 //* FUNCTIONS (DATA)
 
@@ -143,23 +145,8 @@ function cleanArray(arr: Array<Object>):void{
             }
 }
 
-//create new template with functions and copy input data
-function copyParameters(obj:any): Zeit{
-    const timer = new Zeit();
-    timer.arbeitsplatz = obj.arbeitsplatz;
-    timer.arbeitskraft = obj.arbeitskraft;
-    timer.auftragsnummer = obj.auftragsnummer;
-    timer.modellnummer = obj.modellnummer;
-    timer.arbeitschritt = obj.arbeitschritt;
-    timer.sollmenge = obj.sollmenge;
-    timer.istmenge = obj.istmenge;
-    timer.notiz = obj.notiz;
-    timer.interface = obj.interface;
-    return timer;
-}
-
 //copy from obj to goal
-function copyToExisting(obj:any,goal:Zeit){
+function copyToInputs(obj:any,goal:Zeit){
     goal.arbeitsplatz = obj.arbeitsplatz;
     goal.arbeitskraft = obj.arbeitskraft;
     goal.auftragsnummer = obj.auftragsnummer;
@@ -210,7 +197,7 @@ function msToTime(ms: number):string{
 //* FUNCTIONS (EXCEL)
 //does the EXCEL exist?
 function createORappend(data: any){
-    fs.open(pathExcel, 'r',async (err, fd) => {//what is fd?
+    fs.open(pathExcelOriginal, 'r',async (err, fd) => {//what is fd?
         if (err){
             await createXLSX(data);
         }else{
@@ -223,17 +210,16 @@ function createORappend(data: any){
 function createXLSX(data:any){
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(datatop);
-    console.log([data]);
     XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
     const sheetname: string = String(data[1]);
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
-    XLSX.writeFile(workbook, "Erfassung.xlsx");
+    XLSX.writeFile(workbook, pathExcelOriginal);
     console.log("created");
 }
 
 //append prepared data to Excel
 function appendJSON(data:any){
-    const workbook01 = XLSX.readFile(pathExcel);
+    const workbook01 = XLSX.readFile(pathExcelOriginal);
     const worksheet:any = workbook01.Sheets[data[1]];
     if(worksheet == null){
         const worksheet = XLSX.utils.aoa_to_sheet(datatop);
@@ -245,7 +231,7 @@ function appendJSON(data:any){
         //console.log((range.e.r));
         XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
     }
-    XLSX.writeFile(workbook01, "Erfassung.xlsx");
+    XLSX.writeFile(workbook01, "/excel/Erfassung.xlsx");
     console.log("added");
 }
 
@@ -271,95 +257,81 @@ app.get('/arbeitsplatz/:id',function(req,res){
 
 //send timer info to Frontend
 app.get('/:arbeitsplatz/data/:dynamic',(req:any,res:any)=>{
-//res.sendFile(path.join(__dirname,'public/index.html'));
-const {dynamic} = req.params;
-//console.log(dynamic);
-if(dynamic == 0){   
-    //timerCollection.filter(x => x !== null);
-    for(let i = 1;i<timerCollection.length;i++){
-        if(timerCollection[i] != null){
-            timerCollection[i].getCurTime();
+    const {dynamic} = req.params;
+    if(dynamic == 0){   
+        //timerCollection.filter(x => x !== null);
+        for(let i = 1;i<timerCollection.length;i++){
+            if(timerCollection[i] != null){
+                timerCollection[i].getCurTime();
+            }
+        }
+        res.json(timerCollection);
+    }else{
+        if(timerCollection[dynamic] != null){
+            timerCollection[dynamic].getCurTime();
+            res.json(timerCollection[dynamic]);
+        }else{
+            res.json(null);
         }
     }
-    res.json(timerCollection);
-}else{
-    if(timerCollection[dynamic] != null){
-        timerCollection[dynamic].getCurTime();
-        res.json(timerCollection[dynamic]);
-    }else{
-        res.json(null);
-    }
-}
-//res.render('index.html');
-//res.download(excel file) send excel file to device
 }) 
 
 //get Info/call to Action from Frontend 
 app.post('/:id', async (req:any,res:any) => {
-const parcel = req.body;
-if(!parcel){
-    return res.status(400).send({status: 'failed'});
-}
-res.status(200).send({status: 'recieved'})
-
-const timerID = parcel.arbeitsplatz;
-let obj:Zeit = timerCollection[timerID];
-//copy inputs and start timer
-if(obj == null && parcel.stop == false){
-    obj = copyParameters(parcel);
-    obj.startTimer();
-    obj.interface = true;
-    timerCollection[timerID] = obj;
-}
-//place has already been filled with data
-else if(obj != null){ 
-    //stop timer
-    if(parcel.stop){
-        copyToExisting(parcel,obj);
-        obj.stopTimer();
-        obj.interface = false;
-        //console.log(JSON.stringify(obj));
-        obj = JSON.parse(JSON.stringify(obj))
-        await prepareData(obj);
-        curData = Object.values(obj);
-        await createORappend(curData)
-        res.send({status: 'timer stopped'});
-        timerCollection[timerID] = null;
-        //cleanArray(timerCollection);
-        //todo clear array size
+    const parcel = req.body;
+    if(!parcel){
+        return res.status(400).send({status: 'failed'});
     }
-    //pause timer
-    console.log(obj)
-    if(!obj.paused && parcel.pause){
-        await obj.pauseTimer();
+    res.status(200).send({status: 'recieved'})
+
+    const timerID = parcel.arbeitsplatz;
+    let obj:Zeit = timerCollection[timerID];
+
+    //copy inputs and start timer
+    if(obj == null && parcel.stop == false){
+        obj = new Zeit();
+        copyToInputs(parcel,obj);
+        obj.startTimer();
+        obj.interface = true;
         timerCollection[timerID] = obj;
-        console.log(obj)
     }
-    //resume timer
-    
-    if(obj.paused && !parcel.pause){
-        await obj.resumeTimer();
-        timerCollection[timerID] = obj;
-        console.log(obj)
+    //place has already been filled with data
+    else if(obj != null){ 
+        //stop timer
+
+        if(parcel.stop){
+            copyToInputs(parcel,obj);
+            obj.stopTimer();
+            obj.interface = false;
+            obj = JSON.parse(JSON.stringify(obj))
+            await prepareData(obj);
+            curData = Object.values(obj);
+            await createORappend(curData)
+            timerCollection[timerID] = null;
+            //cleanArray(timerCollection);
+            //todo clear array size
+        }
+        //pause timer
+
+        if(!obj.paused && parcel.pause){
+            await obj.pauseTimer();
+            timerCollection[timerID] = obj;
+
+        }
+        //resume timer
+        
+        if(obj.paused && !parcel.pause){
+            await obj.resumeTimer();
+            timerCollection[timerID] = obj;
+
+        }
     }
-}
-
-//process posted Data
-
-
-//create zeit instance if Start otherwise stop -> Store in Array
-
-/* prepareData(parcel);
-curData = Object.values(parcel);
-createORappend(curData);
-console.log('recieved'); */
 }) 
 
 //downlaod Excel -- not working
 /* app.get('/download',function(req,res){
 console.log(req.body);
 const file = `${__dirname}/${pathExcel}`;
-console.log("works");
 res.download("index.html");
 res.send("hello")
 }) */
