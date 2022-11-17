@@ -300,7 +300,7 @@ const parcel = req.body;
 if(!parcel){
     return res.status(400).send({status: 'failed'});
 }
-//res.status(200).send({status: 'recieved'})
+res.status(200).send({status: 'recieved'})
 
 const timerID = parcel.arbeitsplatz;
 let obj:Zeit = timerCollection[timerID];
