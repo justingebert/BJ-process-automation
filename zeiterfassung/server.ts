@@ -131,8 +131,9 @@ const datatop = [
     ["Arbeitsplatz", "Arbeitskraft","Auftrags-NR", "Modell-NR","Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel","Datum"],
     ];
 
-const pathExcelOriginal = '/excel/original/';
-const pathExcelCopy = '/excel/ErfassungCopy.xlsx'
+const pathExcelOriginal = path.join(__dirname, '/excel/original/Erfassung.xlsx');
+const pathExcelCopy = path.join(__dirname, '/excel/ErfassungCopy.xlsx');
+
 
 
 //* FUNCTIONS (DATA)
@@ -217,6 +218,7 @@ function createXLSX(data:any){
     console.log("created");
 }
 
+
 //append prepared data to Excel
 function appendJSON(data:any){
     const workbook01 = XLSX.readFile(pathExcelOriginal);
@@ -236,14 +238,23 @@ function appendJSON(data:any){
 }
 
 //copy Excel file ever xx Seconds
-/* setInterval(()=>{
-    fs.copyFile("Erfassung.xlsx","../Erfassungcopy.xlsx",(err) => {
+setInterval(()=>{
+    
+    fs.open(pathExcelOriginal, 'r',async (err, fd) => {//what is fd?
         if (err){
-            throw err;
+           console.log("no file existing"); 
+        }else{
+            fs.copyFile(pathExcelOriginal,pathExcelCopy,(err) => {
+                if (err){
+                    throw err;
+                }
+                console.log('Erfassung.xlsx was copied to ErfassungCopy.xlsx');}
+            )
         }
-        console.log('source.txt was copied to destination.txt');}
-    )
-},5000); */
+          });
+
+    
+},900000); 
 
 
 
