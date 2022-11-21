@@ -6,6 +6,7 @@ import * as path from 'path';
 const ip = require("ip");
 const https = require("https");
 import { json } from 'stream/consumers';
+import { Console } from 'console';
 
 // * SERVER SETUP
 //Server Data
@@ -132,7 +133,7 @@ const datatop = [
     ];
 
 const pathExcelOriginal = path.join(__dirname, '/excel/original/Erfassung.xlsx');
-const pathExcelCopy = path.join(__dirname, '/excel/ErfassungCopy.xlsx');
+const pathExcelCopy = path.join(__dirname, '/excel/ErfassungAuswertung.xlsx');
 
 
 
@@ -233,7 +234,7 @@ function appendJSON(data:any){
         //console.log((range.e.r));
         XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
     }
-    XLSX.writeFile(workbook01, "/excel/Erfassung.xlsx");
+    XLSX.writeFile(workbook01, pathExcelOriginal);
     console.log("added");
 }
 
@@ -246,16 +247,17 @@ setInterval(()=>{
         }else{
             fs.copyFile(pathExcelOriginal,pathExcelCopy,(err) => {
                 if (err){
-                    throw err;
+                    console.log('skipping current');
+                }else{
+                    console.log('Erfassung.xlsx was copied to ErfassungCopy.xlsx');
                 }
-                console.log('Erfassung.xlsx was copied to ErfassungCopy.xlsx');}
+            }
             )
         }
           });
 
     
-},900000); 
-
+},60000); 
 
 
 //* SERVER ROUTES
