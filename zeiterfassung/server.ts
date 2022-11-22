@@ -188,6 +188,7 @@ function prepareData(data:any){
     delete data.interface;
 
     data.artikelzeit = msToTime(data.zeit/data.istmenge);
+    data.sollzeit = msToTime(timeToMs(data.sollzeit));
     data.zeit = msToTime(data.zeit);
     data.date = new Date();
     //delte whats not in data top
@@ -210,8 +211,8 @@ function msToTime(ms: number):string{
 
 //convert Time Format to ms
 function timeToMs(time:string):number{
-    time.split(':');
-    let ms = (+time[0]) * 60 * 60 * 1000 + (+time[1]) * 60 * 1000; 
+    const split = time.split(':');
+    let ms = parseInt(split[0]) * 60 * 60 * 1000 + parseInt(split[1]) * 60 * 1000;
     return ms;
 }
 
@@ -239,22 +240,21 @@ function createXLSX(data:any){
     console.log("created");
 }
 
-
 //append prepared data to Excel
 function appendJSON(data:any){
-    const workbook01 = XLSX.readFile(pathExcelOriginal);
-    const worksheet:any = workbook01.Sheets[data[1]];
+    const workbook = XLSX.readFile(pathExcelOriginal);
+    const worksheet:any = workbook.Sheets[data[1]];
     if(worksheet == null){
         const worksheet = XLSX.utils.aoa_to_sheet(datatop);
         XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
         const sheetname: string = String(data[1]);
-        XLSX.utils.book_append_sheet(workbook01, worksheet, sheetname);
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
     }else{
-        const range  = XLSX.utils.decode_range(worksheet['!ref'])
+        //const range  = XLSX.utils.decode_range(worksheet['!ref'])
         //console.log((range.e.r));
         XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
     }
-    XLSX.writeFile(workbook01, pathExcelOriginal);
+    XLSX.writeFile(workbook, pathExcelOriginal);
     console.log("added");
 }
 
@@ -312,7 +312,7 @@ app.get('/:arbeitsplatz/data/:dynamic',(req:any,res:any)=>{
 //get Info/call to Action from Frontend 
 app.post('/:id', async (req:any,res:any) => {
     const parcel = req.body;
-    console.log(parcel);
+    
     if(!parcel){
         return res.status(400).send({status: 'failed'});
     }
