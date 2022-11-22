@@ -34,14 +34,21 @@
     </div>
 
     <div class="input right">
-      <label>Modell-nr:</label>
+      <label>Artikel-nr:</label>
       <input type="text" id="Modellnummer" placeholder="00000" maxlength="5" minlength="5" required>
     </div>
 
-    <div class="input full">
+    <div class="input left">
       <label>Arbeitsschritt:</label>
       <input type="text" id="Arbeitsschritt-Code" placeholder="000" maxlength="3" required>
     </div>
+
+    <div class="input right">
+      <label>SollZeit:</label>
+    <input type="time" id="SollZeit"> 
+    </div>
+
+    <!-- class="html-duration-picker" data-hide-seconds -->
 
     <div class="input left">
       <label>SollMenge:</label>
@@ -86,6 +93,7 @@
   </div>
 
   <script src="browser.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/html-duration-picker@latest/dist/html-duration-picker.min.js"></script> -->
   
  <!--  <script src="quagga/quagga.js" type="text/javascript"></script>
   <script src="quagga/index.js" type="text/javascript"></script>

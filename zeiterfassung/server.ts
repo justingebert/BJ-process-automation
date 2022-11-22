@@ -47,6 +47,7 @@ class Zeit{
     sollmenge!: number;
     istmenge!: number; 
     notiz!: string;
+    sollzeit!: any;
     
     //caculate time
     zeit!: number;
@@ -129,8 +130,21 @@ let curData: any;
 let timerCollection:any = [];
 
 const datatop = [
-    ["Arbeitsplatz", "Arbeitskraft","Auftrags-NR", "Modell-NR","Arbeitsschritt", "Notiz","Zeit","Zeit pro Artikel","Datum"],
-    ];
+    [
+    "Arbeitsplatz",
+    "Arbeitskraft",
+    "Auftrags-NR",
+    "Artikel-NR",
+    "Arbeitsschritt",
+    "SollMenge",
+    "IstMenge",
+    "Notiz",
+    "SollZeit",
+    "Zeit",
+    "Zeit pro Artikel",
+    "Datum"
+    ],
+];
 
 const pathExcelOriginal = path.join(__dirname, '/excel/original/Erfassung.xlsx');
 const pathExcelCopy = path.join(__dirname, '/excel/ErfassungAuswertung.xlsx');
@@ -158,6 +172,7 @@ function copyToInputs(obj:any,goal:Zeit){
     goal.istmenge = obj.istmenge;
     goal.notiz = obj.notiz;
     goal.interface = obj.interface;
+    goal.sollzeit = obj.sollzeit;
 }
 
 //prepare data to be written in Excel sheet
@@ -171,11 +186,9 @@ function prepareData(data:any){
     delete data.pause;
     delete data.stop;
     delete data.interface;
+
     data.artikelzeit = msToTime(data.zeit/data.istmenge);
-    
     data.zeit = msToTime(data.zeit);
-    delete data.sollmenge;
-    delete data.istmenge;
     data.date = new Date();
     //delte whats not in data top
 }
@@ -195,6 +208,13 @@ function msToTime(ms: number):string{
     return `${padTo2Digits(h)}:${padTo2Digits(min)}:${padTo2Digits(sec)}`;
 }
 
+//convert Time Format to ms
+function timeToMs(time:string):number{
+    time.split(':');
+    let ms = (+time[0]) * 60 * 60 * 1000 + (+time[1]) * 60 * 1000; 
+    return ms;
+}
+
 
 //* FUNCTIONS (EXCEL)
 //does the EXCEL exist?
@@ -207,7 +227,7 @@ function createORappend(data: any){
         }
           });
 }
-
+ 
 //create Excel file
 function createXLSX(data:any){
     const workbook = XLSX.utils.book_new();
@@ -292,6 +312,7 @@ app.get('/:arbeitsplatz/data/:dynamic',(req:any,res:any)=>{
 //get Info/call to Action from Frontend 
 app.post('/:id', async (req:any,res:any) => {
     const parcel = req.body;
+    console.log(parcel);
     if(!parcel){
         return res.status(400).send({status: 'failed'});
     }
@@ -318,6 +339,7 @@ app.post('/:id', async (req:any,res:any) => {
             obj.interface = false;
             obj = JSON.parse(JSON.stringify(obj))
             await prepareData(obj);
+            
             curData = Object.values(obj);
             await createORappend(curData)
             timerCollection[timerID] = null;

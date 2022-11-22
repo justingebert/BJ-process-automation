@@ -11,7 +11,7 @@ class Zeit{
     sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
     istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
     notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
-
+    sollzeit:any = (<HTMLInputElement>document.querySelector('#SollZeit')).value;
 
     zeit!: number;
     startzeit!: number;
@@ -38,9 +38,11 @@ const arbeitsschrittInput:HTMLInputElement | any = document.getElementById('Arbe
 const sollMengeInput:HTMLInputElement | any = document.getElementById('SollMenge');
 
 
+
 const istMengeInput:HTMLInputElement | any = document.getElementById('IstMenge');
 const form:any = document.getElementById('formwinputs');
 const user = document.getElementById('zeit');
+const sollZeit:HTMLElement | any = document.getElementById('soll');
 
 
 
@@ -123,6 +125,7 @@ function copyData(obj: Zeit){
         newTimer.istmenge = obj.istmenge;
         newTimer.notiz = obj.notiz;
         newTimer.interface = obj.interface;
+        newTimer.sollzeit = obj.sollzeit;
     }
     timerCollection[obj.arbeitsplatz] = newTimer;
 }
@@ -334,6 +337,7 @@ if(user === null){
 }
 //SITE WITHOUT INTERFACES
 else{
+    
     setInterval(async () => {
         await getInfo(0);
         await updateUI
@@ -344,8 +348,9 @@ else{
         updateUI();
         if(timerCollection[arbeitsplatz] != null){
             const obj = timerCollection[arbeitsplatz];
-        const zeit = msToTime(obj.zeit);
-        user.innerHTML = `Zeit: ${zeit}`;
+            const zeit = msToTime(obj.zeit);
+            user.innerHTML = `Zeit: ${zeit}`;
+            sollZeit.innerHTML = `SollZeit: ${obj.sollzeit}`;
         }else{
             user.innerHTML = `Zeit: 00:00:00`;
         }
@@ -356,6 +361,7 @@ else{
 
 //send inputs to Server
 async function postInfo(e:Zeit) {
+    console.log(e);
     const res = await fetch(baseUrl + '/e',
     {
         method: 'POST',
@@ -365,6 +371,7 @@ async function postInfo(e:Zeit) {
         body: JSON.stringify(e)
     })
     const content = await res.json();
+    
 }
 
 //get timerData from Server
