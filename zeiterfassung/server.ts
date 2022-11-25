@@ -129,6 +129,8 @@ let curData: any;
 
 let timerCollection:any = [];
 
+let timerDate: Date;
+
 const datatop = [
     [
     "Arbeitsplatz",
@@ -143,6 +145,12 @@ const datatop = [
     "Zeit",
     "Zeit pro Artikel",
     "Datum"
+    ],
+];
+
+const newDaySpace = [
+    [
+     ""
     ],
 ];
 
@@ -242,6 +250,7 @@ function createXLSX(data:any){
 
 //append prepared data to Excel
 function appendJSON(data:any){
+    timerDate = new Date();
     const workbook = XLSX.readFile(pathExcelOriginal);
     const worksheet:any = workbook.Sheets[data[1]];
     if(worksheet == null){
@@ -256,6 +265,18 @@ function appendJSON(data:any){
     }
     XLSX.writeFile(workbook, pathExcelOriginal);
     console.log("added");
+}
+
+function newDay(data:any){
+    const workbook = XLSX.readFile(pathExcelOriginal);
+    const worksheet:any = workbook.Sheets[data[1]];
+    if(worksheet != null){
+        const sheetname: string = String(data[1]);
+        XLSX.utils.sheet_add_aoa(worksheet,newDaySpace,{origin: -1});
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
+    }
+    XLSX.writeFile(workbook, pathExcelOriginal);
+    console.log("added new Day space");
 }
 
 //copy Excel file ever xx Seconds
@@ -342,6 +363,10 @@ app.post('/:id', async (req:any,res:any) => {
             
             curData = Object.values(obj);
             await createORappend(curData)
+            let dateNow = new Date();
+            if(timerDate != dateNow){
+                newDay(curData);
+            }
             timerCollection[timerID] = null;
             //cleanArray(timerCollection);
             //todo clear array size
