@@ -267,6 +267,7 @@ function appendJSON(data:any){
     console.log("added");
 }
 
+//make space for new day in sheet
 function newDay(data:any){
     const workbook = XLSX.readFile(pathExcelOriginal);
     const worksheet:any = workbook.Sheets[data[1]];

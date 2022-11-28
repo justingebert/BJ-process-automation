@@ -1,10 +1,10 @@
-#Prozessautomatisierung
+# Prozessautomatisierung
 
 datenstrukturen in Mindmap
 
 Planning: https://www.figma.com/file/7UZpBGfFtdxecPJP2zmyIl/Prozesserfassung?node-id=0%3A1&t=UaMtWH6AQy9B188I-0
 
-Modules:
+## Modules:
 -production timing
 -production planning
 -picking
