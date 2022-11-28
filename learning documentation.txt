@@ -29,6 +29,12 @@ CD - Continuos integration -> merge code in (with e.g testing etc)
 example: jest and webpack for pull request - set up with github action : yml file
 
 
+LEARNING DB:
+watch fireship videos
+install mysql 
+
+login : mysql -u justin -p
+
 
 Problems-Solutions:
 Camera access -> browser requires ssl certificate
