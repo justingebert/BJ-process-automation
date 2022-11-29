@@ -1,4 +1,4 @@
-LEARNING Javascript:
+## LEARNING Javascript:
 Basics - Classes
 
 Fireship Videos
@@ -27,6 +27,29 @@ LEARNING DevOps CI/CD:
 
 CD - Continuos integration -> merge code in (with e.g testing etc)
 example: jest and webpack for pull request - set up with github action : yml file
+
+
+
+Learning Db:
+when to to use what is most important:
+https://www.youtube.com/watch?v=W2Z7fbCLSTw&t=381s&ab_channel=Fireship
+
+1. key:value -> stored in ram / cache -> very fast
+no qureys or joins -> data modulationion limited 
+not for main data/primary -> mostly used to reduce data latency
+
+2. wide colomn -> no schema -> can handle untructured data -> query language / no joins
+time series/historical records
+high write low read
+not primary
+
+3. document oriented
+store 
+schmema less - relationalish qureys - no joins
+
+4. relational db
+need schema
+consistent
 
 
 
