@@ -29,6 +29,23 @@ CD - Continuos integration -> merge code in (with e.g testing etc)
 example: jest and webpack for pull request - set up with github action : yml file
 
 
+LEARNING DB:
+watch fireship videos
+install mysql 
+
+login : mysql -u justin -p
+
+
+
+LEARNING Techstack:
+https://www.youtube.com/watch?v=Sxxw3qtb3_g&ab_channel=Fireship
+    software to learn: 
+        frontend: = react/angular
+        css = tailwind & sass & postcss
+        bundler = webpack
+
+        backend: 
+
 
 Learning Db:
 when to to use what is most important:
@@ -55,4 +72,5 @@ consistent
 
 Problems-Solutions:
 Camera access -> browser requires ssl certificate
+
 

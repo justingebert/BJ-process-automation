@@ -7,11 +7,11 @@ class Zeit{
     arbeitskraft: string = (<HTMLInputElement>document.querySelector("#Arbeitskraft")).value;
     auftragsnummer: string = (<HTMLInputElement>document.querySelector("#Auftragsnummer")).value;
     modellnummer: string = (<HTMLInputElement>document.querySelector("#Modellnummer")).value;
-    arbeitschritt: string = (<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value;
+    arbeitschritt: number = parseInt((<HTMLInputElement>document.querySelector("#Arbeitsschritt-Code")).value);
     sollmenge: number = parseInt((<HTMLInputElement>document.querySelector('#SollMenge')).value);
     istmenge: number = parseInt((<HTMLInputElement>document.querySelector('#IstMenge')).value);
     notiz: string = (<HTMLInputElement>document.querySelector("#Fehler")).value;
-
+    sollzeit:any = (<HTMLInputElement>document.querySelector('#SollZeit')).value;
 
     zeit!: number;
     startzeit!: number;
@@ -31,12 +31,21 @@ const pausebutton: any = document.querySelector('#pausebutton');
 //const downloadbutton: any = document.querySelector("#downloadbutton");
 
 const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
+const arbeitskraftInput:HTMLInputElement | any = document.getElementById('Arbeitskraft');
+const auftragsnummerInput:HTMLInputElement | any = document.getElementById('Auftragsnummer');
+const modellnummerInput:HTMLInputElement | any = document.getElementById('Modellnummer');
+const arbeitsschrittInput:HTMLInputElement | any = document.getElementById('Arbeitsschritt-Code');
+const sollMengeInput:HTMLInputElement | any = document.getElementById('SollMenge');
+
+
+
 const istMengeInput:HTMLInputElement | any = document.getElementById('IstMenge');
 const form:any = document.getElementById('formwinputs');
 const user = document.getElementById('zeit');
+const sollZeit:HTMLElement | any = document.getElementById('soll');
 
 
-//arbeitsplatzInput.addEventListener('change',updateUI);
+
 
 // * VARIALBES
 let arbeitsplatz:number;
@@ -71,6 +80,19 @@ function inputsValid(){
     
 }
 
+async function updateInputs(){
+    await getArbeitsplatz();
+    await getInfo(arbeitsplatz);
+    const curTimer = timerCollection[arbeitsplatz]
+    if(curTimer != null){
+    arbeitskraftInput.value = curTimer.arbeitskraft;
+    auftragsnummerInput.value = curTimer.auftragsnummer
+    modellnummerInput.value = curTimer.modellnummer
+    arbeitsschrittInput.value = curTimer.arbeitschritt
+    sollMengeInput.value = curTimer.sollmenge
+    }
+}
+
 //update Buttons for current input
 async function updateUI(){
     //get info if timer is running
@@ -103,6 +125,7 @@ function copyData(obj: Zeit){
         newTimer.istmenge = obj.istmenge;
         newTimer.notiz = obj.notiz;
         newTimer.interface = obj.interface;
+        newTimer.sollzeit = obj.sollzeit;
     }
     timerCollection[obj.arbeitsplatz] = newTimer;
 }
@@ -233,6 +256,8 @@ function removeAllInterfaces(){
 
 //* EVENT LISTENERS
 
+arbeitsplatzInput.addEventListener('change',updateInputs);
+
 form.addEventListener('submit', handleForm);
 
 //button listeners
@@ -312,16 +337,20 @@ if(user === null){
 }
 //SITE WITHOUT INTERFACES
 else{
+    
     setInterval(async () => {
         await getInfo(0);
         await updateUI
         getArbeitsplatz();
         //console.log(timerCollection)
         //console.log(curData)
+        updateInputs();
+        updateUI();
         if(timerCollection[arbeitsplatz] != null){
             const obj = timerCollection[arbeitsplatz];
-        const zeit = msToTime(obj.zeit);
-        user.innerHTML = `Zeit: ${zeit}`;
+            const zeit = msToTime(obj.zeit);
+            user.innerHTML = `Zeit: ${zeit}`;
+            sollZeit.innerHTML = `SollZeit: ${obj.sollzeit}`;
         }else{
             user.innerHTML = `Zeit: 00:00:00`;
         }
@@ -332,6 +361,7 @@ else{
 
 //send inputs to Server
 async function postInfo(e:Zeit) {
+    console.log(e);
     const res = await fetch(baseUrl + '/e',
     {
         method: 'POST',
@@ -341,6 +371,7 @@ async function postInfo(e:Zeit) {
         body: JSON.stringify(e)
     })
     const content = await res.json();
+    
 }
 
 //get timerData from Server
