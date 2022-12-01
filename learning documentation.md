@@ -1,4 +1,4 @@
-## LEARNING Javascript:
+## LEARNING Javascript/Typescript:
 Basics - Classes
 
 Fireship Videos
@@ -7,10 +7,20 @@ Fireship Videos
 
 
 
-LEARNING Docker:
+## LEARNING Docker:
 install an go though documentaiton tutorial
 
 commands:
+
+build image from dockerfile: cd into dir -> docker build -t <name> .
+
+run container with image: docker run -p <Port>:<outport> <iamge name>
+
+when container is stopped or deleted data is deleted aswell
+-> not suitable for DataBase
+->solution Volumes (mapping to diffrent directory)
+
+
 
 view containers: docker ps
 stop and remove container: docker rm -f <container-id>
@@ -23,21 +33,16 @@ start container and assign volume: docker run -dp 3000:3000 -v todo-db:/etc/todo
 
 
 
-LEARNING DevOps CI/CD:
+## LEARNING DevOps CI/CD:
 
 CD - Continuos integration -> merge code in (with e.g testing etc)
 example: jest and webpack for pull request - set up with github action : yml file
 
 
-LEARNING DB:
-watch fireship videos
-install mysql 
-
-login : mysql -u justin -p
 
 
 
-LEARNING Techstack:
+## LEARNING Techstack:
 https://www.youtube.com/watch?v=Sxxw3qtb3_g&ab_channel=Fireship
     software to learn: 
         frontend: = react/angular
@@ -47,7 +52,13 @@ https://www.youtube.com/watch?v=Sxxw3qtb3_g&ab_channel=Fireship
         backend: 
 
 
-Learning Db:
+## Learning Db:
+watch fireship videos
+install mysql 
+
+login : mysql -u justin -p
+
+
 when to to use what is most important:
 https://www.youtube.com/watch?v=W2Z7fbCLSTw&t=381s&ab_channel=Fireship
 
@@ -69,8 +80,10 @@ need schema
 consistent
 
 
+possible to run db in docker container
 
-Problems-Solutions:
+
+## Problems-Solutions:
 Camera access -> browser requires ssl certificate
 
 
