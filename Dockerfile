@@ -12,6 +12,8 @@ RUN npm install
 #copy source files
 COPY . .
 
+RUN cd /zeiterfassung 
+
 RUN tsc
 
 ENV PORT=50005

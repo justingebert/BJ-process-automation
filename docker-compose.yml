@@ -11,9 +11,8 @@ services:
     environment:
        MYSQL_ROOT_PASSWORD: password
     volumes:
-      - data:
+      - data:/var/lib
         
-
-
-  volumes:
-    data:
+volumes:
+  data:
+  
