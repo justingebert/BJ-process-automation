@@ -1,7 +1,7 @@
 FROM node:16
 
 #Working Dir
-WORKDIR /app
+WORKDIR /*
 
 #copy packge json files
 COPY package*.json ./
@@ -12,13 +12,16 @@ RUN npm install
 #copy source files
 COPY . .
 
-RUN cd /zeiterfassung 
 
-RUN tsc
+WORKDIR /zeiterfassung
+
+
+RUN tsc 
+
+WORKDIR /*
 
 ENV PORT=50005
 
 EXPOSE 50005
-
 
 CMD ["npm","start"]
