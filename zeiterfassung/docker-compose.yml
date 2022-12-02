@@ -1,5 +1,19 @@
 version: '3.7'
 
 services:
-
+  web:
+    build: .
+    ports:
+      - "50055:50055"
   
+  db:
+    image: mysql
+    environment:
+       MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - data:
+        
+
+
+  volumes:
+    data:

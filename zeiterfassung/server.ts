@@ -5,13 +5,24 @@ import * as fs from 'fs';
 import * as path from 'path';
 const ip = require("ip");
 const https = require("https");
+import * as mysql from 'mysql';
+
 import { json } from 'stream/consumers';
 import { Console } from 'console';
+
 
 // * SERVER SETUP
 //Server Data
 const port = 50055;
 const curIP = ip.address();
+//sql connect
+const mySqlConfig = {
+    host: "mysql_server",
+    user: "root",
+    password: "password",
+    database: "bagjack"
+}
+let con = null;
 //let curIP = 'localhost';
 
 //create https
@@ -389,6 +400,14 @@ app.post('/:id', async (req:any,res:any) => {
     }
 }) 
 
+//test db connection
+app.get('/db',function(req,res){
+    con = mysql.createConnection(mySqlConfig),
+    con.connect(function(err){
+        if(err) throw err;
+        res.send('connected');
+    })
+})
 //downlaod Excel -- not working
 /* app.get('/download',function(req,res){
 console.log(req.body);

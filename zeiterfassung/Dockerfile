@@ -12,8 +12,11 @@ RUN npm install
 #copy source files
 COPY . .
 
+RUN tsc
+
 ENV PORT=50005
 
 EXPOSE 50005
+
 
 CMD ["npm","start"]
