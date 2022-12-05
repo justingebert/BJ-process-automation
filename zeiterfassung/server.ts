@@ -9,6 +9,7 @@ import * as mysql from 'mysql';
 
 import { json } from 'stream/consumers';
 import { Console } from 'console';
+import e from 'express';
 
 
 // * SERVER SETUP
@@ -281,15 +282,20 @@ function appendJSON(data:any){
 
 //make space for new day in sheet
 function newDay(data:any){
-    const workbook = XLSX.readFile(pathExcelOriginal);
-    const worksheet:any = workbook.Sheets[data[1]];
-    if(worksheet != null){
-        const sheetname: string = String(data[1]);
-        XLSX.utils.sheet_add_aoa(worksheet,newDaySpace,{origin: -1});
-        XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
-    }
-    XLSX.writeFile(workbook, pathExcelOriginal);
-    console.log("added new Day space");
+    fs.open(pathExcelOriginal, 'r',async (err, fd) => {
+        if(err){console.log("no orig excel");}
+        else{
+            const workbook = XLSX.readFile(pathExcelOriginal);
+            const worksheet:any = workbook.Sheets[data[1]];
+            if(worksheet != null){
+                const sheetname: string = String(data[1]);
+                XLSX.utils.sheet_add_aoa(worksheet,newDaySpace,{origin: -1});
+                XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
+            }
+            XLSX.writeFile(workbook, pathExcelOriginal);
+            console.log("added new Day space");
+        }
+    });
 }
 
 //copy Excel file ever xx Seconds

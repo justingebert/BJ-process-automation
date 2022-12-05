@@ -1,18 +1,19 @@
 FROM node:16
 
 #Working Dir
-WORKDIR /
+WORKDIR /usr/app
 
 #copy packge json files
-COPY package*.json ./
 
 COPY tsconfig*.json ./
 
-#install dependencies
-RUN npm install
-
 #copy source files
 COPY . ./
+
+COPY package*.json ./
+
+#install dependencies
+RUN npm install
 
 RUN npm run build
 
@@ -20,4 +21,5 @@ ENV PORT=50005
 
 EXPOSE 50005
 
-CMD ["npm","start"]
+CMD ["node","zeiterfassung/server.js"]
+

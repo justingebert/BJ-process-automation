@@ -25,11 +25,20 @@ when container is stopped or deleted data is deleted aswell
 view containers: docker ps
 stop and remove container: docker rm -f <container-id>
 
-named volume:
-create volume: docker volume create todo-db
-start container and assign volume: docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
+- named volume:
+    directory inside docker -> data persists if container is deleted
+
+    create volume: docker volume create todo-db
+
+    start container and assign volume: docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
+    or --mount source=<volume>,target=</somepath/eg>
 
 
+- bind mount:
+    link to a directorz on your computer from within docker
+    -> safe files
+    mount when starting container:
+    --mount type=bind,source="$(pwd)"/<host_examplefolder>, target=<dokcersrcfolder>
 
 
 

@@ -1,17 +1,21 @@
-version: '3.7'
+version: '3.9'
 
 services:
   web:
     build: .
     ports:
       - "50055:50055"
+    volumes:
+      - type: bind 
+        source: C:/Users/Justin/Documents/PROJECTS/Bagjack/excel
+        target: /usr/app/zeiterfassung/excel
   
   db:
     image: mysql
     environment:
        MYSQL_ROOT_PASSWORD: password
     volumes:
-      - data:/var/lib
+      - data:/var/lib/mysql
         
 volumes:
   data:
