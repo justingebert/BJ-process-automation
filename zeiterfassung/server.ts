@@ -167,6 +167,7 @@ const newDaySpace = [
 
 const pathExcelOriginal = path.join(__dirname, '/excel/original/Erfassung.xlsx');
 const pathExcelCopy = path.join(__dirname, '/excel/ErfassungAuswertung.xlsx');
+//const pathExcelCopy = "Z:/Planung/Produktionsplanung/DispositionArbeitszeitberechnung/Näherei/Zeiterfassung/ErfassungAuswertung.xlsx";
 
 
 

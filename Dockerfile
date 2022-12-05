@@ -1,24 +1,20 @@
 FROM node:16
 
 #Working Dir
-WORKDIR /*
+WORKDIR /
 
 #copy packge json files
 COPY package*.json ./
+
+COPY tsconfig*.json ./
 
 #install dependencies
 RUN npm install
 
 #copy source files
-COPY . .
+COPY . ./
 
-
-WORKDIR /zeiterfassung
-
-
-RUN tsc 
-
-WORKDIR /*
+RUN npm run build
 
 ENV PORT=50005
 
