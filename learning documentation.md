@@ -40,7 +40,7 @@ stop and remove container: docker rm -f <container-id>
     mount when starting container:
     --mount type=bind,source="$(pwd)"/<host_examplefolder>, target=<dokcersrcfolder>
 
-
+create sql container : docker run --rm --name init-mysql -v data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD="example" mysql
 
 ## LEARNING DevOps CI/CD:
 
@@ -95,4 +95,4 @@ possible to run db in docker container
 ## Problems-Solutions:
 Camera access -> browser requires ssl certificate
 
-
+mysql server doesnt start in docker container: failed to findvalid data directory
