@@ -6,9 +6,11 @@ services:
     restart: always
     environment:
        MYSQL_ROOT_PASSWORD: "3233"
+       MYSQL_DATABASE: "bagjack"
     
     volumes:
       - data:/var/lib/mysql
+      
 
 
   web:
@@ -16,9 +18,8 @@ services:
     ports:
       - "50055:50055"
     volumes:
-      - type: bind 
-        source: C:/Users/Justin/Documents/PROJECTS/Bagjack/excel
-        target: /usr/app/zeiterfassung/excel
+      - C:/Users/Justin/Documents/PROJECTS/Bagjack/excel:/usr/app/zeiterfassung/excel
+      
   
   
         

@@ -13,6 +13,19 @@
             "username": "justin",
             "database": "bagjack",
             "password": "3233"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "bagjack docker",
+            "username": "root",
+            "password": "3233",
+            "database": "bagjack"
         }
     ]
 }
