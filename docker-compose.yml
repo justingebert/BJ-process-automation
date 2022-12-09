@@ -7,6 +7,8 @@ services:
     environment:
        MYSQL_ROOT_PASSWORD: "3233"
        MYSQL_DATABASE: "bagjack"
+       MYSQL_USER: "justin"
+       MYSQL_PASSWORD: "3233"
     
     volumes:
       - data:/var/lib/mysql

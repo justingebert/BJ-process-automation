@@ -23,7 +23,7 @@
             "port": 3306,
             "driver": "MySQL",
             "name": "bagjack docker",
-            "username": "root",
+            "username": "justin",
             "password": "3233",
             "database": "bagjack"
         }
