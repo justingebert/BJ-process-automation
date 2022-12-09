@@ -1,4 +1,4 @@
-/* GENERAL */
+/*! GENERAL */
 *,
 *::after,
 *::before{
@@ -25,7 +25,7 @@ body{
     align-items: center;
 }
 
-/* IMAGE */
+/*! IMAGE */
 
 #logo{
     width: 220px;
@@ -37,24 +37,31 @@ body{
     margin-top: -2px;
 }
 
-/* MAIN BUTTONS */
+/*! BUTTONS */
 
-.button{
+.mainbutton{
     font-size: x-large;
     background-color: #ffffff;
     color: #000000;
     border-radius: 10px;
     border-color: #000000;
     font-weight: bold;
-    width: 215px;
+    width: 200px;
     height: 50px;
     margin: 5px 0 5px 0;
+    justify-content: center;
 }
 
-/* INPUTS */
+.button{
+    
+}
+
+
+
+/*! INPUTS */
 
 #form{
-    width: 220px;
+    width: 400px;
 }
 
 form{
@@ -68,7 +75,6 @@ form{
     height: 65px;
     margin-top: -5px;
 }
-
 
 .input .hasBut{
     grid-row: 2;
@@ -100,7 +106,6 @@ form{
     grid-column: 2/span 1;
 }
 
-
 input{
     display: block;
     width: 100%;
@@ -113,7 +118,7 @@ input{
 }
 
 
-/* INTERFACE */
+/*! INTERFACE */
 
 #running{
     display: grid;
@@ -141,4 +146,18 @@ input{
     font-weight: bold;
     height: 30px;
     margin: 3px 5px 3px 5px;
+ }
+
+
+ /*! UI */
+
+ #container{
+    display: flex;
+    flex-direction: column;
+ }
+
+ #buttons{
+    display: flex;
+    justify-content: space-evenly;
+
  }

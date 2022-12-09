@@ -96,3 +96,7 @@ possible to run db in docker container
 Camera access -> browser requires ssl certificate
 
 mysql server doesnt start in docker container: failed to findvalid data directory
+
+coundnt connect sql tools to docker sql server
+-> volume data persists commands not read becasue db is pulled form volume
+-> delete volume

@@ -7,25 +7,12 @@
             },
             "previewLimit": 50,
             "server": "localhost",
-            "port": 3306,
+            "port": 5000,
             "driver": "MySQL",
-            "name": "bagjack",
-            "username": "justin",
+            "name": "bj",
             "database": "bagjack",
+            "username": "root",
             "password": "3233"
-        },
-        {
-            "mysqlOptions": {
-                "authProtocol": "default"
-            },
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "name": "bagjack docker",
-            "username": "justin",
-            "password": "3233",
-            "database": "bagjack"
         }
     ]
 }

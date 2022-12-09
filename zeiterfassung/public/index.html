@@ -14,72 +14,79 @@
   <div>
     <img src="/img/logow.png" id="logo">
   </div>
-  <div id="form">
-  <form id="formwinputs">
-
-    <div class="input left hasBut">
-      <label for="Arbeitsplatz">Arbeitsplatz:</label>
-      <input type="number" id="Arbeitsplatz" placeholder="00" class="hasBut" maxlength="2" minlength="2" required>
-     <!--  <button type="button" class="scanbut"><img src="/img/barcode-icon.png" id="barcode"></button> -->
-    </div>
-
-    <div class="input right">
-      <label>Arbeitskraft:</label>
-      <input type="number" id="Arbeitskraft" placeholder="00" required>
-    </div>
-
-    <div class="input left">
-      <label>Auftrags-nr:</label>
-      <input type="text" id="Auftragsnummer" placeholder="AA00000" required="true" maxlength="7" minlength="7">
-    </div>
-
-    <div class="input right">
-      <label>Artikel-nr:</label>
-      <input type="text" id="Modellnummer" placeholder="00000" maxlength="5" minlength="5" required>
-    </div>
-
-    <div class="input left">
-      <label>Arbeitsschritt:</label>
-      <input type="text" id="Arbeitsschritt-Code" placeholder="000" maxlength="3" required>
-    </div>
-
-    <div class="input right">
-      <label>SollZeit:</label>
-    <input type="time" id="SollZeit"> 
-    </div>
-
-    <!-- class="html-duration-picker" data-hide-seconds -->
-
-    <div class="input left">
-      <label>SollMenge:</label>
-      <input type="number" id="SollMenge" placeholder="000" maxlength="3" required>
-    </div>
+  <div id="container">
+    <div id="form">
+      <form id="formwinputs">
     
-    <div class="input right">
-      <label>IstMenge:</label>
-      <input type="number" id="IstMenge" placeholder="000" maxlength="3">
-    </div>
+        <div class="input left hasBut">
+          <label for="Arbeitsplatz">Arbeitsplatz:</label>
+          <input type="number" id="Arbeitsplatz" placeholder="00" class="hasBut" maxlength="2" minlength="2" required>
+         <!--  <button type="button" class="scanbut"><img src="/img/barcode-icon.png" id="barcode"></button> -->
+        </div>
     
-    <div class="input full">
-      <label>Notiz:</label>
-    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen"> 
-    </div>
+        <div class="input right">
+          <label>Arbeitskraft:</label>
+          <input type="number" id="Arbeitskraft" placeholder="00" required>
+        </div>
     
-    <div class="input full">
-      <button type="submit" id="startbutton" class="button" role="button">START</button>
-    </div>
+        <div class="input left">
+          <label>Auftrags-nr:</label>
+          <input type="text" id="Auftragsnummer" placeholder="AA00000" required="true" maxlength="7" minlength="7">
+        </div>
     
-    <div class="input full">
-      <button type="button" id="pausebutton" class="button" role="button">PAUSE</button>
+        <div class="input right">
+          <label>Artikel-nr:</label>
+          <input type="text" id="Modellnummer" placeholder="00000" maxlength="5" minlength="5" required>
+        </div>
+    
+        <div class="input left">
+          <label>Arbeitsschritt:</label>
+          <input type="text" id="Arbeitsschritt-Code" placeholder="000" maxlength="3" required>
+        </div>
+    
+        <div class="input right">
+          <label>SollZeit:</label>
+        <input type="time" id="SollZeit"> 
+        </div>
+    
+        <!-- class="html-duration-picker" data-hide-seconds -->
+    
+        <div class="input left">
+          <label>SollMenge:</label>
+          <input type="number" id="SollMenge" placeholder="000" maxlength="3" required>
+        </div>
+        
+        <div class="input right">
+          <label>IstMenge:</label>
+          <input type="number" id="IstMenge" placeholder="000" maxlength="3">
+        </div>
+        
+        <div class="input full">
+          <label>Notiz:</label>
+        <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen"> 
+        </div>
+        
+        <div class="input left">
+          <button type="submit" id="startbutton" class="mainbutton" role="button">START</button>
+        </div>
+        
+        <div class="input right">
+          <button type="button" id="pausebutton" class="mainbutton" role="button">PAUSE</button>
+        </div>
+    
+        <!-- <div class="input full">
+          <button type="button" id="downloadbutton" class="button" role="button">DOWNLOAD</button>
+        </div> -->
+    
+        </form>
     </div>
-
-    <!-- <div class="input full">
-      <button type="button" id="downloadbutton" class="button" role="button">DOWNLOAD</button>
-    </div> -->
-
-    </form>
+    <div id="buttons">
+      <button class="button" id="repaButton">Reperatur</button>
+      <button class="button" id="musterButton">Muster</button>
+      <button class="button" id="sonstigesButton">Sonstiges</button>
+    </div>
   </div>
-
+  
   <template id="TimerInterface">
     <div class="interface" id="">
       <p class="interfaceText"> Arbeitsplatz: xx </p>
