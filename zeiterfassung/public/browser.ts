@@ -28,14 +28,21 @@ class Zeit{
 // * ELEMENTS
 const startbutton: any = document.querySelector('#startbutton');
 const pausebutton: any = document.querySelector('#pausebutton');
+
+const repabutton: HTMLButtonElement | null = document.querySelector("#repaButton");
+const musterbutton: HTMLButtonElement | null  = document.querySelector("#musterButton");
+const sonsitgesbutton: HTMLButtonElement | null  = document.querySelector("#sonstigesButton");
+
 //const downloadbutton: any = document.querySelector("#downloadbutton");
 
 const arbeitsplatzInput = <HTMLInputElement>document.querySelector('#Arbeitsplatz');
 const arbeitskraftInput:HTMLInputElement | any = document.getElementById('Arbeitskraft');
 const auftragsnummerInput:HTMLInputElement | any = document.getElementById('Auftragsnummer');
-const modellnummerInput:HTMLInputElement | any = document.getElementById('Modellnummer');
+const artikelnummerInput:HTMLInputElement | any = document.getElementById('Modellnummer');
 const arbeitsschrittInput:HTMLInputElement | any = document.getElementById('Arbeitsschritt-Code');
+const sollZeitInput:HTMLInputElement | any = document.getElementById('SollZeit');
 const sollMengeInput:HTMLInputElement | any = document.getElementById('SollMenge');
+const notizInput:HTMLInputElement | any = document.querySelector("#Fehler");
 
 
 
@@ -87,7 +94,7 @@ async function updateInputs(){
     if(curTimer != null){
     arbeitskraftInput.value = curTimer.arbeitskraft;
     auftragsnummerInput.value = curTimer.auftragsnummer
-    modellnummerInput.value = curTimer.modellnummer
+    artikelnummerInput.value = curTimer.modellnummer
     arbeitsschrittInput.value = curTimer.arbeitschritt
     sollMengeInput.value = curTimer.sollmenge
     }
@@ -151,7 +158,7 @@ async function handleForm(event:Event) {
     
     if(startbutton.innerHTML == 'START'){
         if (window.confirm(`Timer ${arbeitsplatz} Starten?`)){
-            
+            notizInput.value = "000";
             const obj = new Zeit();
             obj.stop = false;
             //console.log("hallo")
@@ -172,6 +179,7 @@ async function handleForm(event:Event) {
                 obj.stop = true;
                 await postInfo(obj);
                 startbutton.innerHTML = "START";
+                notizInput.value = "";
             }
         }else{
             alert("Istmenge ausfüllen!");   
@@ -285,6 +293,17 @@ if(typeof window !== 'undefined' && startbutton !== null && pausebutton !== null
         }
     });
 } 
+if(repabutton !== null){
+    repabutton.addEventListener("click",() =>{
+        auftragsnummerInput.value = "RR0000000";
+        artikelnummerInput.value = "00000";
+        arbeitsschrittInput.value = '000';
+        sollZeitInput.value = "00:00";
+        sollMengeInput.value = '000';
+        istMengeInput.value = '000';
+    });
+}
+
 
 //downloadbutton listner
 /*
@@ -399,3 +418,4 @@ async function getInfo(e:any) {
 }
  */
 
+console.log(arbeitskraftInput)

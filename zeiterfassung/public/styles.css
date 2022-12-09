@@ -53,7 +53,12 @@ body{
 }
 
 .button{
-    
+    background-color: #3e3e3e;
+    color: #ffffff;
+    border-radius: 5px;
+    border-color: #000000;
+    width: 120px;
+    height: 35px;
 }
 
 

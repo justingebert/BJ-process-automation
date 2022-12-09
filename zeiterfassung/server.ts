@@ -288,9 +288,8 @@ function newDay(data:any){
             const workbook = XLSX.readFile(pathExcelOriginal);
             const worksheet:any = workbook.Sheets[data[1]];
             if(worksheet != null){
-                const sheetname: string = String(data[1]);
                 XLSX.utils.sheet_add_aoa(worksheet,newDaySpace,{origin: -1});
-                XLSX.utils.book_append_sheet(workbook, worksheet, sheetname);
+                
             }
             XLSX.writeFile(workbook, pathExcelOriginal);
             console.log("added new Day space");
