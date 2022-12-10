@@ -14,6 +14,8 @@
   <div>
     <img src="/img/logow.png" id="logo">
   </div>
+<div id="container">
+
   <div id="form">
   <form id="formwinputs">
 
@@ -30,7 +32,7 @@
 
     <div class="input left">
       <label>Auftrags-nr:</label>
-      <input type="text" id="Auftragsnummer" placeholder="AA00000" maxlength="7" minlength="7" required>
+      <input type="text" id="Auftragsnummer" placeholder="AA00000" maxlength="9" minlength="9" required>
     </div>
 
     <div class="input right">
@@ -60,20 +62,29 @@
     
     <div class="input full">
       <label>Notiz:</label>
-    <input type="text" id="Fehler"  placeholder="Fehler oder Bemerkungen"> 
+    <input type="text" id="fehler"  placeholder="Fehler oder Bemerkungen" required> 
     </div>
     
-    <div class="input full">
-      <button type="submit" id="startbutton" class="button" role="button">START</button>
+    <div class="input left">
+      <button type="submit" id="startbutton" class="mainbutton" role="button">START</button>
     </div>
     
-    <div class="input full">
-      <button type="button" id="pausebutton" class="button" role="button">PAUSE</button>
+    <div class="input right">
+      <button type="button" id="pausebutton" class="mainbutton" role="button">PAUSE</button>
     </div>
 
     </form>
   </div>
-  <div>
+
+  <div id="buttons">
+    <button class="button" id="repaButton">REPERATUR</button>
+    <button class="button" id="musterButton">MUSTER</button>
+    <button class="button" id="sonstigesButton">SONSTIGES</button>
+  </div>
+
+</div>
+
+  <div id="zeiten">
       <h2 id="zeit">Zeit: 00:00:00</h2>
       <h2 id="soll">SollZeit: 00:00:00</h2>
 

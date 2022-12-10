@@ -141,7 +141,8 @@ let curData: any;
 
 let timerCollection:any = [];
 
-let timerDate: Date;
+let timerDate =  new Date();
+let day = timerDate.getDay();
 
 const datatop = [
     [
@@ -252,6 +253,7 @@ function createORappend(data: any){
  
 //create Excel file
 function createXLSX(data:any){
+    day = timerDate.getDay();
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(datatop);
     XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
@@ -263,7 +265,7 @@ function createXLSX(data:any){
 
 //append prepared data to Excel
 function appendJSON(data:any){
-    timerDate = new Date();
+    day = timerDate.getDay();
     const workbook = XLSX.readFile(pathExcelOriginal);
     const worksheet:any = workbook.Sheets[data[1]];
     if(worksheet == null){
@@ -379,12 +381,18 @@ app.post('/:id', async (req:any,res:any) => {
             obj = JSON.parse(JSON.stringify(obj))
             await prepareData(obj);
             
+            //newday space
+            let dateNow = new Date();
+            let daynow = dateNow.getDay();
+            console.log(daynow);
+            console.log(day)
+            if(day != daynow){
+                await newDay(curData);
+            }
+
             curData = Object.values(obj);
             await createORappend(curData)
-            let dateNow = new Date();
-            if(timerDate != dateNow){
-                newDay(curData);
-            }
+
             timerCollection[timerID] = null;
             //cleanArray(timerCollection);
             //todo clear array size

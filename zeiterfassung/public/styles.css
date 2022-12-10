@@ -166,3 +166,11 @@ input{
     justify-content: space-evenly;
 
  }
+
+ /*! Text */
+
+#zeiten{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+ }

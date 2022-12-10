@@ -9,7 +9,7 @@
             "server": "localhost",
             "port": 5000,
             "driver": "MySQL",
-            "name": "bj",
+            "name": "bagjack-pa",
             "database": "bagjack",
             "username": "root",
             "password": "3233"

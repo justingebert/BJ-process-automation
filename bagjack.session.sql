@@ -1,7 +1,0 @@
-
-
--- @block
-CREATE TABLE timer(
-    
-);
-
