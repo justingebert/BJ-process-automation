@@ -92,6 +92,13 @@ consistent
 possible to run db in docker container
 
 
+
+## Learning React
+w3s tutorial + fireship video playlist
+create react project: npx create-react-app .
+
+sperate front and backend - also dependencies for scalbility
+
 ## Problems-Solutions:
 Camera access -> browser requires ssl certificate
 
