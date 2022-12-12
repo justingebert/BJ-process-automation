@@ -4,4 +4,23 @@
 
 command: --default-authentication-plugin=mysql_native_password
 
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'p
+
+    
+volumes:
+  data:
+  station:
+    driver_opts:
+      type: cifs
+      o: "user={Justin},domain={Bagjack-Station},password={JG_bagjack-210608}"
+      device: \\192.168.178.10\Planung\Produktionsplanung\test\excel
+  
+station:
+    driver_opts:
+      type: cifs
+      o: "user={Justin},domain={Bagjack-Station},password={JG_bagjack-210608}"
+      device: \\192.168.178.10\Produktion\Planung\Produktionsplanung\DispositionArbeitszeitberechnung\Näherei\Zeiterfassung\excel
+
+file_mode={0777},dir_mode={0777}
+
+docker volume create --driver local --opt type=cifs --opt device=//networkdrive-ip/Folder --opt o=user=yourusername,domain=yourdomain,password=yourpassword mydockervolume
