@@ -51,7 +51,7 @@ const form: any = document.getElementById('formwinputs');
 const user = document.getElementById('zeit');
 const sollZeit: HTMLElement | any = document.getElementById('soll');
 
-
+const inputArray = [auftragsnummerInput,artikelnummerInput,arbeitsschrittInput,sollZeitInput,sollMengeInput,notizInput];
 
 
 // * VARIALBES
@@ -262,8 +262,8 @@ arbeitsplatzInput.addEventListener('change', updateInputs);
 
 form.addEventListener('submit', handleForm);
 
-//button listeners
 
+//clear notiz for everything but AA -> notiz only required if timer is REPA/MUSTER/SOnSTIGES
 auftragsnummerInput.addEventListener("change", () => {
     const auftragsnummer: string = auftragsnummerInput.value;
     const code = auftragsnummer.substring(0,2);
@@ -274,6 +274,15 @@ auftragsnummerInput.addEventListener("change", () => {
     }
 })
 
+inputArray.forEach(function(elem){
+    elem.addEventListener("change", () => {
+        //this should update the timer and the database
+    });
+});
+
+//button listeners
+
+//POST pause/resume to server
 pausebutton?.addEventListener("click", async () => {
     if (arbeitsplatzInput.validity.valid) {
         await getInfo(arbeitsplatz)
@@ -297,6 +306,7 @@ pausebutton?.addEventListener("click", async () => {
     }
 });
 
+//fill inputs for repa
 repabutton?.addEventListener("click", () => {
     auftragsnummerInput.value = "RR0000000";
     artikelnummerInput.value = "00000";
@@ -306,6 +316,7 @@ repabutton?.addEventListener("click", () => {
     istMengeInput.value = '000';
     notizInput.value = '';
 });
+//fill inputs for muster
 musterbutton?.addEventListener("click", () => {
     auftragsnummerInput.value = "MM0000000";
     artikelnummerInput.value = "00000";
@@ -315,6 +326,7 @@ musterbutton?.addEventListener("click", () => {
     istMengeInput.value = '000';
     notizInput.value = '';
 })
+//fill inputs for sonstiges
 sonsitgesbutton?.addEventListener("click", () => {
     auftragsnummerInput.value = "SS0000000";
     artikelnummerInput.value = "00000";
