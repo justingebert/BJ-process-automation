@@ -21,6 +21,7 @@ services:
 
   web:
     build: .
+    restart: always
     ports:
       - "50055:50055"
     volumes:
