@@ -138,4 +138,5 @@ browser.js
 server.js
 rt.js
 data.js
+copyexcel.js
 *.xlsx
