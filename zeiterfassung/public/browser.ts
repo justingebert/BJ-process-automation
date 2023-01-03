@@ -274,9 +274,18 @@ auftragsnummerInput.addEventListener("change", () => {
     }
 })
 
-inputArray.forEach(function(elem){
-    elem.addEventListener("change", () => {
+inputArray.forEach(async function(elem){
+    await elem.addEventListener("change", () => {
         //this should update the timer and the database
+        getArbeitsplatz();
+        if (timerCollection[arbeitsplatz] != null) {
+            getInfo(arbeitsplatz)
+            const inputobj = new Zeit();
+            copyData(inputobj);
+            const obj = timerCollection[arbeitsplatz];
+            postInfo(obj);
+            console.log("attributes updated");
+        }
     });
 });
 
