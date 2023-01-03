@@ -216,6 +216,9 @@ function prepareData(data:any){
     data.zeit = msToTime(data.zeit);
     data.date = new Date();
     //delte whats not in data top
+
+    day = timerDate.getDay();
+
 }
 
 //convert ms to Time Format
@@ -255,7 +258,6 @@ function createORappend(data: any){
  
 //create Excel file
 function createXLSX(data:any){
-    day = timerDate.getDay();
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(datatop);
     XLSX.utils.sheet_add_aoa(worksheet,[data],{origin: -1});
@@ -267,7 +269,7 @@ function createXLSX(data:any){
 
 //append prepared data to Excel
 function appendJSON(data:any){
-    day = timerDate.getDay();
+    
     const workbook = XLSX.readFile(pathExcelOriginal);
     const worksheet:any = workbook.Sheets[data[1]];
     if(worksheet == null){
