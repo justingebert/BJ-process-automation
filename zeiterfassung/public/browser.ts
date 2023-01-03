@@ -274,8 +274,8 @@ auftragsnummerInput.addEventListener("change", () => {
     }
 })
 
-inputArray.forEach(async function(elem){
-    await elem.addEventListener("change", () => {
+inputArray.forEach(function(elem){
+    elem.addEventListener("change", () => {
         //this should update the timer and the database
         getArbeitsplatz();
         if (timerCollection[arbeitsplatz] != null) {

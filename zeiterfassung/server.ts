@@ -210,7 +210,7 @@ function prepareData(data:any){
     delete data.interface;
 
     if(data.istmenge > 0)   data.artikelzeit = msToTime(data.zeit/data.istmenge);
-    else msToTime(data.zeit)
+    else data.artikelzeit = msToTime(data.zeit)
     
     data.sollzeit = msToTime(timeToMs(data.sollzeit));
     data.zeit = msToTime(data.zeit);
