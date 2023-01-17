@@ -18,12 +18,13 @@ const port = 50055;
 const curIP = ip.address();
 //sql connect
 const mySqlConfig = {
-    host: "mysql_server",
+    host: "192.168.178.110",
+    port: "5000",
     user: "root",
-    password: "password",
+    password: "3233",
     database: "bagjack"
 }
-let con = null;
+let con: mysql.Connection | null = null;
 //let curIP = 'localhost';
 
 //create https
@@ -424,8 +425,15 @@ app.get('/db',function(req,res){
     con.connect(function(err){
         if(err) throw err;
         res.send('connected');
+        console.log("COnnected to DB");
+        con?.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("Result: " + result);
+          });
     })
 })
+
+
 //downlaod Excel -- not working
 /* app.get('/download',function(req,res){
 console.log(req.body);
