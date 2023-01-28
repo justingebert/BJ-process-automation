@@ -95,7 +95,8 @@ possible to run db in docker container
 
 ## Learning React
 w3s tutorial + fireship video playlist
-create react project: npx create-react-app .
+create react project: npx create-react-app <projectname> --tempalte typescript
+
 
 sperate front and backend - also dependencies for scalbility
 

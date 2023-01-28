@@ -1,13 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import Knr from './Knr';
+import {Input, Button} from './Input'
+import './App.css';
 
 function App() {
   return (
-    <>
-      <h1>Bagjack</h1>
-      <Knr />
-    </>
+    <div>
+      <p>Bagjack</p>
+      <Input />
+      <Button />
+    </div>
+    
   );
 }
 
