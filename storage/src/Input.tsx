@@ -8,7 +8,7 @@ function Input(){
 
 function Button(){
     return(
-        <button>Look</button>
+        <button>Lookup</button>
     );
 }
 
