@@ -1,18 +1,30 @@
 import React from 'react';
 
-function Input(){
+function InputCode(){
     return(
         <input type="text" placeholder='code' />
     );
 }
 
-function Button(){
+function InputAttributes(){
     return(
-        <button>Lookup</button>
+
+    );
+}
+
+function SetAttributesButton(){
+    return(
+        
+    );
+}
+
+function LookupButton(){
+    return(
+        <button >Lookup</button>
     );
 }
 
 export {
-    Input,
-    Button
+    InputCode,
+    LookupButton
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Button} from './Input'
+import {InputCode, LookupButton} from './Input'
 import './App.css';
 import ClearAllButton from "./Clear"
 import Head from './Header';
@@ -14,8 +14,9 @@ function App() {
       </div>
 
       <div>
-      <Input />
-      <Button />
+      
+      <InputCode />
+      <LookupButton />
       <ClearAllButton />
       </div>
 

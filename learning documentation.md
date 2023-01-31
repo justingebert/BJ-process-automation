@@ -97,6 +97,10 @@ possible to run db in docker container
 w3s tutorial + fireship video playlist
 create react project: npx create-react-app <projectname> --tempalte typescript
 
+maps: need key so entrie list doesnt get rerendered
+
+froms:
+
 
 sperate front and backend - also dependencies for scalbility
 
