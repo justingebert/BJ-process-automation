@@ -1,5 +1,5 @@
 import React from 'react';
-import {InputCode, LookupButton} from './Input'
+import {BoxInfo, EditBoxButtons, LookUpCode} from './ViewBox'
 import './App.css';
 import ClearAllButton from "./Clear"
 import Head from './Header';
@@ -14,14 +14,9 @@ function App() {
       </div>
 
       <div>
-      
-      <InputCode />
-      <LookupButton />
-      <ClearAllButton />
-      </div>
-
-      <div>
-      <Table />
+        <LookUpCode />
+        <BoxInfo />
+        <EditBoxButtons />
       </div>
 
     </div>
