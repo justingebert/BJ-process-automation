@@ -1,6 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState,createContext } from 'react';
+const BoxContext = createContext(null);
+
+
+function ViewBox(){
+    
+}
+
 
 function LookUpCode(){
+    const [boxData, setBoxData] = useState(null);
+
+
+    const fetchBox = async () => {
+        const res = await fetch("/",{
+            method: 'GET'
+        });
+        const dataBox = await res.json();
+        setBoxData(dataBox);
+    }
+
     return(
         <>
         <input type="text" placeholder='code' />
@@ -36,10 +54,11 @@ function EditBoxButtons(){
 }
 
 function SectionTable(){
+    const [BoxCode , Sections] = useState();
     return(
         <>
         <div>
-            
+            <SectionTableHeader />
         </div>
         </>
     );
@@ -59,8 +78,6 @@ function SectionTableHeader(){
 }
 
 function SectionTableRow(props:any){
-   
-
     return(
         <>
         <div>
@@ -71,13 +88,6 @@ function SectionTableRow(props:any){
         </div>
         </>
     );
-}
-
-interface Box {
-    section: number;
-    orderID: string;
-    itemId: number;
-    quantity: number;
 }
 
 
