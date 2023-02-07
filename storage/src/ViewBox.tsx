@@ -1,28 +1,32 @@
-import React, { useContext, useState,createContext } from 'react';
+import React, { useContext, useState,createContext,useEffect} from 'react';
 const BoxContext = createContext(null);
 
 
 function ViewBox(){
-    
+    return(
+        <>
+        LookupCode
+        </>
+    );
 }
 
 
 function LookUpCode(){
-    const [boxData, setBoxData] = useState(null);
-
+    const [boxCode, setBoxCode] = useState("");
 
     const fetchBox = async () => {
-        const res = await fetch("/",{
+        const res = await fetch(`/Info/${boxCode}`, {
             method: 'GET'
         });
         const dataBox = await res.json();
-        setBoxData(dataBox);
+        console.log(dataBox);
+        setBoxCode(dataBox);
     }
 
     return(
         <>
-        <input type="text" placeholder='code' />
-        <button>Lookup</button>
+        <input type="text" placeholder='code' value={boxCode} onChange={e => setBoxCode(e.target.value)}/>
+        <button onClick={fetchBox}>Lookup</button>
         </>
     );
 }
@@ -52,14 +56,21 @@ function EditBoxButtons(){
         </>
     );
 }
-
-function SectionTable(){
-    const [BoxCode , Sections] = useState();
+/*
+function SectionTable(props:any){
+    //const [BoxCode , Sections] = useState();
+    const sectionrows = sections.map(section => 
+        <SectionTableRow 
+        section={section.id}
+        orderID={section.orderId}
+        itemID={section.itemID}
+        quantity={section.quantity}
+        />
+        )
     return(
         <>
-        <div>
-            <SectionTableHeader />
-        </div>
+        <SectionTableHeader />
+        {sectionrows}
         </>
     );
 }
@@ -77,10 +88,10 @@ function SectionTableHeader(){
     );
 }
 
-function SectionTableRow(props:any){
+function SectionTableRow({section,orderID,itemID,quantity}){
     return(
         <>
-        <div>
+        <div className='TableRow'>
             <p>{section}</p>
             <p>{orderID}</p>
             <p>{itemID}</p>
@@ -90,11 +101,11 @@ function SectionTableRow(props:any){
     );
 }
 
-
+*/
 
 export {
     LookUpCode,
     BoxInfo,
     EditBoxButtons,
-    SectionTable
+    //SectionTable
 }
