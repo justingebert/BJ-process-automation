@@ -15,7 +15,7 @@ function LookUpCode(){
     const [boxCode, setBoxCode] = useState("");
 
     const fetchBox = async () => {
-        const res = await fetch(`/Info/${boxCode}`, {
+        const res = await fetch("http://192.168.178.110:50056/info/"+boxCode, {
             method: 'GET'
         });
         const dataBox = await res.json();

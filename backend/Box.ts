@@ -4,7 +4,7 @@ type section = {
     itemID: number;
     quantity: number;
 }
-class Box{
+/* class Box{
     status: any;
     quantity:number = this.sections.reduce((a,b) => a + b.quantity,0);
     position: string;
@@ -12,8 +12,11 @@ class Box{
     description: string;
     sections: Array<section>;
 
-}
+    constructor(){
 
+    }
+}
+ */
 
 
 export const box1 = {

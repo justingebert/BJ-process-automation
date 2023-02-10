@@ -6,13 +6,13 @@ const ip = require("ip");
 const port = 50056;
 const curIP = ip.address();
 
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/Info/:boxCode",(req,res) => {
+
+app.get("/info/:boxCode",(req,res) => {
+    console.log(box1);
     res.json(box1);
 })
 
-app.listen(port, curIP, () => {console.log(`live on https://${curIP}:${port}`)})
+app.listen(port, () => {console.log(`live on http://${curIP}:${port}`)})
