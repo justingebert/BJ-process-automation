@@ -1,18 +1,14 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
-const BoxContext = createContext(null);
-
-
-function ViewBox(){
-    return(
-        <>
-        LookupCode
-        </>
-    );
-}
 
 
 function LookUpCode(){
     const [boxCode, setBoxCode] = useState("");
+    const [boxData, setBoxData] = useState(null);
+    const [sectionData, setSectionData] = useState(null);
+
+
+    let info = null;
+
 
     const fetchBox = async () => {
         const res = await fetch("http://192.168.178.110:50056/info/"+boxCode, {
@@ -20,26 +16,31 @@ function LookUpCode(){
         });
         const dataBox = await res.json();
         console.log(dataBox);
-        setBoxCode(dataBox);
+        setBoxData(dataBox);
     }
 
     return(
         <>
         <input type="text" placeholder='code' value={boxCode} onChange={e => setBoxCode(e.target.value)}/>
         <button onClick={fetchBox}>Lookup</button>
+        {boxData && <BoxInfo data={boxData} />}
+        <EditBoxButtons />
+        {boxData && <SectionTable data={boxData} />}
         </>
+        
     );
 }
 
-function BoxInfo(){
+function BoxInfo(props:any){
+    //const boxInfo = useContext(boxCode);
     return(
         <>
         <div>
-            <p>Status:</p><p></p>
-            <p>Menge:</p><p>150</p>
-            <p>Ort:</p><p>ZM-R8-07</p>
-            <p>Arbeitschritt:</p><p>150</p>
-            <p>Beschreinung:</p><p>NXL Messenger Blau innen</p>
+            <p>Status:{props.data.status}</p>
+            <p>Menge:{props.data.quanitity}</p>
+            <p>Ort:{props.data.position}</p>
+            <p>Arbeitschritt:{props.data.procedure}</p>
+            <p>Beschreinung:{props.data.description}</p>
         </div>
         </>
     );
@@ -56,10 +57,10 @@ function EditBoxButtons(){
         </>
     );
 }
-/*
+
 function SectionTable(props:any){
     //const [BoxCode , Sections] = useState();
-    const sectionrows = sections.map(section => 
+    const sectionrows = props.data.sections.map((section: { id: any; orderId: any; itemID: any; quantity: any; }) => 
         <SectionTableRow 
         section={section.id}
         orderID={section.orderId}
@@ -88,7 +89,7 @@ function SectionTableHeader(){
     );
 }
 
-function SectionTableRow({section,orderID,itemID,quantity}){
+function SectionTableRow({section, orderID,itemID,quantity}:any){
     return(
         <>
         <div className='TableRow'>
@@ -101,7 +102,6 @@ function SectionTableRow({section,orderID,itemID,quantity}){
     );
 }
 
-*/
 
 export {
     LookUpCode,

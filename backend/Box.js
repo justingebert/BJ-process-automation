@@ -15,7 +15,7 @@ exports.box1 = void 0;
 }
  */
 exports.box1 = {
-    status: "k",
+    status: "h",
     quanitity: 150,
     position: "ZM-R8-06",
     procedure: 150,

@@ -1,8 +1,18 @@
+
 type section = {
     section: number;
     orderId: string;
     itemID: number;
     quantity: number;
+}
+
+type box = {
+    status: any;
+    quantity:number;
+    position: string;
+    procedure: number;
+    description: string;
+    sections: Array<section>;
 }
 /* class Box{
     status: any;
@@ -20,7 +30,7 @@ type section = {
 
 
 export const box1 = {
-    status: "k",
+    status: "h",
     quanitity: 150,
     position: "ZM-R8-06",
     procedure: 150,

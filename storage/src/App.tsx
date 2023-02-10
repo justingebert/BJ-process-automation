@@ -13,8 +13,6 @@ function App() {
 
       <div>
         <LookUpCode />
-        <BoxInfo />
-        <EditBoxButtons />
       </div>
 
     </div>
