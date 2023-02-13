@@ -38,11 +38,22 @@ function BoxInfo(props:any){
     return(
         <>
         <div id='BoxInfo'>
-            <p className='TextInfo' id='status'>Status:{props.data.status}</p>
-            <p className='TextInfo' id='quantity'>Menge:{props.data.quanitity}</p>
-            <p className='TextInfo' id='position'>Ort:{props.data.position}</p>
-            <p className='TextInfo' id='procedure'>Arbeitschritt:{props.data.procedure}</p>
-            <p className='TextInfo' id='description'>Beschreinung:{props.data.description}</p>
+            <div className='TextInfo' id='status'>
+                <p >Status:{props.data.status}</p>
+            </div>
+            <div className='TextInfo' id='quantity'>
+                <p >Menge:{props.data.quanitity}</p>
+            </div>
+            <div className='TextInfo' id='position'>
+                <p >Ort:{props.data.position}</p>
+            </div>
+            <div className='TextInfo' id='procedure'>
+                Arbeitschritt:{props.data.procedure}
+            </div>
+            <div className='TextInfo' id='description'>
+                <p >Beschreinung:{props.data.description}</p>
+            </div>
+
         </div>
         </>
     );
@@ -86,10 +97,18 @@ function SectionTableHeader(){
     return(
         <>
         <div className='TableHead'>
-            <p>A</p>
-            <p>AuftragsNr</p>
-            <p>ArtikelNr</p>
-            <p>#</p>
+            <div className='rowInfo'>
+                <p >A</p>
+            </div>
+            <div className='rowInfo'>
+                <p >AuftragsNr</p>
+            </div>
+            <div className='rowInfo'>
+                <p>ArtikelNr</p>
+            </div>
+            <div className='rowInfo'>
+                <p>#</p>
+            </div>
         </div>
         </>
     );
@@ -99,10 +118,18 @@ function SectionTableRow({section, orderID, itemID, quantity}:any){
     return(
         <>
         <div className='TableRow'>
-            <p>{section}</p>
-            <p>{orderID}</p>
-            <p>{itemID}</p>
-            <p>{quantity}</p>
+            <div className='rowInfo'>
+                <p>{section}</p>  
+            </div>
+            <div className='rowInfo'>
+                <p>{orderID}</p>
+            </div>
+            <div className='rowInfo'>
+                <p>{itemID}</p>
+            </div>
+            <div className='rowInfo'>
+                <p >{quantity}</p>
+            </div>
         </div>
         </>
     );

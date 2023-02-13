@@ -1,9 +1,14 @@
 /* VARS */
 :root{
     --main-bg-color: #292929;
-    --text-bg-Color: #191919;
+    --text-bg-color: #191919;
     --placeholder-color: #434343;
     --text-bg-outline-color: #706F6F;
+    --table-header-color: #BFBFBF;
+
+    --border-radius-table: 10px;
+    --table-margin: 15px;
+    --table-row-height: 35px;
 }
 
 /*! LOOKUPINPUT */
@@ -15,8 +20,9 @@
 
 #CodeInput{
     color: grey;
-    background-color: var(--text-bg-Color);
-    border-color: ;
+    background-color: var(--text-bg-color);
+    border-radius: 3px;
+    border-color: var(--text-bg-outline-color);
     border-radius: 10px;
 }
 
@@ -41,7 +47,11 @@
 }
 
 .TextInfo {
-    background-color: darkblue;
+    background-color: var(--text-bg-color);
+    width: 90%;
+    border-radius: 5px;
+    text-align: center;
+    align-items: center;
 }
 
 #status {
@@ -100,13 +110,23 @@
 }
 
 .TableRow {
-    background-color: aqua;
+    border-radius: var(--border-radius-table);
+    background-color: var(--text-bg-color);
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
+    height: var(--table-row-height);
+    margin-bottom: var(--table-margin);
+}
+
+.rowInfo{
+    margin: auto;
 }
 
 .TableHead {
-    background-color: red;
+    border-radius: var(--border-radius-table);
+    background-color: var(--table-header-color);
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
+    margin-bottom: var(--table-margin);
+    height: var(--table-row-height);
 }
