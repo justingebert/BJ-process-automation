@@ -19,7 +19,7 @@ exports.box1 = {
     quanitity: 150,
     position: "ZM-R8-06",
     procedure: 150,
-    description: "NXL Messenger Blau innen",
+    description: "NXL Messenger Blau innen fdfdsfsf f dsfsd feaf  faf",
     sections: [
         { section: 1, orderID: "AA1234567", itemID: 11111, quantity: 50 },
         { section: 2, orderID: "AA1234567", itemID: 22222, quantity: 100 },

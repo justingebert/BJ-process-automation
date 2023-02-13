@@ -16,6 +16,7 @@
     display: grid;
     grid-template-columns: 60% 25%;
     justify-content: center;
+    margin: 20px 0px 20px 0px;
 }
 
 #CodeInput{
@@ -34,24 +35,25 @@
 
 #BoxInfo {
     width: 85%;
-    margin: auto;
+    margin: 20px auto 20px auto;
     display: grid;
-    /* grid-template-columns: 50% 50%;
-        grid-template-rows: 30% 30% 30%; */
+    grid-template-columns: 50% 50%;
+        grid-template-rows: 33% 33% 33%;
     grid-template-areas:
         "status quantity"
         "position procedure"
         "description description"
     ;
-
 }
 
 .TextInfo {
+    width: 100%;
+    color: white;
     background-color: var(--text-bg-color);
-    width: 90%;
     border-radius: 5px;
     text-align: center;
-    align-items: center;
+    padding: 5px 0 5px 0;
+    margin: 8px auto 8px auto;
 }
 
 #status {
@@ -71,7 +73,9 @@
 }
 
 #description {
+    text-align: start;
     grid-area: description;
+    height: fit-content;
 }
 
 /*! BUTTONS */
@@ -119,6 +123,12 @@
 }
 
 .rowInfo{
+    color: white;
+    margin: auto;
+}
+
+.headInfo{
+    color: black;
     margin: auto;
 }
 

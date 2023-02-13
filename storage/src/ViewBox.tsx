@@ -39,19 +39,19 @@ function BoxInfo(props:any){
         <>
         <div id='BoxInfo'>
             <div className='TextInfo' id='status'>
-                <p >Status:{props.data.status}</p>
+                 Status:{props.data.status}
             </div>
             <div className='TextInfo' id='quantity'>
-                <p >Menge:{props.data.quanitity}</p>
+                 Menge:{props.data.quanitity}
             </div>
             <div className='TextInfo' id='position'>
-                <p >Ort:{props.data.position}</p>
+                 Ort:{props.data.position}
             </div>
             <div className='TextInfo' id='procedure'>
                 Arbeitschritt:{props.data.procedure}
             </div>
             <div className='TextInfo' id='description'>
-                <p >Beschreinung:{props.data.description}</p>
+                 Beschreinung:{props.data.description}
             </div>
 
         </div>
@@ -63,9 +63,9 @@ function EditBoxButtons(){
     return(
         <>
         <div className='MainButtons'>
-            <button className='ButtonMid' id='ButtonEdit'>Edit</button>
-            <button className='ButtonMid' id='ButtonNew'>New</button>
-            <button className='ButtonMid' id='ButtonClear'>Clear</button>
+            <button className='ButtonMid' id='ButtonEdit' onClick={}>Edit</button>
+            <button className='ButtonMid' id='ButtonNew' onClick={}>New</button>
+            <button className='ButtonMid' id='ButtonClear' onClick={}>Clear</button>
         </div>
         </>
     );
@@ -97,17 +97,17 @@ function SectionTableHeader(){
     return(
         <>
         <div className='TableHead'>
-            <div className='rowInfo'>
-                <p >A</p>
+            <div className='headInfo'>
+                A
             </div>
-            <div className='rowInfo'>
-                <p >AuftragsNr</p>
+            <div className='headInfo'>
+                AuftragsNr
             </div>
-            <div className='rowInfo'>
-                <p>ArtikelNr</p>
+            <div className='headInfo'>
+                ArtikelNr
             </div>
-            <div className='rowInfo'>
-                <p>#</p>
+            <div className='headInfo'>
+                #
             </div>
         </div>
         </>
@@ -119,21 +119,70 @@ function SectionTableRow({section, orderID, itemID, quantity}:any){
         <>
         <div className='TableRow'>
             <div className='rowInfo'>
-                <p>{section}</p>  
+                {section}  
             </div>
             <div className='rowInfo'>
-                <p>{orderID}</p>
+                {orderID}
             </div>
             <div className='rowInfo'>
-                <p>{itemID}</p>
+                {itemID}
             </div>
             <div className='rowInfo'>
-                <p >{quantity}</p>
+                {quantity}
             </div>
         </div>
         </>
     );
 }
+
+function EditBoxInfo({position, procedure, description}:any){
+    return(
+        <>
+        <div>
+            <div>
+                <label>Ort:</label>
+                <input type="text" value={position}/>
+            </div>
+            <div>
+                <label>Arbeitschritt:</label>
+                <input type="text" value={procedure}/>
+            </div>
+            <div>
+                <label>Beschreibung:</label>
+                <input type="text" value={description}/>
+            </div>
+        </div>
+        </>
+    );
+}
+
+function EditSectionInfo({section, itemID, orderID, quantity}:any){
+    return(
+        <>
+         <div>
+            <div>
+                <label>Abteil:</label>
+                <input type="number" value={section}/>
+            </div>
+            <div>
+                <label>ArtikelNr:</label>
+                <input type="number" value={itemID}/>
+            </div>
+            <div>
+                <label>AuftragsNr:</label>
+                <input type="text" value={orderID}/>
+            </div>
+            <div>
+                <label>Menge:</label>
+                <input type="number" value={quantity}/>
+            </div>
+        </div>
+
+        <button></button>
+        </>
+    );
+}
+
 
 
 export {
