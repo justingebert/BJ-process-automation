@@ -7,16 +7,9 @@ h1{
   color: whitesmoke;
 }
 
-img{
-  width: 200px;
-}
 
 p{
   color: white;
-}
-
-.table{
-  border: 3px red solid;
 }
 
 .App-header {

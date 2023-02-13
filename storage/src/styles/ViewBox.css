@@ -1,0 +1,112 @@
+/* VARS */
+:root{
+    --main-bg-color: #292929;
+    --text-bg-Color: #191919;
+    --placeholder-color: #434343;
+    --text-bg-outline-color: #706F6F;
+}
+
+/*! LOOKUPINPUT */
+.lookup{
+    display: grid;
+    grid-template-columns: 60% 25%;
+    justify-content: center;
+}
+
+#CodeInput{
+    color: grey;
+    background-color: var(--text-bg-Color);
+    border-color: ;
+    border-radius: 10px;
+}
+
+#ButtonLookup{
+
+}
+
+/*! INFO */
+
+#BoxInfo {
+    width: 85%;
+    margin: auto;
+    display: grid;
+    /* grid-template-columns: 50% 50%;
+        grid-template-rows: 30% 30% 30%; */
+    grid-template-areas:
+        "status quantity"
+        "position procedure"
+        "description description"
+    ;
+
+}
+
+.TextInfo {
+    background-color: darkblue;
+}
+
+#status {
+    grid-area: status;
+}
+
+#quantity {
+    grid-area: quantity;
+}
+
+#position {
+    grid-area: position;
+}
+
+#procedure {
+    grid-area: procedure;
+}
+
+#description {
+    grid-area: description;
+}
+
+/*! BUTTONS */
+
+.MainButtons {
+    width: 85%;
+    margin: 20px auto 20px auto;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    justify-content: center;
+}
+
+.ButtonMid {
+    height: 40px;
+    width: 100px;
+    border-radius: 10px;
+}
+
+#ButtonEdit {
+    background-color: white;
+}
+
+#ButtonNew {
+    background-color: green;
+}
+
+#ButtonClear {
+    background-color: red;
+}
+
+/*! TABLE */
+
+#Table{
+    width: 85%;
+    margin: auto;
+}
+
+.TableRow {
+    background-color: aqua;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.TableHead {
+    background-color: red;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}

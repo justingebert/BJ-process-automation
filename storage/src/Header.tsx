@@ -1,6 +1,10 @@
+import "./styles/Header.css"
+
 function Head(){
     return(
-        <img src="logow.png" alt="" />
+        <div className="Header" >
+            <img src="logow.png" alt="" />
+        </div>
     );
 }
 

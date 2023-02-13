@@ -1,5 +1,5 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
-
+import "./styles/ViewBox.css"
 
 function LookUpCode(){
     const [boxCode, setBoxCode] = useState("");
@@ -21,8 +21,10 @@ function LookUpCode(){
 
     return(
         <>
-        <input type="text" placeholder='code' value={boxCode} onChange={e => setBoxCode(e.target.value)}/>
-        <button onClick={fetchBox}>Lookup</button>
+        <div className='lookup'>
+            <input id='CodeInput' type="text" placeholder='code' value={boxCode} onChange={e => setBoxCode(e.target.value)}/>
+            <button className='ButtonMid' id='ButtonLookup' onClick={fetchBox}>Lookup</button>
+        </div>
         {boxData && <BoxInfo data={boxData} />}
         <EditBoxButtons />
         {boxData && <SectionTable data={boxData} />}
@@ -35,12 +37,12 @@ function BoxInfo(props:any){
     //const boxInfo = useContext(boxCode);
     return(
         <>
-        <div>
-            <p>Status:{props.data.status}</p>
-            <p>Menge:{props.data.quanitity}</p>
-            <p>Ort:{props.data.position}</p>
-            <p>Arbeitschritt:{props.data.procedure}</p>
-            <p>Beschreinung:{props.data.description}</p>
+        <div id='BoxInfo'>
+            <p className='TextInfo' id='status'>Status:{props.data.status}</p>
+            <p className='TextInfo' id='quantity'>Menge:{props.data.quanitity}</p>
+            <p className='TextInfo' id='position'>Ort:{props.data.position}</p>
+            <p className='TextInfo' id='procedure'>Arbeitschritt:{props.data.procedure}</p>
+            <p className='TextInfo' id='description'>Beschreinung:{props.data.description}</p>
         </div>
         </>
     );
@@ -49,10 +51,10 @@ function BoxInfo(props:any){
 function EditBoxButtons(){
     return(
         <>
-        <div>
-            <button>Edit</button>
-            <button>New</button>
-            <button>Clear</button>
+        <div className='MainButtons'>
+            <button className='ButtonMid' id='ButtonEdit'>Edit</button>
+            <button className='ButtonMid' id='ButtonNew'>New</button>
+            <button className='ButtonMid' id='ButtonClear'>Clear</button>
         </div>
         </>
     );
@@ -60,18 +62,22 @@ function EditBoxButtons(){
 
 function SectionTable(props:any){
     //const [BoxCode , Sections] = useState();
-    const sectionrows = props.data.sections.map((section: { id: any; orderId: any; itemID: any; quantity: any; }) => 
+    const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
         <SectionTableRow 
-        section={section.id}
-        orderID={section.orderId}
+        key={section.section}
+        section={section.section}
+        orderID={section.orderID}
         itemID={section.itemID}
         quantity={section.quantity}
         />
         )
     return(
         <>
-        <SectionTableHeader />
-        {sectionrows}
+        <div id='Table'>
+            <SectionTableHeader />
+            {sectionrows}
+        </div>
+        
         </>
     );
 }
@@ -79,7 +85,7 @@ function SectionTable(props:any){
 function SectionTableHeader(){
     return(
         <>
-        <div>
+        <div className='TableHead'>
             <p>A</p>
             <p>AuftragsNr</p>
             <p>ArtikelNr</p>
@@ -89,7 +95,7 @@ function SectionTableHeader(){
     );
 }
 
-function SectionTableRow({section, orderID,itemID,quantity}:any){
+function SectionTableRow({section, orderID, itemID, quantity}:any){
     return(
         <>
         <div className='TableRow'>

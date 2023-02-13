@@ -21,9 +21,9 @@ exports.box1 = {
     procedure: 150,
     description: "NXL Messenger Blau innen",
     sections: [
-        { section: 1, orderID: "AA1234567", itemID: 12345, quantity: 50 },
-        { section: 2, orderID: "AA1234567", itemID: 12345, quantity: 50 },
-        { section: 3, orderID: "AA1234567", itemID: 12345, quantity: 50 },
-        { section: 4, orderID: "AA1234567", itemID: 12345, quantity: 50 },
+        { section: 1, orderID: "AA1234567", itemID: 11111, quantity: 50 },
+        { section: 2, orderID: "AA1234567", itemID: 22222, quantity: 100 },
+        { section: 3, orderID: "AA1234567", itemID: 33333, quantity: 150 },
+        { section: 4, orderID: "AA1234567", itemID: 44444, quantity: 200 },
     ]
 };
