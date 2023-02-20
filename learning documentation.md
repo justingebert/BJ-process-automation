@@ -101,6 +101,8 @@ maps: need key so entrie list doesnt get rerendered
 
 froms:
 
+state is isolated in its compoenent
+
 
 sperate front and backend - also dependencies for scalbility
 

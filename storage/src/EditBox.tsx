@@ -25,57 +25,14 @@ function LookUpCode(){
             <input id='CodeInput' type="text" placeholder='code' value={boxCode} onChange={e => setBoxCode(e.target.value)}/>
             <button className='ButtonMid' id='ButtonLookup' onClick={fetchBox}>Lookup</button>
         </div>
-        {boxData && <BoxInfo data={boxData} />}
-        <EditBoxButtons />
-        {boxData && <SectionTable data={boxData} />}
+        {boxData && <EditSectionTable data={boxData} />}
         </>
         
     );
 }
 
-function BoxInfo(props:any){
-    //const boxInfo = useContext(boxCode);
-    return(
-        <>
-        <div id='BoxInfo'>
-            <div className='TextInfo' id='status'>
-                 Status:{props.data.status}
-            </div>
-            <div className='TextInfo' id='quantity'>
-                 Menge:{props.data.quanitity}
-            </div>
-            <div className='TextInfo' id='position'>
-                 Ort:{props.data.position}
-            </div>
-            <div className='TextInfo' id='procedure'>
-                Arbeitschritt:{props.data.procedure}
-            </div>
-            <div className='TextInfo' id='description'>
-                 Beschreinung:{props.data.description}
-            </div>
 
-        </div>
-        </>
-    );
-}
-
-function EditBoxButtons({onEdit, onNew, onClear}:any){
-    return(
-        <>
-        <div className='MainButtons'>
-            <button className='ButtonMid' id='ButtonEdit'>Edit</button>
-            <button className='ButtonMid' id='ButtonNew'>New</button>
-            <button className='ButtonMid' id='ButtonClear'>Clear</button>
-        </div>
-        </>
-    );
-}
-
-function EditButton({ onClick, children}:any){
-    
-}
-
-function SectionTable(props:any){
+function EditSectionTable(props:any){
     //const [BoxCode , Sections] = useState();
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
         <SectionTableRow 
@@ -139,9 +96,62 @@ function SectionTableRow({section, orderID, itemID, quantity}:any){
     );
 }
 
+function EditBoxInfo({position, procedure, description}:any){
+    return(
+        <>
+        <div>
+            <div>
+                <label>Ort:</label>
+                <input type="text" value={position}/>
+            </div>
+            <div>
+                <label>Arbeitschritt:</label>
+                <input type="text" value={procedure}/>
+            </div>
+            <div>
+                <label>Beschreibung:</label>
+                <input type="text" value={description}/>
+            </div>
+        </div>
+        </>
+    );
+}
+
+function EditSectionInfo({section, itemID, orderID, quantity}:any){
+    return(
+        <>
+         <div>
+            <div>
+                <label>Abteil:</label>
+                <input type="number" value={section}/>
+            </div>
+            <div>
+                <label>ArtikelNr:</label>
+                <input type="number" value={itemID}/>
+            </div>
+            <div>
+                <label>AuftragsNr:</label>
+                <input type="text" value={orderID}/>
+            </div>
+            <div>
+                <label>Menge:</label>
+                <input type="number" value={quantity}/>
+            </div>
+        </div>
+
+        <button>Add</button>
+        </>
+    );
+}
+
+function ViewButton(){
+    return(
+        <>
+        <button>Übersicht</button>
+        </>
+    );
+}
+
+
 export {
-    LookUpCode,
-    BoxInfo,
-    EditBoxButtons,
-    //SectionTable
 }
