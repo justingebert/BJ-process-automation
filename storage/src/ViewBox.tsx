@@ -1,5 +1,16 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
 import "./styles/ViewBox.css"
+import Head from './Header';
+
+
+function ViewBox(){
+    return(
+        <>
+            <LookUpCode />
+        </>
+    )
+}
+
 
 function LookUpCode(){
     const [boxCode, setBoxCode] = useState("");
@@ -140,8 +151,6 @@ function SectionTableRow({section, orderID, itemID, quantity}:any){
 }
 
 export {
-    LookUpCode,
-    BoxInfo,
-    EditBoxButtons,
+    ViewBox
     //SectionTable
 }
