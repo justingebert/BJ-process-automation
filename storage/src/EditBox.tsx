@@ -1,5 +1,15 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
 import "./styles/ViewBox.css"
+import Head from './Header';
+
+function EditBox(){
+    return(
+        <>
+        
+        </>
+    );
+}
+
 
 function LookUpCode(){
     const [boxCode, setBoxCode] = useState("");
@@ -154,4 +164,5 @@ function ViewButton(){
 
 
 export {
+    EditBox
 }

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {BoxInfo, EditBoxButtons, LookUpCode} from './ViewBox'
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './styles/App.css';
-import { ViewBox } from './ViewBox';
 import Head from './Header';
+import { ViewBoxes } from './ViewBoxes';
+import { EditBox } from './EditBox';
+import { ViewBox } from './ViewBox';
 
 function App() {
   const [mode,setMode] = useState("view");
@@ -12,21 +13,16 @@ function App() {
 
   return (
     <BrowserRouter>
-
       <Routes>
-        <Route path="/Kisten" element={<Head />}>
+        <Route path="/" element={<Head />}>
           <Route index element={<ViewBoxes />} />
-          <Route path="/info/:id" element={<ViewBox />} />
-          <Route path="/edit/:id" element={<EditBox />} />
-          {/* <Route path="*" element={<NoPage />} /> */}
+          <Route path="/info/:id" element={<ViewBox />}/> 
+          <Route path="/edit/id" element={<EditBox />} />
         </Route>
+        
+
       </Routes>
     </BrowserRouter>
-
-    {/* <div>
-      <Head />
-      <LookUpCode />
-    </div> */}
   );
 }
 
