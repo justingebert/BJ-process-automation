@@ -3,11 +3,12 @@ import "./styles/Header.css"
 
 function Head(){
     return(
-        <div className="Header" >
-            <img src="logow.png" alt="" />
-            <Outlet />
+        <>
+         <div className="Header" >
+            <img src="../logow.png" alt="" />
         </div>
-        
+        <Outlet />
+        </>
     );
 }
 
