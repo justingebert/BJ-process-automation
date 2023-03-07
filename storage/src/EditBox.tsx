@@ -1,10 +1,42 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
 import "./styles/ViewBox.css"
 import Head from './Header';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function EditBox(){
+    const [loading, setLoading] = useState(true);
+    const [boxCode, setBoxCode] = useState(useParams());
+    const [boxData, setBoxData] = useState(null);
+
+    const ipWork = '192.168.178.110';
+
+    useEffect(() => {
+        setLoading(true);
+        const dataFetch = async () => {
+            const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+                method: 'GET'
+            });
+            const dataBox = await res.json();
+            console.log(dataBox);
+            setBoxData(dataBox);
+            console.log(dataBox)
+        };
+
+        dataFetch();
+        setLoading(false);
+    }, []);
+    
+
     return(
         <>
+        { !loading ? 
+                        (<>
+                        <EditBoxInfo />
+                        <EditSectionTable data={boxData}/>
+                        <EditSectionInfo />
+                        <ViewButton />
+                        </>) : <p>loading</p>
+            }
         
         </>
     );
@@ -155,9 +187,12 @@ function EditSectionInfo({section, itemID, orderID, quantity}:any){
 }
 
 function ViewButton(){
+
+    const navigate = useNavigate();
+
     return(
         <>
-        <button>Übersicht</button>
+        <button onClick={() => navigate("/info")}>Übersicht</button>
         </>
     );
 }

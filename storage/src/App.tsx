@@ -16,8 +16,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Head />}>
           <Route index element={<ViewBoxes />} />
-          <Route path="/info/:id" element={<ViewBox />}/> 
-          <Route path="/edit/id" element={<EditBox />} />
+          <Route path="edit/:id" element={<EditBox />} />
+          <Route path="info" element={<ViewBox />}>
+            <Route path=':id' element={<ViewBox />}></Route> 
+          </Route> 
         </Route>
         
 
