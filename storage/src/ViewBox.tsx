@@ -127,71 +127,7 @@ function EditButton({ onClick, children}:any){
     
 }
 
-function SectionTable(props:any){
-    //const [BoxCode , Sections] = useState();
-    const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
-        <SectionTableRow 
-        key={section.section}
-        section={section.section}
-        orderID={section.orderID}
-        itemID={section.itemID}
-        quantity={section.quantity}
-        />
-        )
-    return(
-        <>
-        <div id='Table'>
-            <SectionTableHeader />
-            {sectionrows}
-        </div>
-        
-        </>
-    );
-}
-
-function SectionTableHeader(){
-    return(
-        <>
-        <div className='TableHead'>
-            <div className='headInfo'>
-                A
-            </div>
-            <div className='headInfo'>
-                AuftragsNr
-            </div>
-            <div className='headInfo'>
-                ArtikelNr
-            </div>
-            <div className='headInfo'>
-                #
-            </div>
-        </div>
-        </>
-    );
-}
-
-function SectionTableRow({section, orderID, itemID, quantity}:any){
-    return(
-        <>
-        <div className='TableRow'>
-            <div className='rowInfo'>
-                {section}  
-            </div>
-            <div className='rowInfo'>
-                {orderID}
-            </div>
-            <div className='rowInfo'>
-                {itemID}
-            </div>
-            <div className='rowInfo'>
-                {quantity}
-            </div>
-        </div>
-        </>
-    );
-}
 
 export {
     ViewBox
-    //SectionTable
 }
