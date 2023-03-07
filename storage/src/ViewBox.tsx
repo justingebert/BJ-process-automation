@@ -1,18 +1,21 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
 import "./styles/ViewBox.css"
 import Head from './Header';
+import { useParams } from 'react-router-dom';
 
 
 function ViewBox(){
+    let {id} = useParams();
+
     return(
         <>
-            <LookUpCode />
+            <LookUpCode boxId={id} />
         </>
     )
 }
 
 
-function LookUpCode(){
+function LookUpCode({boxId}:any){
     const [boxCode, setBoxCode] = useState("");
     const [boxData, setBoxData] = useState(null);
     const [sectionData, setSectionData] = useState(null);
