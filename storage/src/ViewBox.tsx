@@ -19,10 +19,12 @@ function LookUpCode(){
 
 
     let info = null;
+    const ipWork = '192.168.178.110';
+    const ipHome = "192.168.2.117"
 
 
     const fetchBox = async () => {
-        const res = await fetch("http://192.168.2.117:50056/info/"+boxCode, {
+        const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
             method: 'GET'
         });
         const dataBox = await res.json();
