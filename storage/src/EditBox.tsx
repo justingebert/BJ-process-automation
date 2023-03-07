@@ -11,7 +11,6 @@ function EditBox(){
     const ipWork = '192.168.178.110';
 
     useEffect(() => {
-        setLoading(true);
         const dataFetch = async () => {
             const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
                 method: 'GET'
@@ -20,10 +19,10 @@ function EditBox(){
             console.log(dataBox);
             setBoxData(dataBox);
             console.log(dataBox)
-        };
+            setLoading(false);
 
+        };
         dataFetch();
-        setLoading(false);
     }, []);
     
 

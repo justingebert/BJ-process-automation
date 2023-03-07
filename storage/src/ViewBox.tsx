@@ -1,8 +1,10 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
 import "./styles/ViewBox.css"
 import Head from './Header';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
+const ipWork = '192.168.178.110';
+const ipHome = "192.168.2.117"
 
 function ViewBox(){
     let {id} = useParams();
@@ -22,8 +24,7 @@ function LookUpCode({boxId}:any){
 
 
     let info = null;
-    const ipWork = '192.168.178.110';
-    const ipHome = "192.168.2.117"
+
 
 
     const fetchBox = async () => {
@@ -42,7 +43,7 @@ function LookUpCode({boxId}:any){
             <button className='ButtonMid' id='ButtonLookup' onClick={fetchBox}>Lookup</button>
         </div>
         {boxData && <BoxInfo data={boxData} />}
-        <EditBoxButtons />
+        <EditBoxButtons boxCode={boxCode} />
         {boxData && <SectionTable data={boxData} />}
         </>
         
@@ -75,11 +76,29 @@ function BoxInfo(props:any){
     );
 }
 
-function EditBoxButtons({onEdit, onNew, onClear}:any){
+function EditBoxButtons({boxCode}:any){
+    const [cleared, setCleared] = useState(false);
+
+    const navigate = useNavigate();
+
+    const clear = async () => {
+        const clearBox = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+            method: 'POST'
+        });
+
+        setCleared(true);
+    }
+
+    const newValues = async () => {
+        const newValueBox = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+            method: 'POST'
+        });
+    }
+
     return(
         <>
         <div className='MainButtons'>
-            <button className='ButtonMid' id='ButtonEdit'>Edit</button>
+            <button className='ButtonMid' id='ButtonEdit' onClick={() => {navigate(`/edit/${boxCode}`)}} >Edit</button>
             <button className='ButtonMid' id='ButtonNew'>New</button>
             <button className='ButtonMid' id='ButtonClear'>Clear</button>
         </div>
