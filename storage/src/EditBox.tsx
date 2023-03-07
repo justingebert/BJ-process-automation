@@ -1,5 +1,5 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
-import "./styles/ViewBox.css"
+import "./styles/EditBox.css"
 import Head from './Header';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -140,16 +140,16 @@ function SectionTableRow({section, orderID, itemID, quantity}:any){
 function EditBoxInfo({position, procedure, description}:any){
     return(
         <>
-        <div>
-            <div>
+        <div id='EditBoxInfoContainer'>
+            <div className='BoxInfoInput' id='positionInput'>
                 <label>Ort:</label>
                 <input type="text" value={position}/>
             </div>
-            <div>
+            <div className='BoxInfoInput' id='procedureInput'>
                 <label>Arbeitschritt:</label>
                 <input type="text" value={procedure}/>
             </div>
-            <div>
+            <div className='BoxInfoInput' id='descriptionInput'>
                 <label>Beschreibung:</label>
                 <input type="text" value={description}/>
             </div>
@@ -161,26 +161,26 @@ function EditBoxInfo({position, procedure, description}:any){
 function EditSectionInfo({section, itemID, orderID, quantity}:any){
     return(
         <>
-         <div>
-            <div>
+         <div id='EditSectionInfoContainer'>
+            <div className='SectionInfo' id='sectionInput'>
                 <label>Abteil:</label>
                 <input type="number" value={section}/>
             </div>
-            <div>
+            <div className='SectionInfo'id='itemIDInput'>
                 <label>ArtikelNr:</label>
                 <input type="number" value={itemID}/>
             </div>
-            <div>
+            <div className='SectionInfo' id='orderIDInput'>
                 <label>AuftragsNr:</label>
                 <input type="text" value={orderID}/>
             </div>
-            <div>
+            <div className='SectionInfo'id='quantityInput'>
                 <label>Menge:</label>
                 <input type="number" value={quantity}/>
             </div>
         </div>
 
-        <button>Add</button>
+        <button className='button' id='addSectionButton'>Add</button>
         </>
     );
 }
@@ -191,7 +191,7 @@ function ViewButton(){
 
     return(
         <>
-        <button onClick={() => navigate("/info")}>Übersicht</button>
+        <button onClick={() => navigate("/info")} id='viewButton' className='button' >Übersicht</button>
         </>
     );
 }

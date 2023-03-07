@@ -82,7 +82,7 @@ function EditBoxButtons({boxCode}:any){
     const navigate = useNavigate();
 
     const clear = async () => {
-        const clearBox = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+        const clearBox = await fetch(`http://${ipWork}:50056/clear/`+boxCode, {
             method: 'POST'
         });
 
@@ -90,17 +90,34 @@ function EditBoxButtons({boxCode}:any){
     }
 
     const newValues = async () => {
-        const newValueBox = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+        if(cleared){
+            const newValueBox = await fetch(`http://${ipWork}:50056/new/`+boxCode, {
             method: 'POST'
-        });
+            });
+        navigate(`/edit/${boxCode}`);
+        }
+        
+    }
+
+    const newStyleC = {
+        backgroundColor: 'green'
+    }
+
+    const newStyle = {
+        backgroundColor: 'darkgreen'
     }
 
     return(
         <>
         <div className='MainButtons'>
             <button className='ButtonMid' id='ButtonEdit' onClick={() => {navigate(`/edit/${boxCode}`)}} >Edit</button>
-            <button className='ButtonMid' id='ButtonNew'>New</button>
-            <button className='ButtonMid' id='ButtonClear'>Clear</button>
+            {cleared ? 
+            <button className='ButtonMid' id='ButtonNew' style={newStyleC} onClick={newValues} >New</button> 
+            : 
+            <button className='ButtonMid' id='ButtonNew' style={newStyle} >New</button>
+            }
+
+            <button className='ButtonMid' id='ButtonClear' onClick={clear}>Clear</button>
         </div>
         </>
     );

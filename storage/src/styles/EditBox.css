@@ -1,0 +1,90 @@
+/*! SECTION INPUTS */
+
+#EditSectionInfoContainer{
+    width: 90%;
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: 2 auto;
+    grid-template-rows: 2 auto;
+}
+
+#sectionInput{
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#itemIDInpute{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#orderIDInput{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#quantityInput{
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.SectionInfo{
+    color: white;
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: 2;
+}
+
+/*! BOX INFO INPUTS */
+
+#EditBoxInfoContainer{
+    width: 90%;
+    display: grid;
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    grid-template-columns: 2;
+    grid-template-rows: 2;
+    grid-template-areas:
+        "position procedure"
+        "description description";
+}
+
+.BoxInfoInput{
+    color: white;
+    display: grid;
+    grid-template-rows: 2;
+}
+
+#positionInput{
+    grid-area: position;
+}
+
+#procedureInput{
+    grid-area: procedure;
+}
+
+#descriptionInput{
+    grid-area: description;
+}
+
+/*! BUTTONS */
+
+.button{
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    width: 90%
+}
+
+#viewButton{
+    font-weight: bolder;
+}
+
+#addSectionButton{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: lightgreen;
+}
