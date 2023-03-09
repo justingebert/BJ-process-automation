@@ -14,7 +14,7 @@ type box = {
     description: string;
     sections: Array<section>;
 }
-/* class Box{
+/* class Box :box{
     status: any;
     quantity:number = this.sections.reduce((a,b) => a + b.quantity,0);
     position: string;
@@ -22,11 +22,8 @@ type box = {
     description: string;
     sections: Array<section>;
 
-    constructor(){
+} */
 
-    }
-}
- */
 
 
 export const box1 = {

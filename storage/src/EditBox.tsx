@@ -1,8 +1,9 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
-import "./styles/EditBox.css"
 import Head from './Header';
 import { SectionTableEdit } from './Table';
 import { useNavigate, useParams } from 'react-router-dom';
+import "./styles/EditBox.css"
+
 
 function EditBox(){
     const [loading, setLoading] = useState(true);
@@ -33,7 +34,6 @@ function EditBox(){
                         (<>
                         <EditBoxInfo />
                         <SectionTableEdit data={boxData}/>
-                        <EditSectionInfo />
                         <ViewButton />
                         </>) : <p>loading</p>
             }
@@ -63,32 +63,7 @@ function EditBoxInfo({position, procedure, description}:any){
     );
 }
 
-function EditSectionInfo({section, itemID, orderID, quantity}:any){
-    return(
-        <>
-         <div id='EditSectionInfoContainer'>
-            <div className='SectionInfo' id='sectionInput'>
-                <label>Abteil:</label>
-                <input type="number" value={section}/>
-            </div>
-            <div className='SectionInfo'id='itemIDInput'>
-                <label>ArtikelNr:</label>
-                <input type="number" value={itemID}/>
-            </div>
-            <div className='SectionInfo' id='orderIDInput'>
-                <label>AuftragsNr:</label>
-                <input type="text" value={orderID}/>
-            </div>
-            <div className='SectionInfo'id='quantityInput'>
-                <label>Menge:</label>
-                <input type="number" value={quantity}/>
-            </div>
-        </div>
 
-        <button className='button' id='addSectionButton'>Add</button>
-        </>
-    );
-}
 
 function ViewButton(){
 

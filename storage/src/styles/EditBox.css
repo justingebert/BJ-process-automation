@@ -88,3 +88,39 @@
     margin-bottom: 20px;
     background-color: lightgreen;
 }
+
+/*! TABLE */
+
+#Table{
+    width: 85%;
+    margin: auto;
+}
+
+.TableRow {
+    border-radius: var(--border-radius-table);
+    background-color: var(--text-bg-color);
+    display: grid;
+    width: 80%;
+    grid-template-columns: 25% 25% 25% 25%;
+    height: var(--table-row-height);
+    margin-bottom: var(--table-margin);
+}
+
+.rowInfo{
+    color: rgb(255, 0, 0);
+    margin: auto;
+}
+
+.headInfo{
+    color: black;
+    margin: auto;
+}
+
+.TableHead {
+    border-radius: var(--border-radius-table);
+    background-color: var(--table-header-color);
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin-bottom: var(--table-margin);
+    height: var(--table-row-height);
+}

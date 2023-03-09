@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.box1 = void 0;
-/* class Box{
+/* class Box :box{
     status: any;
     quantity:number = this.sections.reduce((a,b) => a + b.quantity,0);
     position: string;
@@ -9,11 +9,7 @@ exports.box1 = void 0;
     description: string;
     sections: Array<section>;
 
-    constructor(){
-
-    }
-}
- */
+} */
 exports.box1 = {
     status: "h",
     quanitity: 150,

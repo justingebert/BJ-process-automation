@@ -2,7 +2,14 @@ import React, { useContext, useState,createContext,useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function SectionTableEdit(props:any){
-    //const [BoxCode , Sections] = useState();
+    const [sectionNum, setSectionNum] = useState(props.data.sections.length);
+    const [sections, setSections] = useState(props.data.sections)
+    const [editSection, setEditSection] = useState(0);
+
+    const fillInput = () => {
+
+    }
+
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
         <SectionTableRowEdit 
         key={section.section}
@@ -10,6 +17,7 @@ function SectionTableEdit(props:any){
         orderID={section.orderID}
         itemID={section.itemID}
         quantity={section.quantity}
+        editSection={false}
         />
         )
     return(
@@ -17,6 +25,7 @@ function SectionTableEdit(props:any){
         <div id='Table'>
             <SectionTableHeader />
             {sectionrows}
+            <EditSectionInfo sectionObject={}/>
         </div>
         
         </>
@@ -87,7 +96,7 @@ function SectionTableRowInfo({section, orderID, itemID, quantity}:any){
     );
 }
 
-function SectionTableRowEdit({section, orderID, itemID, quantity}:any){
+function SectionTableRowEdit({section, orderID, itemID, quantity, editSection}:any){
     return(
         <>
         <div className='TableRow'>
@@ -103,14 +112,50 @@ function SectionTableRowEdit({section, orderID, itemID, quantity}:any){
             <div className='rowInfo'>
                 {quantity}
             </div>
-            <button>Edit</button>
-            <button>Trash</button>
+            <EditSectionButtons 
+            section={section}
+            itemID={itemID}
+            orderID={orderID}
+            quanitity={quantity}/>
         </div>
         </>
     );
 }
 
-function EditSectionButtons(props:any){
+function EditSectionInfo({section, itemID, orderID, quantity}:any){
+    
+
+    const postChanges = () => {
+
+    }
+
+    return(
+        <>
+         <div id='EditSectionInfoContainer'>
+            <div className='SectionInfo' id='sectionInput'>
+                <label>Abteil:</label>
+                <input type="number" value={section}/>
+            </div>
+            <div className='SectionInfo'id='itemIDInput'>
+                <label>ArtikelNr:</label>
+                <input type="number" value={itemID}/>
+            </div>
+            <div className='SectionInfo' id='orderIDInput'>
+                <label>AuftragsNr:</label>
+                <input type="text" value={orderID}/>
+            </div>
+            <div className='SectionInfo'id='quantityInput'>
+                <label>Menge:</label>
+                <input type="number" value={quantity}/>
+            </div>
+        </div>
+
+        <button className='button' id='addSectionButton'>Add</button>
+        </>
+    );
+}
+
+function EditSectionButtons({section, itemID, orderID, quantity}:any){
 
     const EditSection = () => {
         
@@ -122,8 +167,8 @@ function EditSectionButtons(props:any){
 
     return (
         <>
-        <button>Edit</button>
-        <button>Trash</button>
+        <button onClick={EditSection} >Edit</button>
+        <button onClick={deleteSection}>Trash</button>
         </>
     );
 }

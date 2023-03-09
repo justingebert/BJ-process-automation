@@ -2,6 +2,7 @@ import React, { useContext, useState,createContext,useEffect} from 'react';
 import "./styles/ViewBox.css"
 import Head from './Header';
 import { useNavigate, useParams } from 'react-router-dom';
+import { SectionTableInfo } from './Table';
 
 const ipWork = '192.168.178.110';
 const ipHome = "192.168.2.117"
@@ -44,7 +45,7 @@ function LookUpCode({boxId}:any){
         </div>
         {boxData && <BoxInfo data={boxData} />}
         <EditBoxButtons boxCode={boxCode} />
-        {boxData && <SectionTable data={boxData} />}
+        {boxData && <SectionTableInfo data={boxData} />}
         </>
         
     );
