@@ -12,10 +12,12 @@ function EditBox(){
     const [EditSection, setEditSection] = useState(0);
 
     const ipWork = '192.168.178.110';
+    const ipHome = "192.168.178.20"
+
 
     useEffect(() => {
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+            const res = await fetch(`http://${ipHome}:50056/info/`+boxCode, {
                 method: 'GET'
             });
             const dataBox = await res.json();

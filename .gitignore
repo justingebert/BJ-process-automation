@@ -140,6 +140,7 @@ rt.js
 data.js
 copyexcel.js
 *.xlsx
+*.js
 
 
 

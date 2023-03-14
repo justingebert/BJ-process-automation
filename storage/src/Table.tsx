@@ -1,4 +1,4 @@
-import React, { useContext, useState,createContext,useEffect} from 'react';
+import React, { useContext, useState,createContext,useEffect, useCallback} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function SectionTableEdit(props:any){
@@ -10,6 +10,12 @@ function SectionTableEdit(props:any){
 
     }
 
+    const handleEdit = (boo:any) => {
+        if(boo){
+
+        }
+    }
+
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
         <SectionTableRowEdit 
         key={section.section}
@@ -17,7 +23,7 @@ function SectionTableEdit(props:any){
         orderID={section.orderID}
         itemID={section.itemID}
         quantity={section.quantity}
-        editSection={false}
+        OnEditSection={handleEdit}
         />
         )
     return(
@@ -25,7 +31,7 @@ function SectionTableEdit(props:any){
         <div id='Table'>
             <SectionTableHeader />
             {sectionrows}
-            <EditSectionInfo sectionObject={}/>
+            <EditSectionInfo sectionObject={sections[editSection+1]}/>
         </div>
         
         </>
@@ -34,6 +40,7 @@ function SectionTableEdit(props:any){
 
 function SectionTableInfo(props:any){
     //const [BoxCode , Sections] = useState();
+
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
         <SectionTableRowInfo 
         key={section.section}
@@ -96,7 +103,8 @@ function SectionTableRowInfo({section, orderID, itemID, quantity}:any){
     );
 }
 
-function SectionTableRowEdit({section, orderID, itemID, quantity, editSection}:any){
+function SectionTableRowEdit({section, orderID, itemID, quantity, OnEditSection}:any){
+
     return(
         <>
         <div className='TableRow'>
@@ -112,11 +120,7 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, editSection}:a
             <div className='rowInfo'>
                 {quantity}
             </div>
-            <EditSectionButtons 
-            section={section}
-            itemID={itemID}
-            orderID={orderID}
-            quanitity={quantity}/>
+            <EditSectionButtons Onedit={OnEditSection} />
         </div>
         </>
     );
@@ -126,8 +130,9 @@ function EditSectionInfo({section, itemID, orderID, quantity}:any){
     
 
     const postChanges = () => {
-
+        console.log("posted")
     }
+
 
     return(
         <>
@@ -150,16 +155,16 @@ function EditSectionInfo({section, itemID, orderID, quantity}:any){
             </div>
         </div>
 
-        <button className='button' id='addSectionButton'>Add</button>
+        <button className='button' id='addSectionButton' onClick={postChanges}>Add</button>
         </>
     );
 }
 
-function EditSectionButtons({section, itemID, orderID, quantity}:any){
+function EditSectionButtons({OnEdit}:any){
 
     const EditSection = () => {
-        
-    }
+        OnEdit(true)
+      }
 
     const deleteSection = () => {
 
