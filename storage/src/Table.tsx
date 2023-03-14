@@ -6,14 +6,8 @@ function SectionTableEdit(props:any){
     const [sections, setSections] = useState(props.data.sections)
     const [editSection, setEditSection] = useState(0);
 
-    const fillInput = () => {
-
-    }
-
-    const handleEdit = (boo:any) => {
-        if(boo){
-
-        }
+    const fillInputs = () => {
+        setEditSection(editSection)
     }
 
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
@@ -23,15 +17,16 @@ function SectionTableEdit(props:any){
         orderID={section.orderID}
         itemID={section.itemID}
         quantity={section.quantity}
-        OnEditSection={handleEdit}
+        OnEditSection={fillInputs}
         />
         )
+
     return(
         <>
         <div id='Table'>
             <SectionTableHeader />
             {sectionrows}
-            <EditSectionInfo sectionObject={sections[editSection+1]}/>
+            <EditSectionInfo sectionObject={sections[editSection]}/>
         </div>
         
         </>
@@ -103,7 +98,7 @@ function SectionTableRowInfo({section, orderID, itemID, quantity}:any){
     );
 }
 
-function SectionTableRowEdit({section, orderID, itemID, quantity, OnEditSection}:any){
+function SectionTableRowEdit({section, orderID, itemID, quantity, isActive, OnEditSection}:any){
 
     return(
         <>
@@ -120,7 +115,7 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, OnEditSection}
             <div className='rowInfo'>
                 {quantity}
             </div>
-            <EditSectionButtons Onedit={OnEditSection} />
+            <EditSectionButtons isActive={OnEditSection === section.section+1} Onedit={OnEditSection} />
         </div>
         </>
     );
@@ -162,9 +157,7 @@ function EditSectionInfo({section, itemID, orderID, quantity}:any){
 
 function EditSectionButtons({OnEdit}:any){
 
-    const EditSection = () => {
-        OnEdit(true)
-      }
+    
 
     const deleteSection = () => {
 
@@ -172,7 +165,7 @@ function EditSectionButtons({OnEdit}:any){
 
     return (
         <>
-        <button onClick={EditSection} >Edit</button>
+        <button onClick={OnEdit} >Edit</button>
         <button onClick={deleteSection}>Trash</button>
         </>
     );
