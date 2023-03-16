@@ -1,13 +1,13 @@
-import React, { useContext, useState,createContext,useEffect, useCallback} from 'react';
+import React, { useContext, useState,createContext,useEffect, useCallback, useMemo} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function SectionTableEdit(props:any){
     const [sectionNum, setSectionNum] = useState(props.data.sections.length);
     const [sections, setSections] = useState(props.data.sections)
-    const [editSection, setEditSection] = useState(0);
+    const [editSectionIndex, setEditSectionIndex] = useState(0);
 
     const fillInputs = () => {
-        setEditSection(editSection)
+        setEditSectionIndex(editSectionIndex)
     }
 
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
@@ -17,7 +17,8 @@ function SectionTableEdit(props:any){
         orderID={section.orderID}
         itemID={section.itemID}
         quantity={section.quantity}
-        OnEditSection={fillInputs}
+        isEdited={editSectionIndex === section.section}
+        onEdit={() => {setEditSectionIndex(section.section)}}
         />
         )
 
@@ -26,7 +27,10 @@ function SectionTableEdit(props:any){
         <div id='Table'>
             <SectionTableHeader />
             {sectionrows}
-            <EditSectionInfo sectionObject={sections[editSection]}/>
+            <EditSectionInfo 
+            section={sections[editSectionIndex-1].section}
+            itemID={sections[editSectionIndex-1].itemID} 
+            editSectionIndex={editSectionIndex}/>
         </div>
         
         </>
@@ -98,7 +102,7 @@ function SectionTableRowInfo({section, orderID, itemID, quantity}:any){
     );
 }
 
-function SectionTableRowEdit({section, orderID, itemID, quantity, isActive, OnEditSection}:any){
+function SectionTableRowEdit({section, orderID, itemID, quantity, isEdited, onEdit}:any){
 
     return(
         <>
@@ -115,18 +119,28 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, isActive, OnEd
             <div className='rowInfo'>
                 {quantity}
             </div>
-            <EditSectionButtons isActive={OnEditSection === section.section+1} Onedit={OnEditSection} />
+            <EditSectionButtons onEdit={onEdit} />
         </div>
         </>
     );
 }
 
-function EditSectionInfo({section, itemID, orderID, quantity}:any){
-    
+function EditSectionInfo({section, itemID, orderID, quantity, editSectionIndex}:any,){
+    const [sectionData, setSectionData] = useState({
+        section,
+        itemID,
+        orderID,
+        quantity
+    })
 
-    const postChanges = () => {
+    function postChanges(event:any) {
         console.log("posted")
     }
+
+   useEffect( () => {
+        setSectionData({section, itemID, orderID, quantity})
+        console.log("test")
+   },[editSectionIndex]);
 
 
     return(
@@ -134,28 +148,29 @@ function EditSectionInfo({section, itemID, orderID, quantity}:any){
          <div id='EditSectionInfoContainer'>
             <div className='SectionInfo' id='sectionInput'>
                 <label>Abteil:</label>
-                <input type="number" value={section}/>
+                <input type="number" value={section} />
             </div>
             <div className='SectionInfo'id='itemIDInput'>
                 <label>ArtikelNr:</label>
-                <input type="number" value={itemID}/>
+                <input type="number" value={itemID} />
             </div>
             <div className='SectionInfo' id='orderIDInput'>
                 <label>AuftragsNr:</label>
-                <input type="text" value={orderID}/>
+                <input type="text" value={orderID} />
             </div>
             <div className='SectionInfo'id='quantityInput'>
                 <label>Menge:</label>
-                <input type="number" value={quantity}/>
+                <input type="number" value={quantity} />
             </div>
+            <p>{editSectionIndex}</p>
         </div>
 
-        <button className='button' id='addSectionButton' onClick={postChanges}>Add</button>
+        <button className='button' id='addSectionButton' onClick={postChanges} >Add</button>
         </>
     );
 }
 
-function EditSectionButtons({OnEdit}:any){
+function EditSectionButtons({onEdit}:any){
 
     
 
@@ -165,7 +180,7 @@ function EditSectionButtons({OnEdit}:any){
 
     return (
         <>
-        <button onClick={OnEdit} >Edit</button>
+        <button onClick={onEdit} >Edit</button>
         <button onClick={deleteSection}>Trash</button>
         </>
     );
