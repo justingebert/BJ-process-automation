@@ -1,13 +1,14 @@
 import React, { useContext, useState,createContext,useEffect, useCallback, useMemo, useRef} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import {section} from "../../backend/Box"
 
 function SectionTableEdit(props:any){
     const [sectionNum, setSectionNum] = useState(props.data.sections.length);
     const [sections, setSections] = useState(props.data.sections)
     const [editSectionIndex, setEditSectionIndex] = useState(0);
 
-    const handleDataSubmit = (data) =>  {
-        const newData = sections
+    const handleDataSubmit = (data:section) =>  {
+        
         setSections(sections[editSectionIndex])
     }
 
