@@ -1,4 +1,4 @@
-import React, { useContext, useState,createContext,useEffect, useCallback, useMemo} from 'react';
+import React, { useContext, useState,createContext,useEffect, useCallback, useMemo, useRef} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function SectionTableEdit(props:any){
@@ -6,8 +6,16 @@ function SectionTableEdit(props:any){
     const [sections, setSections] = useState(props.data.sections)
     const [editSectionIndex, setEditSectionIndex] = useState(0);
 
-    const fillInputs = () => {
-        setEditSectionIndex(editSectionIndex)
+    const handleDataSubmit = (data) =>  {
+        const newData = sections
+        setSections(sections[editSectionIndex])
+    }
+
+    const empty = {
+        section: '',
+        itemID: '',
+        orderID:'',
+        quantity:''
     }
 
     const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
@@ -27,10 +35,12 @@ function SectionTableEdit(props:any){
         <div id='Table'>
             <SectionTableHeader />
             {sectionrows}
-            <EditSectionInfo 
-            section={sections[editSectionIndex-1].section}
-            itemID={sections[editSectionIndex-1].itemID} 
-            editSectionIndex={editSectionIndex}/>
+            { editSectionIndex === 0 ? 
+            <EditSectionInfo data={empty} editSectionIndex={editSectionIndex} onDataSubmit={handleDataSubmit}/>
+            :
+            <EditSectionInfo data={sections[editSectionIndex-1]} editSectionIndex={editSectionIndex}onDataSubmit={handleDataSubmit}/>
+            }
+            
         </div>
         
         </>
@@ -125,47 +135,58 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, isEdited, onEd
     );
 }
 
-function EditSectionInfo({section, itemID, orderID, quantity, editSectionIndex}:any,){
-    const [sectionData, setSectionData] = useState({
-        section,
-        itemID,
-        orderID,
-        quantity
-    })
+function EditSectionInfo({data, editSectionIndex, onSubmit}:any,){
 
-    function postChanges(event:any) {
-        console.log("posted")
+    const [sectionData, setSectionData] = useState({data})
+    const [newSection, setNewSection] = useState(true);
+
+    const inputSection:any = useRef(null);
+    const inputItemID:any = useRef(null);
+    const inputOrderID:any = useRef(null);
+    const inputQuantity:any = useRef(null);
+
+    const getAbteil = () => {
+
     }
 
-   useEffect( () => {
-        setSectionData({section, itemID, orderID, quantity})
-        console.log("test")
-   },[editSectionIndex]);
+    function postChanges() {
+    
+        data.section = inputSection.current.value
+        data.itemID = inputItemID.current.value
+        data.itemID = inputItemID.current.value
+        data.itemID = inputItemID.current.value
+        
+        setSectionData(data);
+        console.log(data)
 
+    }
 
     return(
         <>
          <div id='EditSectionInfoContainer'>
             <div className='SectionInfo' id='sectionInput'>
                 <label>Abteil:</label>
-                <input type="number" value={section} />
+                <input type="number" ref={inputSection} id='section' name='section' defaultValue={data.section} onChange={getAbteil}/>
             </div>
             <div className='SectionInfo'id='itemIDInput'>
                 <label>ArtikelNr:</label>
-                <input type="number" value={itemID} />
+                <input type="number"  ref={inputItemID} defaultValue={data.itemID} />
             </div>
             <div className='SectionInfo' id='orderIDInput'>
                 <label>AuftragsNr:</label>
-                <input type="text" value={orderID} />
+                <input type="text"  ref={inputOrderID} defaultValue={data.orderID} />
             </div>
             <div className='SectionInfo'id='quantityInput'>
                 <label>Menge:</label>
-                <input type="number" value={quantity} />
+                <input type="number"  ref={inputQuantity} defaultValue={data.quantity} />
             </div>
-            <p>{editSectionIndex}</p>
         </div>
-
+        {data.section == "" ? 
         <button className='button' id='addSectionButton' onClick={postChanges} >Add</button>
+        :
+        <button className='button' id='saveSectionButton' onClick={postChanges} >Save</button>
+        }
+        
         </>
     );
 }
