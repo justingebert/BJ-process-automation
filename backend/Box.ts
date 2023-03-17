@@ -1,12 +1,12 @@
 
-type section = {
+export type section = {
     section: number;
     orderId: string;
     itemID: number;
     quantity: number;
 }
 
-type box = {
+export type box = {
     status: any;
     quantity:number;
     position: string;
