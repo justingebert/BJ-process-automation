@@ -9,27 +9,30 @@ function SectionTableEdit(props:any){
 
     //TODO array logic
     const handleDataSubmit = (data:section) =>  {
-        let compositeData = sections.map((section:section, index:number) => {
+        let compositeData = sections.splice(data.section,0,data)
+        /* let compositeData = sections.map((section:section, index:number) => {
+            
             if(data.section-1 === index){
                 return section = data
             }else{
                 return section
             }
-        })
+        }) */
 
-        if(data.section > sections.length){
+       /*  if(data.section > sections.length){
             compositeData = [
                 ...compositeData,
                 data
             ]
-        }
+        } */
         
-
+        console.log(compositeData)
         setSections(compositeData)
     }
 
     const handleDataDelete = (index:number) =>  {
-        let  sections.filter((s:section) => s.section != index)
+        let newData = sections.filter((s:section) => s.section != index)
+        setSections(newData);
 
     }
 
@@ -49,7 +52,7 @@ function SectionTableEdit(props:any){
         quantity={section.quantity}
         isEdited={editSectionIndex === section.section}
         onEdit={() => {setEditSectionIndex(section.section)}}
-        onDelete={}
+        onDelete={() => {handleDataDelete(section.section)}}
         />
         )
 
@@ -152,7 +155,7 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, isEdited, onEd
             <div className='rowInfo'>
                 {quantity}
             </div>
-            <EditSectionButtons onEdit={onEdit} onDelete={onDelete}/>
+            <EditSectionButtons onEdit={onEdit} onDeleteBut={onDelete}/>
         </div>
         </>
     );
@@ -213,12 +216,12 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
     );
 }
 
-function EditSectionButtons({onEdit,onDelete}:any){
+function EditSectionButtons({onEdit,onDeleteBut}:any){
 
     return (
         <>
         <button onClick={onEdit} >Edit</button>
-        <button onClick={onDelete}>Trash</button>
+        <button onClick={onDeleteBut}>Trash</button>
         </>
     );
 }

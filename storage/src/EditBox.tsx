@@ -12,7 +12,7 @@ function EditBox(){
     const [EditSection, setEditSection] = useState(0);
 
     const ipWork = '192.168.178.110';
-    const ipHome = "192.168.178.20"
+    const ipHome = "192.168.178.32"
 
 
     useEffect(() => {

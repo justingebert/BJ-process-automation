@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { SectionTableInfo } from './Table';
 
 const ipWork = '192.168.178.110';
-const ipHome = "192.168.178.20"
+const ipHome = "192.168.178.32"
 
 function ViewBox(){
     let {id} = useParams();
