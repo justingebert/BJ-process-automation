@@ -7,54 +7,65 @@ function SectionTableEdit(props:any){
     const [sections, setSections] = useState(props.data.sections)
     const [editSectionIndex, setEditSectionIndex] = useState(0);
 
+    const empty = {
+        section: 0,
+        orderID: '',
+        itemID: '',
+        quantity:''
+    }
+
     //TODO array logic
     const handleDataSubmit = (data:section) =>  {
-        let compositeData = sections.splice(data.section,0,data)
-        /* let compositeData = sections.map((section:section, index:number) => {
+        let compositeData = sections.map((section:section, index:number) => {
             
             if(data.section-1 === index){
-                return section = data
+                return data
             }else{
                 return section
             }
-        }) */
+        })
 
-       /*  if(data.section > sections.length){
+        if(data.section > sections.length){
             compositeData = [
                 ...compositeData,
                 data
             ]
-        } */
+        }
         
         console.log(compositeData)
         setSections(compositeData)
     }
 
-    const handleDataDelete = (index:number) =>  {
-        let newData = sections.filter((s:section) => s.section != index)
+    const handleDataDelete = (deleteIndex:number) =>  {
+        let newData = sections.map((section:section, index:number) => {
+            if(deleteIndex === index){
+                return empty
+            }else{
+                return section
+            }
+        })
         setSections(newData);
 
     }
 
-    const empty = {
-        section: '',
-        itemID: '',
-        orderID:'',
-        quantity:''
-    }
+    
+    const filteredArray = sections.filter((section:section) => section.section != 0)
 
-    const sectionrows = sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
-        <SectionTableRowEdit 
-        key={section.section}
-        section={section.section}
-        orderID={section.orderID}
-        itemID={section.itemID}
-        quantity={section.quantity}
-        isEdited={editSectionIndex === section.section}
-        onEdit={() => {setEditSectionIndex(section.section)}}
-        onDelete={() => {handleDataDelete(section.section)}}
+    const sectionrows = filteredArray.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => {
+            <SectionTableRowEdit 
+            key={section.section}
+            section={section.section}
+            orderID={section.orderID}
+            itemID={section.itemID}
+            quantity={section.quantity}
+            isEdited={editSectionIndex === section.section}
+            onEdit={() => {setEditSectionIndex(section.section)}}
+            onDelete={() => {handleDataDelete(section.section)}}
         />
-        )
+        
+        
+    })
+        
 
     return(
         <>

@@ -1,9 +1,9 @@
 
 export type section = {
-    section: number;
-    orderId: string;
-    itemID: number;
-    quantity: number;
+    section: number |'';
+    orderID: string |'';
+    itemID: number |'';
+    quantity: number |'';
 }
 
 export type box = {
