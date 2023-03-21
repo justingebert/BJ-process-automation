@@ -8,10 +8,20 @@ function SectionTableEdit(props:any){
     const [editSectionIndex, setEditSectionIndex] = useState(0);
 
     const empty = {
-        section: 0,
+        section: '',
         orderID: '',
         itemID: '',
         quantity:''
+    }
+
+    function emptySection(index:number){
+        const empty = {
+            section: index,
+            orderID: '',
+            itemID: '',
+            quantity:''
+        }
+        return empty
     }
 
     //TODO array logic
@@ -36,22 +46,22 @@ function SectionTableEdit(props:any){
         setSections(compositeData)
     }
 
-    const handleDataDelete = (deleteIndex:number) =>  {
+    /* const handleDataDelete = (deleteIndex:number) =>  {
         let newData = sections.map((section:section, index:number) => {
             if(deleteIndex === index){
-                return empty
+                return emptySection(deleteIndex)
             }else{
                 return section
             }
         })
         setSections(newData);
 
-    }
+    } */
 
     
-    const filteredArray = sections.filter((section:section) => section.section != 0)
+    //const filteredArray = sections.filter((section:section) => section.section != 0)
 
-    const sectionrows = filteredArray.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => {
+    const sectionrows = sections.map((section: section) => {
             <SectionTableRowEdit 
             key={section.section}
             section={section.section}
@@ -60,10 +70,8 @@ function SectionTableEdit(props:any){
             quantity={section.quantity}
             isEdited={editSectionIndex === section.section}
             onEdit={() => {setEditSectionIndex(section.section)}}
-            onDelete={() => {handleDataDelete(section.section)}}
+            onDelete={() => {setEditSectionIndex(section.section)}}
         />
-        
-        
     })
         
 
