@@ -212,7 +212,7 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
          <div id='EditSectionInfoContainer'>
             <div className='SectionInfo' id='sectionInput'>
                 <label>Abteil:</label>
-                <input type="number" ref={inputSection} id='section' name='section' defaultValue={data.section} onChange={getAbteil}/>
+                <input type="number" ref={inputSection} defaultValue={data.section} onChange={getAbteil}/>
             </div>
             <div className='SectionInfo'id='itemIDInput'>
                 <label>ArtikelNr:</label>
