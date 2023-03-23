@@ -1,15 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.box1 = void 0;
-/* class Box :box{
-    status: any;
-    quantity:number = this.sections.reduce((a,b) => a + b.quantity,0);
-    position: string;
-    procedure: number;
-    description: string;
-    sections: Array<section>;
-
-} */
+class Box {
+    status;
+    quantity = this.sections.reduce((a, b) => a + b.quantity, 0);
+    position;
+    procedure;
+    description;
+    sections;
+}
+function addSection(addp) {
+}
 exports.box1 = {
     status: "h",
     quanitity: 150,

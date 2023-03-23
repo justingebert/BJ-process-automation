@@ -2,6 +2,8 @@ import React, { useContext, useState,createContext,useEffect, useCallback, useMe
 import { useNavigate, useParams } from 'react-router-dom';
 import {section} from "../../backend/Box"
 
+//TODO LIFT UP EDIT DATA STATE TO TABLE
+
 function SectionTableEdit(props:any){
     const [sectionNum, setSectionNum] = useState(props.data.sections.length);
     const [sections, setSections] = useState(props.data.sections)
@@ -22,6 +24,11 @@ function SectionTableEdit(props:any){
             quantity:''
         }
         return empty
+    }
+
+    const getSection = (editSectionIndex:number) => {
+        if(editSectionIndex === 0) return empty
+        else return sections[editSectionIndex-1]
     }
 
     //TODO array logic
@@ -83,9 +90,9 @@ function SectionTableEdit(props:any){
             <SectionTableHeader />
             {sectionrows}
             { editSectionIndex === 0 ? 
-            <EditSectionInfo data={empty} editSectionIndex={editSectionIndex} onDataSubmit={handleDataSubmit}/>
+            <EditSectionInfo data={() => {getSection(editSectionIndex)}} editSectionIndex={editSectionIndex} onDataSubmit={handleDataSubmit}/>
             :
-            <EditSectionInfo data={sections[editSectionIndex-1]} editSectionIndex={provideEditData} onDataSubmit={handleDataSubmit}/>
+            <EditSectionInfo data={() => {getSection(editSectionIndex)}} editSectionIndex={provideEditData} onDataSubmit={handleDataSubmit}/>
             }
             
         </div>
@@ -184,7 +191,11 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, isEdited, onEd
 
 function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
 
-    const [sectionData, setSectionData] = useState({data})
+    const [sectionIndex, setSectionIndex] = useState(data.section)
+    const [sectionItemID, setSectionItemID] = useState(data.itemID)
+    const [sectionOrderID, setSectionOrderID] = useState(data.orderID)
+    const [sectionQuantity, setSectionQuantity] = useState(data.quantity)
+
     const [newSection, setNewSection] = useState(true);
 
     const inputSection:any = useRef(null);
@@ -192,8 +203,17 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
     const inputOrderID:any = useRef(null);
     const inputQuantity:any = useRef(null);
 
-    const getAbteil = () => {
+    const SectionChange = () => {
         editSectionIndex(inputSection.current.value)
+    }
+    const ItemIDChange = () => {
+        editSectionIndex(inputItemID.current.value)
+    }
+    const OrderIDChange = () => {
+        editSectionIndex(inputOrderID.current.value)
+    }
+    const QuantityChange = () => {
+        editSectionIndex(inputQuantity.current.value)
     }
 
     function postChanges() {
@@ -212,19 +232,19 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
          <div id='EditSectionInfoContainer'>
             <div className='SectionInfo' id='sectionInput'>
                 <label>Abteil:</label>
-                <input type="number" ref={inputSection} defaultValue={data.section} onChange={getAbteil}/>
+                <input type="number" ref={inputSection} value={sectionIndex} onChange={SectionChange}/>
             </div>
             <div className='SectionInfo'id='itemIDInput'>
                 <label>ArtikelNr:</label>
-                <input type="number"  ref={inputItemID} defaultValue={data.itemID} />
+                <input type="number"  ref={inputItemID} value={sectionItemID} onChange={ItemIDChange}/>
             </div>
             <div className='SectionInfo' id='orderIDInput'>
                 <label>AuftragsNr:</label>
-                <input type="text"  ref={inputOrderID} defaultValue={data.orderID} />
+                <input type="text"  ref={inputOrderID} value={sectionOrderID} onChange={OrderIDChange}/>
             </div>
             <div className='SectionInfo'id='quantityInput'>
                 <label>Menge:</label>
-                <input type="number"  ref={inputQuantity} defaultValue={data.quantity} />
+                <input type="number"  ref={inputQuantity} value={sectionQuantity} onChange={QuantityChange}/>
             </div>
         </div>
         {data.section == "" ? 
