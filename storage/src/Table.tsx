@@ -5,9 +5,6 @@ import {section} from "../../backend/Box"
 //TODO LIFT UP EDIT DATA STATE TO TABLE
 
 function SectionTableEdit(props:any){
-    const [sectionNum, setSectionNum] = useState(props.data.sections.length);
-    const [sections, setSections] = useState(props.data.sections)
-    const [editSectionIndex, setEditSectionIndex] = useState(0);
 
     const empty = {
         section: '',
@@ -26,9 +23,17 @@ function SectionTableEdit(props:any){
         return empty
     }
 
-    const getSection = (editSectionIndex:number) => {
+    const [sectionNum, setSectionNum] = useState(props.data.sections.length);
+    const [sections, setSections] = useState(props.data.sections)
+    const [editSectionIndex, setEditSectionIndex] = useState(0);
+    const [editSectionData, setEditSectionData] = useState(empty)
+
+
+    function getSection (editSectionIndex:number):any{
+        console.log(sections[editSectionIndex-1])
         if(editSectionIndex === 0) return empty
         else return sections[editSectionIndex-1]
+        
     }
 
     //TODO array logic
@@ -78,7 +83,7 @@ function SectionTableEdit(props:any){
             itemID={section.itemID}
             quantity={section.quantity}
             isEdited={editSectionIndex === section.section}
-            onEdit={() => {setEditSectionIndex(section.section)}}
+            onEdit={() => {setEditSectionIndex(section.section); setEditSectionData(sections[editSectionIndex])}}
             onDelete={() => {handleDataDelete(section.section)}}
         />
     )
@@ -90,9 +95,9 @@ function SectionTableEdit(props:any){
             <SectionTableHeader />
             {sectionrows}
             { editSectionIndex === 0 ? 
-            <EditSectionInfo data={() => {getSection(editSectionIndex)}} editSectionIndex={editSectionIndex} onDataSubmit={handleDataSubmit}/>
+            <EditSectionInfo data={editSectionData} editSectionIndex={editSectionIndex} onDataSubmit={handleDataSubmit}/>
             :
-            <EditSectionInfo data={() => {getSection(editSectionIndex)}} editSectionIndex={provideEditData} onDataSubmit={handleDataSubmit}/>
+            <EditSectionInfo data={editSectionData} editSectionIndex={editSectionData} onDataSubmit={handleDataSubmit}/>
             }
             
         </div>
@@ -204,16 +209,16 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
     const inputQuantity:any = useRef(null);
 
     const SectionChange = () => {
-        editSectionIndex(inputSection.current.value)
+        setSectionIndex(inputSection.current.value)
     }
     const ItemIDChange = () => {
-        editSectionIndex(inputItemID.current.value)
+        setSectionItemID(inputItemID.current.value)
     }
     const OrderIDChange = () => {
-        editSectionIndex(inputOrderID.current.value)
+        setSectionOrderID(inputOrderID.current.value)
     }
     const QuantityChange = () => {
-        editSectionIndex(inputQuantity.current.value)
+        setSectionQuantity(inputQuantity.current.value)
     }
 
     function postChanges() {
