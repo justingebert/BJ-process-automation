@@ -103,6 +103,7 @@ froms:
 
 state is isolated in its compoenent
 
+lift up state to nearest parent when "sharing state"
 
 sperate front and backend - also dependencies for scalbility
 

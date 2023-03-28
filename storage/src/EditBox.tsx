@@ -36,7 +36,7 @@ function EditBox(){
                         (<>
                         <EditBoxInfo />
                         <SectionTableEdit data={boxData}/>
-                        <ViewButton />
+                        <ViewButton navTo={boxCode}/>
                         </>) : <p>loading</p>
             }
         
@@ -67,13 +67,17 @@ function EditBoxInfo({position, procedure, description}:any){
 
 
 
-function ViewButton(){
+function ViewButton({navTo}:any){
 
     const navigate = useNavigate();
 
     return(
         <>
-        <button onClick={() => navigate("/info")} id='viewButton' className='button' >Übersicht</button>
+        <button onClick={() => {
+            if (window.confirm('Kiste Speichern?')){
+                navigate(`/info/${navTo.id}`)
+            }            
+            }} id='viewButton' className='button' >Übersicht</button>
         </>
     );
 }
