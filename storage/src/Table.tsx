@@ -36,7 +36,8 @@ function SectionTableEdit(props:any){
         
     }
 
-    //TODO array logic
+
+    //TODO array logic replaces 0 when object is addedat back
     const handleDataSubmit = (data:section) =>  {
         let compositeData = sections.map((section:section, index:number) => {
             if(data.section-1 === index){
@@ -45,7 +46,7 @@ function SectionTableEdit(props:any){
                 return section
             }
         })
-
+        
         if(data.section > sections.length){
             compositeData = [
                 ...compositeData,
@@ -59,7 +60,7 @@ function SectionTableEdit(props:any){
 
     const handleDataDelete = (deleteIndex:number) =>  {
         let newData = sections.map((section:section, index:number) => {
-            if(deleteIndex-1 === index){
+            if(deleteIndex === section.section){
                 return emptySection(deleteIndex)
             }else{
                 return section
@@ -83,7 +84,13 @@ function SectionTableEdit(props:any){
             itemID={section.itemID}
             quantity={section.quantity}
             isEdited={editSectionIndex === section.section}
-            onEdit={() => {setEditSectionIndex(section.section); setEditSectionData(sections[editSectionIndex])}}
+            onEdit={() => {
+                setEditSectionIndex(section.section); 
+                if(editSectionIndex > 0){
+                    setEditSectionData(sections[section.section-1])
+                    
+                }
+            }}
             onDelete={() => {handleDataDelete(section.section)}}
         />
     )
@@ -208,27 +215,36 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
     const inputOrderID:any = useRef(null);
     const inputQuantity:any = useRef(null);
 
+    useEffect(() => {
+        setSectionIndex(data.section);
+        setSectionItemID(data.itemID)
+        setSectionOrderID(data.orderID)
+        setSectionQuantity(data.quantity)
+      }, [data]);
+
     const SectionChange = () => {
-        setSectionIndex(inputSection.current.value)
+        setSectionIndex(parseInt(inputSection.current.value))
     }
     const ItemIDChange = () => {
-        setSectionItemID(inputItemID.current.value)
+        setSectionItemID(parseInt(inputItemID.current.value))
     }
     const OrderIDChange = () => {
         setSectionOrderID(inputOrderID.current.value)
     }
     const QuantityChange = () => {
-        setSectionQuantity(inputQuantity.current.value)
+        setSectionQuantity(parseInt(inputQuantity.current.value))
     }
 
     function postChanges() {
-    
-        data.section = inputSection.current.value
-        data.itemID = inputItemID.current.value
-        data.orderID = inputOrderID.current.value
-        data.quantity = inputQuantity.current.value
+        
+        const newData = {
+            section: sectionIndex,
+            itemID: sectionItemID,
+            orderID: sectionOrderID,
+            quantity: sectionQuantity
+        }
 
-        onDataSubmit(data);
+        onDataSubmit(newData);
         
     }
 

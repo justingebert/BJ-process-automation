@@ -29,7 +29,7 @@ function LookUpCode({boxId}:any){
 
 
     const fetchBox = async () => {
-        const res = await fetch(`http://${ipHome}:50056/info/`+boxCode, {
+        const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
             method: 'GET'
         });
         const dataBox = await res.json();
