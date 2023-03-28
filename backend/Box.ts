@@ -51,10 +51,10 @@ export class Box {
     }
 
     public get position(): string {
-        return this.position;
+        return this._position;
     }
     public set position(value: string) {
-        this.position = value;
+        this._position = value;
     }
 
     public get procedure(): number | ''{
@@ -80,8 +80,9 @@ export class Box {
 
     constructor(code: number) {
 		this.code = code;
-        this.setEmpty
+        this.setEmpty();
         Box.boxCodes.push(code)
+        console.log(this)
 	}
 
     private setEmpty(){
@@ -92,10 +93,8 @@ export class Box {
         this.description = ''
     }
 
-    
-    
-
 }
+
 
 
 /* export const box1 = {

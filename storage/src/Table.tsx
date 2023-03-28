@@ -114,9 +114,13 @@ function SectionTableEdit(props:any){
 }
 
 function SectionTableInfo(props:any){
-    //const [BoxCode , Sections] = useState();
+    const [sections , setSections] = useState(props.data.sections);
+    
+    useEffect(() => {
+        setSections(props.data.sections)
+      }, [props]);
 
-    const sectionrows = props.data.sections.map((section: { section: any; orderID: any; itemID: any; quantity: any; }) => 
+    const sectionrows = sections.map((section: section) => 
         <SectionTableRowInfo 
         key={section.section}
         section={section.section}
