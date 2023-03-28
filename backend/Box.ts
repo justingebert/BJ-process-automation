@@ -7,6 +7,7 @@ export type section = {
 }
 
 export type box = {
+    code: number
     status: any;
     quantity:number;
     position: string;
@@ -15,7 +16,8 @@ export type box = {
     sections: Array<section>;
 }
 
-class Box {
+/* class Box {
+    code: any;
     status: any;
     quantity:number = this.sections.reduce((a,b) => a + b.quantity,0);
     position: string;
@@ -27,7 +29,7 @@ class Box {
         
     }
 
-} 
+}  */
 
 
 

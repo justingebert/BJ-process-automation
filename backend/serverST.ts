@@ -12,17 +12,21 @@ app.use(express.urlencoded({ extended: false }));
 
 
 let allBoxes:Array<box> = []; 
-let boxCodes = new Map();
+
 
 
 app.get("/info/:boxCode",(req,res) => {
-    console.log(box1);
-    res.json(box1);
+    const {boxCode} = req.params;
+    const boxCodeInt = parseInt(boxCode)
+    const box = allBoxes.find(box => box.code === boxCodeInt)
+    console.log(box);
+    res.json(box);
 })
 
 
 app.post("/edit/:boxCode",(req,res) => {
     const {boxCode} = req.params;
+    const boxCodeInt = parseInt(boxCode)
     const data = req.body;
     
     if(!data){
@@ -30,10 +34,20 @@ app.post("/edit/:boxCode",(req,res) => {
     }
     res.status(200).send({status: 'recieved'})
     
-    allBoxes.map((boxes, index)=>{
-        if()
-
+    allBoxes.map((box, index)=>{
+        if(box.code === boxCodeInt){
+            return data
+        }else{
+            return box
+        }
     })
+    if (data.code > allBoxes.length){
+        return [
+            ...allBoxes,
+            data
+        ]
+    }
+
 })
 
 
