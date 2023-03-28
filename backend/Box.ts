@@ -11,36 +11,89 @@ export type box = {
     status: any;
     quantity:number;
     position: string;
-    procedure: number;
+    procedure: number | '';
     description: string;
     sections: Array<section>;
 }
 
-class Box {
-    code: number;
-    status: any;
-    quantity:number;
-    position: string;
-    procedure: number;
-    description: string;
-    sections: Array<section>;
+export class Box {
 
-    constructor(code:number){
-        this.code = code;
+    private _code!: number;
+    
+    private _status: any;
+    private _quantity!: number;
+    private _position!: string;
+    private _procedure!: number | '';
+    private _description!: string;
+    private _sections: Array<section> = [];
+
+    static boxCodes: Array<number> = [];
+
+    public get code(): number {
+        return this._code;
+    }
+    public set code(value: number) {
+        this._code = value;
     }
 
-    setStatus(status:any) {
-        this.status = status
+    public get status(): any {
+        return this._status;
+    }
+    public set status(value: any) {
+        this._status = value;
     }
 
-    function addSections(addp:type) {
-        
+    public get quantity(): number {
+        return this._quantity;
+    }
+    public set quantity(value: number) {
+        this._quantity = value;
     }
 
-    function calculateQuantity(sections:Array<section>){
-        const quan = sections.reduce((a,b) => a + b.quantity,0);
-        return 0;
+    public get position(): string {
+        return this.position;
     }
+    public set position(value: string) {
+        this.position = value;
+    }
+
+    public get procedure(): number | ''{
+        return this._procedure;
+    }
+    public set procedure(value: number | '') {
+        this._procedure = value;
+    }
+
+    public get description(): string {
+        return this._description;
+    }
+    public set description(value: string) {
+        this._description = value;
+    }
+
+    public get sections(): Array<section> {
+        return this._sections;
+    }
+    public set sections(value: Array<section>) {
+        this._sections = value;
+    }
+
+    constructor(code: number) {
+		this.code = code;
+        this.setEmpty
+        Box.boxCodes.push(code)
+	}
+
+    private setEmpty(){
+        this.status = ''
+        this.quantity = 0
+        this.position = ''
+        this.procedure = ''
+        this.description = ''
+    }
+
+    
+    
 
 }
 

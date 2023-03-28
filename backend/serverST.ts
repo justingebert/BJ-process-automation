@@ -1,6 +1,5 @@
-import {box1} from "./Box"
 import express from "express";
-import { box } from "./Box";
+import { box, Box } from "./Box";
 const app = express();
 const ip = require("ip");
 
@@ -17,12 +16,15 @@ let allBoxes:Array<box> = [];
 
 app.get("/info/:boxCode",(req,res) => {
     const {boxCode} = req.params;
+    console.log("hallo")
     const boxCodeInt = parseInt(boxCode)
-    const curBox = allBoxes.find(box => box.code === boxCodeInt)
-    if(curBox === null){
-        
+    let curBox = allBoxes.find(box => box.code === boxCodeInt)
+    if(curBox == undefined){
+        allBoxes[boxCodeInt] = new Box(boxCodeInt)
+        console.log("test")
     }
-    console.log(curBox);
+    //console.log(curBox);
+    //console.log(allBoxes[boxCodeInt].toString())
     res.json(curBox);
 })
 
