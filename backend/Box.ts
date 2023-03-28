@@ -16,24 +16,36 @@ export type box = {
     sections: Array<section>;
 }
 
-/* class Box {
-    code: any;
+class Box {
+    code: number;
     status: any;
-    quantity:number = this.sections.reduce((a,b) => a + b.quantity,0);
+    quantity:number;
     position: string;
     procedure: number;
     description: string;
     sections: Array<section>;
 
-    function addSection(addp:type) {
+    constructor(code:number){
+        this.code = code;
+    }
+
+    setStatus(status:any) {
+        this.status = status
+    }
+
+    function addSections(addp:type) {
         
     }
 
-}  */
+    function calculateQuantity(sections:Array<section>){
+        const quan = sections.reduce((a,b) => a + b.quantity,0);
+        return 0;
+    }
+
+}
 
 
-
-export const box1 = {
+/* export const box1 = {
     status: "h",
     quanitity: 150,
     position: "ZM-R8-06",
@@ -45,4 +57,4 @@ export const box1 = {
         {section: 3, orderID: "AA1234567", itemID: 33333, quantity: 150},
         {section: 4, orderID: "AA1234567", itemID: 44444, quantity: 200},       
     ]
-};
+}; */

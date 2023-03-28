@@ -18,9 +18,12 @@ let allBoxes:Array<box> = [];
 app.get("/info/:boxCode",(req,res) => {
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
-    const box = allBoxes.find(box => box.code === boxCodeInt)
-    console.log(box);
-    res.json(box);
+    const curBox = allBoxes.find(box => box.code === boxCodeInt)
+    if(curBox === null){
+        
+    }
+    console.log(curBox);
+    res.json(curBox);
 })
 
 
