@@ -11,7 +11,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-let allBoxes:Array<box>; 
+let allBoxes:Array<box> = []; 
+let boxCodes = new Map();
 
 
 app.get("/info/:boxCode",(req,res) => {
@@ -21,7 +22,18 @@ app.get("/info/:boxCode",(req,res) => {
 
 
 app.post("/edit/:boxCode",(req,res) => {
+    const {boxCode} = req.params;
+    const data = req.body;
     
+    if(!data){
+        return res.status(400).send({status: 'failed'});
+    }
+    res.status(200).send({status: 'recieved'})
+    
+    allBoxes.map((boxes, index)=>{
+        if()
+
+    })
 })
 
 

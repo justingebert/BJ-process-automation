@@ -19,19 +19,33 @@ function ViewBox(){
 
 
 function LookUpCode({boxId}:any){
-    const [boxCode, setBoxCode] = useState("");
+    const [boxCode, setBoxCode] = useState(boxId);
     const [boxData, setBoxData] = useState(null);
     const [sectionData, setSectionData] = useState(null);
 
 
     let info = null;
+    const navigate = useNavigate();
 
+    useEffect(()=>{
+        const dataFetch = async () => {
+            const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+                method: 'GET'
+            });
+            const dataBox = await res.json();
+            console.log(dataBox);
+            setBoxData(dataBox);
+            
 
+        };
+        dataFetch();
+    }, [])
 
     const fetchBox = async () => {
         const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
             method: 'GET'
         });
+        navigate(`/info/${boxCode}`)
         const dataBox = await res.json();
         console.log(dataBox);
         setBoxData(dataBox);
