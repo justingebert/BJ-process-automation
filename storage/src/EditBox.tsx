@@ -4,15 +4,19 @@ import { SectionTableEdit } from './Table';
 import { useNavigate, useParams } from 'react-router-dom';
 import "./styles/EditBox.css"
 import { send } from 'process';
+import { section , box , Box } from '../../backend/Box';
 
 
 function EditBox(){
+
     const navigate = useNavigate();
+
+    let box: any [] = [];
 
     const [loading, setLoading] = useState(true);
     const [boxCode, setBoxCode] = useState(useParams());
-    const [boxData, setBoxData] = useState(null);
-    const [EditSection, setEditSection] = useState(0);
+    const [boxData, setBoxData] = useState<box>();
+    const [sectionData, setSectionData] = useState<Array<section>>();
     const [submit, setSubmit] = useState(false)
 
     const ipWork = '192.168.178.110';
@@ -29,10 +33,19 @@ function EditBox(){
             body: JSON.stringify(boxData)
         })
         const content = await sendBox.json();
-        
+
         if (window.confirm('Kiste Speichern?')){
-            navigate(`/info/${boxCode}`)
+            //console.log(boxCode)
+            navigate(`/info/${boxCode.id}`)
         }
+    }
+
+    const onSectionSubmit = (sections: Array<section>) => {
+        setSectionData(sections)
+        let newBoxData = boxData;
+        newBoxData!.sections = sections
+        console.log(newBoxData)
+        setBoxData(newBoxData)
     }
 
     useEffect(() => {
@@ -43,6 +56,7 @@ function EditBox(){
             const dataBox = await res.json();
             console.log(dataBox);
             setBoxData(dataBox);
+            setSectionData(dataBox.sections)
             setLoading(false);
         };
         dataFetch();
@@ -54,8 +68,8 @@ function EditBox(){
         { !loading ? 
                         (<>
                         <EditBoxInfo />
-                        <SectionTableEdit data={boxData}/>
-                        <ViewButton submit={submit} />
+                        <SectionTableEdit data={boxData} onSectionSubmit={onSectionSubmit}/>
+                        <ViewButton submit={postBox} />
                         </>) : <p>loading</p>
             }
         

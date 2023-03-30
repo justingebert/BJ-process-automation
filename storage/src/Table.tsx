@@ -4,7 +4,7 @@ import {section} from "../../backend/Box"
 
 //TODO LIFT UP EDIT DATA STATE TO TABLE
 
-function SectionTableEdit(props:any){
+function SectionTableEdit({data, onSectionSubmit}:any){
 
     const empty = {
         section: '',
@@ -23,8 +23,8 @@ function SectionTableEdit(props:any){
         return empty
     }
 
-    const [sectionNum, setSectionNum] = useState(props.data.sections.length);
-    const [sections, setSections] = useState(props.data.sections)
+    const [sectionNum, setSectionNum] = useState(data.sections.length);
+    const [sections, setSections] = useState(data.sections)
     const [editSectionIndex, setEditSectionIndex] = useState(0);
     const [editSectionData, setEditSectionData] = useState(empty)
 
@@ -36,6 +36,9 @@ function SectionTableEdit(props:any){
         
     }
 
+    const sendSectionDataToPage = (sections:Array<section>) => {
+        onSectionSubmit(sections);
+    }
 
     //TODO array logic replaces 0 when object is addedat back
     const handleDataSubmit = (data:section) =>  {
@@ -54,8 +57,9 @@ function SectionTableEdit(props:any){
             ]
         }
         
-        console.log(compositeData)
+        //console.log(compositeData)
         setSections(compositeData)
+        sendSectionDataToPage(compositeData)
     }
 
     const handleDataDelete = (deleteIndex:number) =>  {
@@ -67,6 +71,8 @@ function SectionTableEdit(props:any){
             }
         })
         setSections(newData);
+        sendSectionDataToPage(newData)
+
     }
 
     const provideEditData = () => {
