@@ -1,5 +1,5 @@
 import express from "express";
-import { box, Box, box3 } from "./Box";
+import { box, Box } from "./Box";
 const app = express();
 const ip = require("ip");
 
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-let allBoxes:Array<box> = []; 
+let allBoxes:Array<Box> = []; 
 //let box2 = new Box(3)
 //console.log(box3)
 
@@ -20,19 +20,12 @@ app.get("/info/:boxCode",(req,res) => {
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
     let curBox;
-    try {
+    if(allBoxes[boxCodeInt] !== undefined){
+        curBox = allBoxes[boxCodeInt]
+    }else{
         allBoxes[boxCodeInt] = new Box(boxCodeInt)
         curBox = allBoxes[boxCodeInt]
-        console.log(curBox)
-        /* curBox = allBoxes.find(box => box.code === boxCodeInt)
-        console.log(curBox) */
-    } catch (error) {
-        console.log(error)
     }
-        
-   
-    //console.log(curBox);
-    //console.log(allBoxes[boxCodeInt])
     res.json(curBox);
 })
 

@@ -7,7 +7,8 @@ export type section = {
 }
 
 export type box = {
-    code: number
+    code: number;
+    active: boolean;
     status: any;
     quantity:number;
     position: string;
@@ -16,74 +17,87 @@ export type box = {
     sections: Array<section>;
 }
 
+
+//! getters and setter with underscore becasue json objects need keys without underscores
 export class Box {
 
-    private _code!: number;
+    code: number;
     
-    private _status: any;
-    private _quantity!: number;
-    private _position!: string;
-    private _procedure!: number | '';
-    private _description!: string;
-    private _sections: Array<section> = [];
+    private active: boolean = false;
+    
+    private status!: any;
+    
+    private quantity!: number;
 
+    private position!: string;
+
+    private procedure!: number | '';
+    
+    private description!: string;
+
+    private sections: Array<section> = [];
+   
     static boxCodes: Array<number> = [];
 
-    public get code(): number {
-        return this._code;
-    }
-    public set code(value: number) {
-        this._code = value;
-    }
-
-    public get status(): any {
-        return this._status;
-    }
-    public set status(value: any) {
-        this._status = value;
-    }
-
-    public get quantity(): number {
-        return this._quantity;
-    }
-    public set quantity(value: number) {
-        this._quantity = value;
-    }
-
-    public get position(): string {
-        return this._position;
-    }
-    public set position(value: string) {
-        this._position = value;
-    }
-
-    public get procedure(): number | ''{
-        return this._procedure;
-    }
-    public set procedure(value: number | '') {
-        this._procedure = value;
-    }
-
-    public get description(): string {
-        return this._description;
-    }
-    public set description(value: string) {
-        this._description = value;
-    }
-
-    public get sections(): Array<section> {
-        return this._sections;
-    }
-    public set sections(value: Array<section>) {
-        this._sections = value;
-    }
 
     constructor(code: number) {
+        if(Box.boxCodes.includes(code)){
+            throw console.error("already exists");
+        }
 		this.code = code;
         this.setEmpty();
         Box.boxCodes.push(code)
         console.log(this)
 	}
+
+    public get getActive(): boolean {
+        return this.active;
+    }
+    public set setActive(value: boolean) {
+        this.active = value;
+    }
+   
+    public get getStatus(): any {
+        return this.status;
+    }
+    public set setStatus(value: any) {
+        this.status = value;
+    }
+
+    public get getQuantity(): number {
+        return this.quantity;
+    }
+    public set setQuantity(value: number) {
+        this.quantity = value;
+    }
+
+    public get getPosition(): string {
+        return this.position;
+    }
+    public set setPosition(value: string) {
+        this.position = value;
+    }
+    
+    public get getProcedure(): number | '' {
+        return this.procedure;
+    }
+    public set setProcedure(value: number | '') {
+        this.procedure = value;
+    }
+
+    public get setDescription(): string {
+        return this.description;
+    }
+    public set getDescription(value: string) {
+        this.description = value;
+    }
+
+    public get getSections(): Array<section> {
+        return this.sections;
+    }
+    public set setSections(value: Array<section>) {
+        this.sections = value;
+    }
 
     private setEmpty(){
         this.status = ''
