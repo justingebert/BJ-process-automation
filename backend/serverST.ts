@@ -11,10 +11,6 @@ app.use(express.urlencoded({ extended: false }));
 
 
 let allBoxes:Array<Box> = []; 
-//let box2 = new Box(3)
-//console.log(box3)
-
-
 
 app.get("/info/:boxCode",(req,res) => {
     const {boxCode} = req.params;
@@ -25,6 +21,7 @@ app.get("/info/:boxCode",(req,res) => {
     }else{
         allBoxes[boxCodeInt] = new Box(boxCodeInt)
         curBox = allBoxes[boxCodeInt]
+
     }
     res.json(curBox);
 })
@@ -34,6 +31,7 @@ app.post("/edit/:boxCode",(req,res) => {
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
     const data = req.body;
+    console.log(data)
     
     if(!data){
         return res.status(400).send({status: 'failed'});

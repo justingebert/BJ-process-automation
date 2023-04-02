@@ -40,13 +40,13 @@ export class Box {
     static boxCodes: Array<number> = [];
 
 
-    constructor(code: number) {
-        if(Box.boxCodes.includes(code)){
+    constructor(codeIn: number) {
+        if(Box.boxCodes.includes(codeIn)){
             throw console.error("already exists");
         }
-		this.code = code;
+		this.code = codeIn;
         this.setEmpty();
-        Box.boxCodes.push(code)
+        Box.boxCodes.push(codeIn)
         console.log(this)
 	}
 

@@ -6,6 +6,7 @@ import { SectionTableInfo } from './Table';
 
 const ipWork = '192.168.178.110';
 const ipHome = "192.168.178.32"
+const ipHome2 = "192.168.178.48"
 
 function ViewBox(){
     let {id} = useParams();
@@ -29,7 +30,7 @@ function LookUpCode({boxId}:any){
 
     useEffect(()=>{
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode, {
                 method: 'GET'
             });
             const dataBox = await res.json();
@@ -42,7 +43,7 @@ function LookUpCode({boxId}:any){
     }, [])
 
     const fetchBox = async () => {
-        const res = await fetch(`http://${ipWork}:50056/info/`+boxCode, {
+        const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode,{
             method: 'GET'
         });
         navigate(`/info/${boxCode}`)
