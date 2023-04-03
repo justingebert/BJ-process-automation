@@ -47,7 +47,6 @@ export class Box {
 		this.code = codeIn;
         this.setEmpty();
         Box.boxCodes.push(codeIn)
-        console.log(this)
 	}
 
     public get getActive(): boolean {

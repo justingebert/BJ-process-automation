@@ -26,7 +26,7 @@ function EditBox(){
 
 
     const postBox = async () => {
-        const sendBox = await fetch(`http://${ipHome2}:50056/edit/`+boxCode.id,
+        const sendBox = await fetch(`http://${ipHome}:50056/edit/`+boxCode.id,
         {
             method: 'POST',
             headers: {
@@ -35,6 +35,7 @@ function EditBox(){
             body: JSON.stringify(boxData)
         })
         const content = await sendBox.json();
+        console.log(boxData)
 
         if (window.confirm('Kiste Speichern?')){
             //console.log(boxCode)
@@ -50,19 +51,18 @@ function EditBox(){
         setBoxData(newBoxData)
     }
 
-    const onInfoChange = (info:any) => {
-        setBoxInfo(info)
+    const onInfoChange = async (info:any) => {
+        await setBoxInfo(info)
         let newBoxData = boxData;
         newBoxData!.position = info.position
         newBoxData!.procedure = info.procedure
         newBoxData!.description = info.description
-        console.log(newBoxData)
         setBoxData(newBoxData)
     }
 
     useEffect(() => {
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode.id, {
+            const res = await fetch(`http://${ipHome}:50056/info/`+boxCode.id, {
                 method: 'GET'
             });
             const dataBox = await res.json();
@@ -70,7 +70,7 @@ function EditBox(){
             setBoxData(dataBox);
             setSectionData(dataBox.sections)
             setBoxInfo({
-                postion: dataBox.position,
+                position: dataBox.position,
                 procedure: dataBox.procedure,
                 description: dataBox.description})
             setLoading(false);
@@ -104,32 +104,42 @@ function EditBoxInfo({data, onInfoChange}:any){
     const InputDescription:any = useRef(null);
 
 
-    const onInputChange = () => {
-        setPosition(InputPosition.current.value)
-        setProcedure(InputProcedure.current.value)
-        setDescription(InputDescription.current.value)
-        const data = {
+    useEffect(() => {
+        const newData = {
             position: position,
             procedure: procedure,
             description: description
         }
-        onInfoChange(data)
+        onInfoChange(newData)
+      }, [position, procedure, description]); 
+
+    const descriptionChange = async() => {
+        await setDescription(InputDescription.current.value)
     }
+
+    const procedureChange = async () => {
+        await setProcedure(parseInt(InputProcedure.current.value))
+    }
+
+    const positionChange = async () => {
+        await setPosition(InputPosition.current.value)
+    }
+
 
     return(
         <>
         <div id='EditBoxInfoContainer'>
             <div className='BoxInfoInput' id='positionInput'>
                 <label>Ort:</label>
-                <input type="text" ref={InputPosition} value={position} onChange={onInputChange}/>
+                <input type="text" ref={InputPosition} value={position} onChange={positionChange}/>
             </div>
             <div className='BoxInfoInput' id='procedureInput'>
                 <label>Arbeitschritt:</label>
-                <input type="text" ref={InputProcedure} value={procedure} onChange={onInputChange}/>
+                <input type="text" ref={InputProcedure} value={procedure} onChange={procedureChange}/>
             </div>
             <div className='BoxInfoInput' id='descriptionInput'>
                 <label>Beschreibung:</label>
-                <input type="text" ref={InputDescription} value={description} onChange={onInputChange}/>
+                <input type="text" ref={InputDescription} value={description} onChange={descriptionChange}/>
             </div>
         </div>
         </>

@@ -30,11 +30,11 @@ function LookUpCode({boxId}:any){
 
     useEffect(()=>{
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode, {
+            const res = await fetch(`http://${ipHome}:50056/info/`+boxCode, {
                 method: 'GET'
             });
             const dataBox = await res.json();
-            console.log(dataBox);
+            //console.log(dataBox);
             setBoxData(dataBox);
             
 
@@ -43,12 +43,12 @@ function LookUpCode({boxId}:any){
     }, [])
 
     const fetchBox = async () => {
-        const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode,{
+        const res = await fetch(`http://${ipHome}:50056/info/`+boxCode,{
             method: 'GET'
         });
         navigate(`/info/${boxCode}`)
         const dataBox = await res.json();
-        console.log(dataBox);
+        //console.log(dataBox);
         setBoxData(dataBox);
     }
 
@@ -98,7 +98,7 @@ function EditBoxButtons({boxCode}:any){
     const navigate = useNavigate();
 
     const clear = async () => {
-        const clearBox = await fetch(`http://${ipWork}:50056/clear/`+boxCode, {
+        const clearBox = await fetch(`http://${ipHome}:50056/clear/`+boxCode, {
             method: 'POST'
         });
 
@@ -107,7 +107,7 @@ function EditBoxButtons({boxCode}:any){
 
     const newValues = async () => {
         if(cleared){
-            const newValueBox = await fetch(`http://${ipWork}:50056/new/`+boxCode, {
+            const newValueBox = await fetch(`http://${ipHome}:50056/new/`+boxCode, {
             method: 'POST'
             });
         navigate(`/edit/${boxCode}`);
