@@ -97,11 +97,11 @@ function EditBoxButtons({boxCode}:any){
 
     const navigate = useNavigate();
 
-    const clear = async () => {
+    const clearBox = async () => {
         const clearBox = await fetch(`http://${ipHome}:50056/clear/`+boxCode, {
             method: 'POST'
         });
-
+        
         setCleared(true);
     }
 
@@ -133,7 +133,7 @@ function EditBoxButtons({boxCode}:any){
             <button className='ButtonMid' id='ButtonNew' style={newStyle} >New</button>
             }
 
-            <button className='ButtonMid' id='ButtonClear' onClick={clear}>Clear</button>
+            <button className='ButtonMid' id='ButtonClear' onClick={clearBox}>Clear</button>
         </div>
         </>
     );

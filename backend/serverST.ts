@@ -62,5 +62,28 @@ app.post("/edit/:boxCode",(req,res) => {
 })
 
 
+app.post("/new/:boxCode",(req, res) => {
+    const {boxCode} = req.params;
+    const boxCodeInt = parseInt(boxCode)
+
+    allBoxes = allBoxes.map((box, index)=>{
+        if(index === boxCodeInt){
+            return new Box(boxCodeInt)
+        }else{
+            return box
+        }
+    })
+    res.status(200).send({status: 'recieved'})
+
+})
+
+app.post("/clear/:boxCode",(req, res) => {
+    const {boxCode} = req.params;
+    const boxCodeInt = parseInt(boxCode)
+
+
+    res.status(200).send({status: 'recieved'})
+})
+
 
 app.listen(port, () => {console.log(`live on http://${curIP}:${port}`)})
