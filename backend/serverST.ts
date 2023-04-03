@@ -1,5 +1,5 @@
 import express from "express";
-import { box, Box } from "./Box";
+import { box, Box, box1 } from "./Box";
 const app = express();
 const ip = require("ip");
 
@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 let numOfBoxes = 5;
 let allBoxes:Array<Box> = [];
+//let allBoxes:any = [];
 
 for(let i = 0; i<numOfBoxes; i++){
     allBoxes[i] = new Box(i)
@@ -25,7 +26,6 @@ app.get("/info/:boxCode",(req,res) => {
     if(allBoxes[boxCodeInt] !== undefined){
         curBox = allBoxes[boxCodeInt]
     }else{
-        allBoxes[boxCodeInt] = new Box(boxCodeInt)
         curBox = allBoxes[boxCodeInt]
     }
     res.json(curBox);
@@ -42,11 +42,12 @@ app.post("/edit/:boxCode",(req,res) => {
     }
     res.status(200).send({status: 'recieved'})
     
-    console.log(data)
+    //console.log(data)
 
     allBoxes = allBoxes.map((box, index)=>{
         if(index === boxCodeInt){
-            return data
+            box.setParameters(data)
+            return box
         }else{
             return box
         }
@@ -57,8 +58,9 @@ app.post("/edit/:boxCode",(req,res) => {
             ...allBoxes,
             data
         ]
-    } 
-    console.log(allBoxes)
+    }
+
+    //console.log(allBoxes)
 })
 
 

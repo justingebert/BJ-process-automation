@@ -84,10 +84,10 @@ export class Box {
         this.procedure = value;
     }
 
-    public get setDescription(): string {
+    public get getDescription(): string {
         return this.description;
     }
-    public set getDescription(value: string) {
+    public set setDescription(value: string) {
         this.description = value;
     }
 
@@ -99,12 +99,25 @@ export class Box {
     }
 
     private setEmpty(){
+        this.active = false;
         this.status = ''
         this.quantity = 0
         this.position = ''
         this.procedure = ''
         this.description = ''
+        this.sections = []
     }
+
+    public setParameters(data:box){
+        this.setActive = data.active;
+        this.setStatus = data.status;
+        this.setDescription = data.description;
+        this.setPosition = data.position;
+        this.setProcedure = data.procedure;
+        this.setSections = data.sections;
+        this.setQuantity = data.sections.reduce(function (sum:any, section:any) {
+            return parseInt(sum) + parseInt(section.quantity);
+        }, 0); 
 
 }
 
@@ -122,4 +135,4 @@ export class Box {
         {section: 3, orderID: "AA1234567", itemID: 33333, quantity: 150},
         {section: 4, orderID: "AA1234567", itemID: 44444, quantity: 200},       
     ]
-}; */
+} */

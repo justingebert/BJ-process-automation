@@ -18,7 +18,7 @@ function EditBox(){
     const [boxData, setBoxData] = useState<box>();
     const [boxInfo, setBoxInfo] = useState<any>();
     const [sectionData, setSectionData] = useState<Array<section>>();
-    const [submit, setSubmit] = useState(false)
+    const [submit, setSubmit] = useState(false) 
 
     const ipWork = '192.168.178.110';
     const ipHome = "192.168.178.32"
@@ -26,7 +26,7 @@ function EditBox(){
 
 
     const postBox = async () => {
-        const sendBox = await fetch(`http://${ipHome}:50056/edit/`+boxCode.id,
+        const sendBox = await fetch(`http://${ipHome2}:50056/edit/`+boxCode.id,
         {
             method: 'POST',
             headers: {
@@ -62,7 +62,7 @@ function EditBox(){
 
     useEffect(() => {
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipHome}:50056/info/`+boxCode.id, {
+            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode.id, {
                 method: 'GET'
             });
             const dataBox = await res.json();

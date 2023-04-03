@@ -30,7 +30,7 @@ function LookUpCode({boxId}:any){
 
     useEffect(()=>{
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipHome}:50056/info/`+boxCode, {
+            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode, {
                 method: 'GET'
             });
             const dataBox = await res.json();
@@ -43,7 +43,7 @@ function LookUpCode({boxId}:any){
     }, [])
 
     const fetchBox = async () => {
-        const res = await fetch(`http://${ipHome}:50056/info/`+boxCode,{
+        const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode,{
             method: 'GET'
         });
         navigate(`/info/${boxCode}`)
@@ -75,7 +75,7 @@ function BoxInfo(props:any){
                  Status:{props.data.status}
             </div>
             <div className='TextInfo' id='quantity'>
-                 Menge:{props.data.quanitity}
+                 Menge:{props.data.quantity}
             </div>
             <div className='TextInfo' id='position'>
                  Ort:{props.data.position}
@@ -98,7 +98,7 @@ function EditBoxButtons({boxCode}:any){
     const navigate = useNavigate();
 
     const clearBox = async () => {
-        const clearBox = await fetch(`http://${ipHome}:50056/clear/`+boxCode, {
+        const clearBox = await fetch(`http://${ipHome2}:50056/clear/`+boxCode, {
             method: 'POST'
         });
         
@@ -107,7 +107,7 @@ function EditBoxButtons({boxCode}:any){
 
     const newValues = async () => {
         if(cleared){
-            const newValueBox = await fetch(`http://${ipHome}:50056/new/`+boxCode, {
+            const newValueBox = await fetch(`http://${ipHome2}:50056/new/`+boxCode, {
             method: 'POST'
             });
         navigate(`/edit/${boxCode}`);
