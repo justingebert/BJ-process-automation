@@ -7,6 +7,7 @@ import { SectionTableInfo } from './Table';
 const ipWork = '192.168.178.110';
 const ipHome = "192.168.178.32"
 const ipHome2 = "192.168.178.48"
+const ipUni = "141.45.33.70";
 
 function ViewBox(){
     let {id} = useParams();
@@ -30,20 +31,19 @@ function LookUpCode({boxId}:any){
 
     useEffect(()=>{
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode, {
+            const res = await fetch(`http://${ipUni}:50056/info/`+boxCode, {
                 method: 'GET'
             });
             const dataBox = await res.json();
             //console.log(dataBox);
             setBoxData(dataBox);
-            
 
         };
         dataFetch();
     }, [])
 
     const fetchBox = async () => {
-        const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode,{
+        const res = await fetch(`http://${ipUni}:50056/info/`+boxCode,{
             method: 'GET'
         });
         navigate(`/info/${boxCode}`)
@@ -98,7 +98,7 @@ function EditBoxButtons({boxCode}:any){
     const navigate = useNavigate();
 
     const clearBox = async () => {
-        const clearBox = await fetch(`http://${ipHome2}:50056/clear/`+boxCode, {
+        const clearBox = await fetch(`http://${ipUni}:50056/clear/`+boxCode, {
             method: 'POST'
         });
         
@@ -107,10 +107,10 @@ function EditBoxButtons({boxCode}:any){
 
     const newValues = async () => {
         if(cleared){
-            const newValueBox = await fetch(`http://${ipHome2}:50056/new/`+boxCode, {
+            const newValueBox = await fetch(`http://${ipUni}:50056/newVal/`+boxCode, {
             method: 'POST'
             });
-        navigate(`/edit/${boxCode}`);
+            navigate(`/edit/${boxCode}`);
         }
         
     }

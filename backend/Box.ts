@@ -98,7 +98,7 @@ export class Box {
         this.sections = value;
     }
 
-    private setEmpty(){
+    public setEmpty(){
         this.active = false;
         this.status = ''
         this.quantity = 0
@@ -118,6 +118,7 @@ export class Box {
         this.setQuantity = data.sections.reduce(function (sum:any, section:any) {
             return parseInt(sum) + parseInt(section.quantity);
         }, 0); 
+    }
 
 }
 

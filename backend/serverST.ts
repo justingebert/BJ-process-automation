@@ -1,5 +1,5 @@
 import express from "express";
-import { box, Box, box1 } from "./Box";
+import { box, Box } from "./Box";
 const app = express();
 const ip = require("ip");
 
@@ -64,26 +64,29 @@ app.post("/edit/:boxCode",(req,res) => {
 })
 
 
-app.post("/new/:boxCode",(req, res) => {
+app.post("/newVal/:boxCode",(req, res) => {
+    console.log("test")
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
 
     allBoxes = allBoxes.map((box, index)=>{
         if(index === boxCodeInt){
-            return new Box(boxCodeInt)
+            let boxCleared = box.setEmpty()
+            return boxCleared
         }else{
             return box
         }
     })
     res.status(200).send({status: 'recieved'})
 
+    res.json(allBoxes[boxCodeInt])
+
 })
 
 app.post("/clear/:boxCode",(req, res) => {
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
-
-
+    
     res.status(200).send({status: 'recieved'})
 })
 

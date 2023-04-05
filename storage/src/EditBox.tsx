@@ -23,10 +23,11 @@ function EditBox(){
     const ipWork = '192.168.178.110';
     const ipHome = "192.168.178.32"
     const ipHome2 = "192.168.178.48"
+    const ipUni = "141.45.33.70";
 
 
     const postBox = async () => {
-        const sendBox = await fetch(`http://${ipHome2}:50056/edit/`+boxCode.id,
+        const sendBox = await fetch(`http://${ipUni}:50056/edit/`+boxCode.id,
         {
             method: 'POST',
             headers: {
@@ -62,7 +63,7 @@ function EditBox(){
 
     useEffect(() => {
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipHome2}:50056/info/`+boxCode.id, {
+            const res = await fetch(`http://${ipUni}:50056/info/`+boxCode.id, {
                 method: 'GET'
             });
             const dataBox = await res.json();

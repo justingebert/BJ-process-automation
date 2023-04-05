@@ -233,25 +233,28 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
       }, [data]);
 
     const SectionChange = () => {
-        setSectionIndex(parseInt(inputSection.current.value))
+        setSectionIndex(inputSection.current.value)
+        
     }
     const ItemIDChange = () => {
-        setSectionItemID(parseInt(inputItemID.current.value))
+        setSectionItemID(inputItemID.current.value)        
+        
     }
     const OrderIDChange = () => {
         setSectionOrderID(inputOrderID.current.value)
     }
     const QuantityChange = () => {
-        setSectionQuantity(parseInt(inputQuantity.current.value))
+        setSectionQuantity(inputQuantity.current.value)
+        
     }
 
     function postChanges() {
         
         const newData = {
-            section: sectionIndex,
-            itemID: sectionItemID,
+            section: parseInt(sectionIndex),
+            itemID: parseInt(sectionItemID),
             orderID: sectionOrderID,
-            quantity: sectionQuantity
+            quantity: parseInt(sectionQuantity)
         }
 
         onDataSubmit(newData);
