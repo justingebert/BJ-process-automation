@@ -91,10 +91,7 @@ function SectionTableEdit({data, onSectionSubmit}:any){
             isEdited={editSectionIndex === section.section}
             onEdit={() => {
                 setEditSectionIndex(section.section); 
-                if(editSectionIndex > 0){
-                    setEditSectionData(sections[section.section-1])
-                    
-                }
+                setEditSectionData(sections[section.section-1])
             }}
             onDelete={() => {handleDataDelete(section.section)}}
         />
@@ -106,11 +103,7 @@ function SectionTableEdit({data, onSectionSubmit}:any){
         <div id='Table'>
             <SectionTableHeader />
             {sectionrows}
-            { editSectionIndex === 0 ? 
-            <EditSectionInfo data={editSectionData} editSectionIndex={editSectionIndex} onDataSubmit={handleDataSubmit}/>
-            :
-            <EditSectionInfo data={editSectionData} editSectionIndex={editSectionData} onDataSubmit={handleDataSubmit}/>
-            }
+            <EditSectionInfo data={editSectionData} onDataSubmit={handleDataSubmit} sections={sections}/>
             
         </div>
         
@@ -210,13 +203,14 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, isEdited, onEd
     );
 }
 
-function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
+function EditSectionInfo({data, onDataSubmit, sections}:any,){
 
     const [sectionIndex, setSectionIndex] = useState(data.section)
     const [sectionItemID, setSectionItemID] = useState(data.itemID)
     const [sectionOrderID, setSectionOrderID] = useState(data.orderID)
     const [sectionQuantity, setSectionQuantity] = useState(data.quantity)
 
+    const [AvSections, setAvSections] = useState(availableSections(sections))
     const [newSection, setNewSection] = useState(true);
 
     const inputSection:any = useRef(null);
@@ -224,27 +218,33 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
     const inputOrderID:any = useRef(null);
     const inputQuantity:any = useRef(null);
 
+    function availableSections(sections:Array<section>){
+        let arr: any[] = [];
+        sections.map((box,index) => {
+            arr.push(box.section)
+        })
+        return arr;
+    }
+
     useEffect(() => {
-        setSectionIndex(data.section);
+        setSectionIndex(data.section)
         setSectionItemID(data.itemID)
         setSectionOrderID(data.orderID)
         setSectionQuantity(data.quantity)
+        setAvSections(availableSections(sections))
       }, [data]);
 
     const SectionChange = () => {
         setSectionIndex(inputSection.current.value)
-        
     }
     const ItemIDChange = () => {
-        setSectionItemID(inputItemID.current.value)        
-        
+        setSectionItemID(inputItemID.current.value)   
     }
     const OrderIDChange = () => {
         setSectionOrderID(inputOrderID.current.value)
     }
     const QuantityChange = () => {
         setSectionQuantity(inputQuantity.current.value)
-        
     }
 
     function postChanges() {
@@ -287,7 +287,7 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
                 <input type="number"  ref={inputQuantity} value={sectionQuantity} onChange={QuantityChange}/>
             </div>
         </div>
-        {data.section == "" ? 
+        {!(AvSections.includes(sectionIndex)) ? 
         <button className='button' id='addSectionButton' onClick={postChanges} >Add</button>
         :
         <button className='button' id='saveSectionButton' onClick={postChanges} >Save</button>

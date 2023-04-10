@@ -19,13 +19,21 @@ services:
       
 
 
-  web:
-    build: .
+  web_time:
+    build: ./backend
     restart: always
     ports:
       - "50055:50055"
+    command: node ./serverZE.js
     volumes:
       - C:/Users/Justin/Documents/PROJECTS/Bagjack/excel:/usr/app/zeiterfassung/excel
+
+  web_storage:
+    build: ./backend
+    restart: always
+    ports:
+      - "50056:50056"
+    command: node ./serverST.js
       
   
   

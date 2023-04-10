@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devStart": "nodemon serverST.js",
+    "startS": "nodemon ./storage/serverST.js",
+    "startT": "nodemon ./timetracking/serverZE.js",
     "build": "tsc -p"
   },
   "author": "justin",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.8",
     "express": "^4.18.2",
-    "typescript": "^4.9.5"
+    "ip": "^1.1.8",
+    "mysql": "^2.18.1",
+    "quagga": "^0.12.1",
+    "typescript": "^4.9.5",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.11/xlsx-0.18.11.tgz"
   }
 }
