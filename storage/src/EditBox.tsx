@@ -25,9 +25,39 @@ function EditBox(){
     const ipHome2 = "192.168.178.48"
     const ipUni = "141.45.33.70";
 
+    let ip = "";
+
+    let ipNum:number = 5;
+
+    switch (ipNum) {
+        case 1:
+            //work
+            ip = '192.168.178.110';
+            break;
+        case 2:
+            //home
+            ip = "192.168.178.32";
+            break;
+        case 3:
+            //home2
+            ip = "192.168.178.48";
+            break;
+        case 4:
+            //Uni
+            ip = "141.45.33.70";
+            break;
+        case 5:
+            //lasse
+            ip = "192.168.178.33";
+            break;
+        default:
+            ip = "";
+            break;
+    }
+
 
     const postBox = async () => {
-        const sendBox = await fetch(`http://${ipUni}:50056/edit/`+boxCode.id,
+        const sendBox = await fetch(`http://${ip}:50056/edit/`+boxCode.id,
         {
             method: 'POST',
             headers: {
@@ -63,7 +93,7 @@ function EditBox(){
 
     useEffect(() => {
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipUni}:50056/info/`+boxCode.id, {
+            const res = await fetch(`http://${ip}:50056/info/`+boxCode.id, {
                 method: 'GET'
             });
             const dataBox = await res.json();

@@ -9,6 +9,36 @@ const ipHome = "192.168.178.32"
 const ipHome2 = "192.168.178.48"
 const ipUni = "141.45.33.70";
 
+let ip = "";
+
+let ipNum:number = 5;
+
+switch (ipNum) {
+    case 1:
+        //work
+        ip = '192.168.178.110';
+        break;
+    case 2:
+        //home
+        ip = "192.168.178.32";
+        break;
+    case 3:
+        //home2
+        ip = "192.168.178.48";
+        break;
+    case 4:
+        //Uni
+        ip = "141.45.33.70";
+        break;
+    case 5:
+        //lasse
+        ip = "192.168.178.33";
+        break;
+    default:
+        ip = "";
+        break;
+}
+
 function ViewBox(){
     let {id} = useParams();
 
@@ -31,7 +61,7 @@ function LookUpCode({boxId}:any){
 
     useEffect(()=>{
         const dataFetch = async () => {
-            const res = await fetch(`http://${ipUni}:50056/info/`+boxCode, {
+            const res = await fetch(`http://${ip}:50056/info/`+boxCode, {
                 method: 'GET'
             });
             const dataBox = await res.json();
@@ -43,7 +73,7 @@ function LookUpCode({boxId}:any){
     }, [])
 
     const fetchBox = async () => {
-        const res = await fetch(`http://${ipUni}:50056/info/`+boxCode,{
+        const res = await fetch(`http://${ip}:50056/info/`+boxCode,{
             method: 'GET'
         });
         navigate(`/info/${boxCode}`)
@@ -98,19 +128,24 @@ function EditBoxButtons({boxCode}:any){
     const navigate = useNavigate();
 
     const clearBox = async () => {
-        const clearBox = await fetch(`http://${ipUni}:50056/clear/`+boxCode, {
+        if (window.confirm('Kiste Leeren?')){
+            const clearBox = await fetch(`http://${ip}:50056/clear/`+boxCode, {
             method: 'POST'
-        });
+            });
         
-        setCleared(true);
+            setCleared(true);
+        }
+        
     }
 
     const newValues = async () => {
         if(cleared){
-            const newValueBox = await fetch(`http://${ipUni}:50056/newVal/`+boxCode, {
-            method: 'POST'
-            });
-            navigate(`/edit/${boxCode}`);
+            if (window.confirm('Kiste Leeren?')){
+                const newValueBox = await fetch(`http://${ip}:50056/newVal/`+boxCode, {
+                method: 'POST'
+                });
+                navigate(`/edit/${boxCode}`);
+            }
         }
         
     }

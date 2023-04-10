@@ -28,7 +28,6 @@ function SectionTableEdit({data, onSectionSubmit}:any){
     const [editSectionIndex, setEditSectionIndex] = useState(0);
     const [editSectionData, setEditSectionData] = useState(empty)
 
-
     function getSection (editSectionIndex:number):any{
         console.log(sections[editSectionIndex-1])
         if(editSectionIndex === 0) return empty
@@ -261,6 +260,13 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
         
     }
 
+    const clearInputs = () => {
+        setSectionIndex('')
+        setSectionItemID('')
+        setSectionOrderID('')
+        setSectionQuantity('')
+    }
+
     return(
         <>
          <div id='EditSectionInfoContainer'>
@@ -286,7 +292,7 @@ function EditSectionInfo({data, editSectionIndex, onDataSubmit}:any,){
         :
         <button className='button' id='saveSectionButton' onClick={postChanges} >Save</button>
         }
-        
+        <button className='button' id='clearSectionInputs' onClick={clearInputs} >clear</button>
         </>
     );
 }

@@ -69,25 +69,27 @@ app.post("/newVal/:boxCode",(req, res) => {
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
 
-    allBoxes = allBoxes.map((box, index)=>{
-        if(index === boxCodeInt){
-            let boxCleared = box.setEmpty()
-            return boxCleared
-        }else{
-            return box
-        }
-    })
     res.status(200).send({status: 'recieved'})
 
-    res.json(allBoxes[boxCodeInt])
 
 })
 
 app.post("/clear/:boxCode",(req, res) => {
     const {boxCode} = req.params;
     const boxCodeInt = parseInt(boxCode)
-    
+
+    allBoxes = allBoxes.map((box, index)=>{
+        if(index === boxCodeInt){
+            box.setEmpty()
+            return box
+        }else{
+            return box
+        }
+    })
+
     res.status(200).send({status: 'recieved'})
+    res.json(allBoxes[boxCodeInt])
+
 })
 
 
