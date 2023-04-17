@@ -10,6 +10,7 @@ COPY tsconfig*.json ./
 #copy source files
 COPY . ./
 
+
 COPY package*.json ./
 
 #install dependencies

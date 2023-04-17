@@ -115,3 +115,7 @@ mysql server doesnt start in docker container: failed to findvalid data director
 coundnt connect sql tools to docker sql server
 -> volume data persists commands not read becasue db is pulled form volume
 -> delete volume
+
+
+docker tsc throws error which dont appear in local enviroment
+-> include dev dependencies in package.json

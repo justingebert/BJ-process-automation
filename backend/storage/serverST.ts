@@ -92,5 +92,6 @@ app.post("/clear/:boxCode",(req, res) => {
 
 })
 
+//write a fucntion to add a new box to the array of
 
 app.listen(port, () => {console.log(`live on http://${curIP}:${port}`)})

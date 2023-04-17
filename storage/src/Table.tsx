@@ -1,6 +1,6 @@
 import React, { useContext, useState,createContext,useEffect, useCallback, useMemo, useRef} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {section} from "../../backend/Box"
+import {section} from "../Box"
 
 //TODO LIFT UP EDIT DATA STATE TO TABLE
 

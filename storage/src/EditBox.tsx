@@ -4,7 +4,7 @@ import { SectionTableEdit } from './Table';
 import { useNavigate, useParams } from 'react-router-dom';
 import "./styles/EditBox.css"
 import { send } from 'process';
-import { section , box , Box } from '../../backend/Box';
+import { section , box , Box } from '../Box';
 
 
 function EditBox(){

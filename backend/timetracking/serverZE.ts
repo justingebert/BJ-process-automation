@@ -14,7 +14,7 @@ import e from 'express';
 
 // * SERVER SETUP
 //Server Data
-const port = 50055;
+const port = 50050;
 const curIP = ip.address();
 //sql connect
 const mySqlConfig = {

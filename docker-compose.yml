@@ -23,28 +23,26 @@ services:
     build: ./backend
     restart: always
     ports:
-      - "50055:50055"
-    command: node ./serverZE.js
+      - "50050:50050"
+    command: node ./timetracking/serverZE.js
     volumes:
       - C:/Users/Justin/Documents/PROJECTS/Bagjack/excel:/usr/app/zeiterfassung/excel
 
   backend_storage:
-    build: ./backend
-    restart: always
-    ports:
-      - "50056:50056"
-    command: node ./serverST.js
+      build: ./backend
+      restart: always
+      ports:
+        - "50056:50056"
+      command: node ./storage/serverST.js
 
   frontend_storage:
-    build: ./storage
-    restart: always
-    ports:
-      - "3000:3000"
+      build: ./storage
+      restart: always
+      ports:
+        - "3000:3000"
 
-    stdin_open: true
-    tty: true
-      
-  
+      stdin_open: true
+      tty: true
   
         
 volumes:
