@@ -1,0 +1,111 @@
+<!doctype html>
+
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zeiterfassung</title>
+  <meta name="description" content="Erfassung von Arbeitschritten">
+  <meta name="Justin" content="SitePoint">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="/img/icon.png" />
+</head>
+<body>
+  <div>
+    <img src="/img/logow.png" id="logo">
+  </div>
+  <div id="container">
+    <div id="form">
+      <form id="formwinputs">
+    
+        <div class="input left hasBut">
+          <label for="Arbeitsplatz">Arbeitsplatz:</label>
+          <input type="number" id="Arbeitsplatz" placeholder="00" class="hasBut" maxlength="2" minlength="2" required>
+         <!--  <button type="button" class="scanbut"><img src="/img/barcode-icon.png" id="barcode"></button> -->
+        </div>
+    
+        <div class="input right">
+          <label>Arbeitskraft:</label>
+          <input type="number" id="Arbeitskraft" placeholder="00" required>
+        </div>
+    
+        <div class="input left">
+          <label>Auftrags-nr:</label>
+          <input type="text" id="Auftragsnummer" placeholder="AA0000000" required="true" maxlength="9" minlength="9">
+        </div>
+    
+        <div class="input right">
+          <label>Artikel-nr:</label>
+          <input type="text" id="Modellnummer" placeholder="00000" maxlength="5" minlength="5" required>
+        </div>
+    
+        <div class="input left">
+          <label>Arbeitsschritt:</label>
+          <input type="text" id="Arbeitsschritt-Code" placeholder="000" maxlength="3" required>
+        </div>
+    
+        <div class="input right">
+          <label>SollZeit:</label>
+        <input type="time" id="SollZeit"> 
+        </div>
+    
+        <!-- class="html-duration-picker" data-hide-seconds -->
+    
+        <div class="input left">
+          <label>SollMenge:</label>
+          <input type="number" id="SollMenge" placeholder="000" maxlength="3" required>
+        </div>
+        
+        <div class="input right">
+          <label>IstMenge:</label>
+          <input type="number" id="IstMenge" placeholder="000" maxlength="3">
+        </div>
+        
+        <div class="input full">
+          <label>Notiz:</label>
+          <input type="text" id="fehler" placeholder="Fehler oder Bemerkungen" required> 
+        </div>
+        
+        <div class="input left">
+          <button type="submit" id="startbutton" class="mainbutton" role="button">START</button>
+        </div>
+        
+        <div class="input right">
+          <button type="button" id="pausebutton" class="mainbutton" role="button">PAUSE</button>
+        </div>
+    
+        <!-- <div class="input full">
+          <button type="button" id="downloadbutton" class="button" role="button">DOWNLOAD</button>
+        </div> -->
+    
+        </form>
+    </div>
+    <div id="buttons">
+      <button class="button" id="repaButton">REPARATUR</button>
+      <button class="button" id="musterButton">MUSTER</button>
+      <button class="button" id="sonstigesButton">SONSTIGES</button>
+    </div>
+  </div>
+  
+  <template id="TimerInterface">
+    <div class="interface" id="">
+      <p class="interfaceText"> Arbeitsplatz: xx </p>
+      <button type="button" class="interfaceBut" id="interfaceStopButton">STOP</button>
+      <button type="button" class="interfaceBut" id="interfacePauseButton">PAUSE</button>
+      <p class="interfaceText">Zeit: 0:0:0</p>
+    </div>
+  </template>
+
+  <div id="running">
+  </div>
+
+  <script src="browser.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/html-duration-picker@latest/dist/html-duration-picker.min.js"></script> -->
+  
+ <!--  <script src="quagga/quagga.js" type="text/javascript"></script>
+  <script src="quagga/index.js" type="text/javascript"></script>
+  <script src="quagga/prism.js"></script> -->
+  
+</body>
+
+</html>

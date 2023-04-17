@@ -1,0 +1,176 @@
+/*! GENERAL */
+*,
+*::after,
+*::before{
+    box-sizing: border-box;
+}
+:root{
+    --color-BG:#323031;
+    --color-Font:rgb(199, 199, 199);
+    font-size: 15px;
+    color: var(--color-Font);
+    line-height: 15px;
+    width: 95%;
+    margin: auto;
+}
+body{
+    
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", 
+    Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    background-color: #161616;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*! IMAGE */
+
+#logo{
+    width: 220px;
+    margin: 10px 0 20px 0;
+}
+
+#barcode{
+    width: 25px;
+    margin-top: -2px;
+}
+
+/*! BUTTONS */
+
+.mainbutton{
+    font-size: x-large;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    border-color: #000000;
+    font-weight: bold;
+    width: 172px;
+    height: 50px;
+    margin: 5px 0 5px 0;
+    justify-content: center;
+}
+
+.button{
+    background-color: #3e3e3e;
+    color: #ffffff;
+    border-radius: 5px;
+    border-color: #000000;
+    width: 120px;
+    height: 35px;
+}
+
+
+
+/*! INPUTS */
+
+#form{
+    width: 350px;
+}
+
+form{
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+}
+
+.input{
+    display: grid;
+    grid-template-rows: 30% 70%;
+    height: 65px;
+    margin-top: -5px;
+}
+
+.input .hasBut{
+    grid-row: 2;
+}
+
+.scanbut{
+    display: flex;
+    justify-content: center;
+    width: 35px;
+    height: 25px;
+    grid-row: 2;
+    margin-left: -42px;
+    margin-top: 5px;
+    border: 1px solid rgb(78, 78, 78);
+    border-radius: 3px;
+    
+    
+}
+
+.full{
+    grid-column: 1/ span 2;
+}
+
+.left{
+    grid-column: 1;
+}
+
+.right{
+    grid-column: 2/span 1;
+}
+
+input{
+    display: block;
+    width: 100%;
+    background-color: #393D3F;
+    color: white;
+    padding: 12px 20px;
+    margin: 0px 0px 10px 0px;
+    border: 2px solid rgb(87, 86, 86);
+    border-radius: 4px;  
+}
+
+
+/*! INTERFACE */
+
+#running{
+    display: grid;
+    grid-row: 1;
+}
+
+.interface{
+    font-size: 13px;
+    display: grid;
+    justify-content: center;
+    border-radius: 5px;
+    border: 2px solid rgb(77, 77, 77);
+    width: 215px;
+}
+
+.interfaceText{
+    grid-row: 1/2;
+    margin: 3px 5px 3px 5px;
+}
+
+.interfaceBut{
+    background-color: #ffffff;
+    border-radius: 10px;
+    border-color: #000000;
+    font-weight: bold;
+    height: 30px;
+    margin: 3px 5px 3px 5px;
+ }
+
+
+ /*! UI */
+
+ #container{
+    display: flex;
+    flex-direction: column;
+ }
+
+ #buttons{
+    display: flex;
+    justify-content: space-evenly;
+
+ }
+
+ /*! Text */
+
+#zeiten{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+ }

@@ -19,7 +19,7 @@ services:
       
 
 
-  web_time:
+  backend_time:
     build: ./backend
     restart: always
     ports:
@@ -28,12 +28,21 @@ services:
     volumes:
       - C:/Users/Justin/Documents/PROJECTS/Bagjack/excel:/usr/app/zeiterfassung/excel
 
-  web_storage:
+  backend_storage:
     build: ./backend
     restart: always
     ports:
       - "50056:50056"
     command: node ./serverST.js
+
+  frontend_storage:
+    build: ./storage
+    restart: always
+    ports:
+      - "3000:3000"
+
+    stdin_open: true
+    tty: true
       
   
   
