@@ -185,17 +185,19 @@ function SectionTableRowEdit({section, orderID, itemID, quantity, isEdited, onEd
     return(
         <>
         <div className='TableRow'>
-            <div className='rowInfo'>
-                {section}  
-            </div>
-            <div className='rowInfo'>
-                {orderID}
-            </div>
-            <div className='rowInfo'>
-                {itemID}
-            </div>
-            <div className='rowInfo'>
-                {quantity}
+            <div className='RowData'>
+                <div className='rowInfo'>
+                    {section}  
+                </div>
+                <div className='rowInfo'>
+                    {orderID}
+                </div>
+                <div className='rowInfo'>
+                    {itemID}
+                </div>
+                <div className='rowInfo'>
+                    {quantity}
+                </div>
             </div>
             <EditSectionButtons onEdit={onEdit} onDeleteBut={onDelete}/>
         </div>
@@ -301,8 +303,8 @@ function EditSectionButtons({onEdit,onDeleteBut}:any){
 
     return (
         <>
-        <button onClick={onEdit} >Edit</button>
-        <button onClick={onDeleteBut}>Trash</button>
+        <button onClick={onEdit} className="editRowButton" >Edit</button>
+        <button onClick={onDeleteBut} className="deleteRowButton">Trash</button>
         </>
     );
 }

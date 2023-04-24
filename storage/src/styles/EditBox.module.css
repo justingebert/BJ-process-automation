@@ -94,16 +94,39 @@
 #Table{
     width: 85%;
     margin: auto;
+    display: grid;
 }
 
 .TableRow {
     border-radius: var(--border-radius-table);
     background-color: var(--text-bg-color);
     display: grid;
-    width: 80%;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 80% 10% 10%;
+    grid-template-areas: 
+        "RowData editRowButton deleteRowButton";
     height: var(--table-row-height);
     margin-bottom: var(--table-margin);
+}
+
+.RowData{
+    grid-area: RowData;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 1;
+    grid-template-areas:
+        "position procedure description quantity";
+}
+
+.editRowButton{
+    grid-area: editRowButton;
+    background-color: lightgreen;
+    border-radius: 5px;
+}
+
+.deleteRowButton{
+    grid-area: deleteRowButton;
+    background-color: red;
+    border-radius: 5px;
 }
 
 .rowInfo{

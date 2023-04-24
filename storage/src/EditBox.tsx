@@ -2,7 +2,7 @@ import React, { useContext, useState,createContext,useEffect, useRef} from 'reac
 import Head from './Header';
 import { SectionTableEdit } from './Table';
 import { useNavigate, useParams } from 'react-router-dom';
-import "./styles/EditBox.css"
+import styles from "./styles/EditBox.module.css"
 import { send } from 'process';
 import { section , box , Box } from '../Box';
 
@@ -27,7 +27,7 @@ function EditBox(){
 
     let ip = "";
 
-    let ipNum:number = 5;
+    let ipNum:number = 6;
 
     switch (ipNum) {
         case 1:
@@ -50,8 +50,8 @@ function EditBox(){
             //lasse
             ip = "192.168.178.33";
             break;
-        default:
-            ip = "";
+        case 6:
+            ip = "localhost";
             break;
     }
 
@@ -112,6 +112,9 @@ function EditBox(){
 
     return(
         <>
+        <div className='styles'>
+
+        
         { !loading ? 
                         (<>
                         <EditBoxInfo onInfoChange={onInfoChange} data={boxInfo}/>
@@ -119,7 +122,7 @@ function EditBox(){
                         <ViewButton submit={postBox} />
                         </>) : <p>loading</p>
             }
-        
+        </div>
         </>
     );
 }

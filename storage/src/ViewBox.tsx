@@ -1,5 +1,5 @@
 import React, { useContext, useState,createContext,useEffect} from 'react';
-import "./styles/ViewBox.css"
+import styles from "./styles/ViewBox.module.css"
 import Head from './Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SectionTableInfo } from './Table';
@@ -11,7 +11,7 @@ const ipUni = "141.45.33.70";
 
 let ip = "";
 
-let ipNum:number = 5;
+let ipNum:number = 6;
 
 switch (ipNum) {
     case 1:
@@ -34,8 +34,8 @@ switch (ipNum) {
         //lasse
         ip = "192.168.178.33";
         break;
-    default:
-        ip = "";
+    case 6:
+        ip = "localhost";
         break;
 }
 
