@@ -1,13 +1,22 @@
 import express from "express";
 import { box, Box } from "./Box";
+const cors = require("cors");
+
 const app = express();
 const ip = require("ip");
 
 const port = 50056;
 const curIP = ip.address();
 
+const corsOptions = {
+    origin: "http://127.0.0.1:50056",
+  };
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
+
 
 let numOfBoxes = 5;
 let allBoxes:Array<Box> = [];

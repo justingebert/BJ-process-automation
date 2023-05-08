@@ -2,7 +2,7 @@ import React, { useContext, useState,createContext,useEffect, useRef} from 'reac
 import Head from './Header';
 import { SectionTableEdit } from './Table';
 import { useNavigate, useParams } from 'react-router-dom';
-import styles from "./styles/EditBox.module.css"
+import "./styles/EditBox.css"
 import { send } from 'process';
 import { section , box , Box } from '../Box';
 
@@ -27,7 +27,7 @@ function EditBox(){
 
     let ip = "";
 
-    let ipNum:number = 6;
+    let ipNum:number = 1;
 
     switch (ipNum) {
         case 1:
