@@ -7,9 +7,15 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
+        num:{
+            type: DataTypes.INTEGER,
+        },  
         boxID: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            references: {
+                model: Container,
+                key: 'boxID'
+            }
         },
         orderID: {
             type: DataTypes.STRING,

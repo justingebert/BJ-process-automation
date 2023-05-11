@@ -4,6 +4,7 @@ const cors = require("cors");
 const Sequelize = require("sequelize");
 const dbConfig = require('../db/config/config.json');
 const db = require("../db/models/");
+const {apply} = require("../db/associations");
 
 const app = express();
 const ip = require("ip");
@@ -25,11 +26,35 @@ sequelize.authenticate().then(() => {
     console.log("Unable to connect to DB", err);
 });
 
-db.Container.sync().then(() => {
-    console.log("Container table created");
+
+db.Container.hasMany(db.Section)
+
+db.Section.belongsTo(db.Container);
+
+
+db.Container.create({
+    code: "test",
+    location: "test",
+    procedure: 1,
+    description: "test"
+})
+
+
+db.Section.create({
+    id: 4,
+    boxID: 1,
+    orderID: "test",
+    itemID: 1,
+    quantity: 1
+})
+
+db.sequelize.sync().then(() => {
+    console.log("tables created");
 }).catch((err:any) => {
-    console.log("Unable to create Container table", err);
+    console.log("Unable to create tables", err);
 });
+
+
 
 
 let numOfBoxes = 5;

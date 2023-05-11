@@ -1,4 +1,3 @@
-import path from 'path';
 //import { Sequelize, DataTypes, Model, BuildOptions } from 'index';
 const Sequelize = require('./index');
 const Section = require('./Section');
@@ -24,17 +23,18 @@ module.exports = (sequelize:any, DataTypes:any) => {
 
         description:{
             type: DataTypes.STRING,
+        },
+
+        sections: {
+            type: DataTypes.ARRAY(DataTypes.Section),
+            references: {
+                model: Section
+            }
         }
 
     }, {
         timestamps: false
     });
-
-    Container.associate = (models:any) => {
-        Container.hasMany(models.Section,{
-            foreignKey: 'sectionID'
-        })
-    }
 
     return Container;
 }
