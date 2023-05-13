@@ -141,6 +141,7 @@ data.js
 copyexcel.js
 *.xlsx
 *.js
+!index.js
 
 
 

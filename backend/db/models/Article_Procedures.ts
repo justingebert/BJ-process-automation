@@ -1,25 +1,26 @@
 module.exports = (sequelize:any, DataTypes:any) => {
-    const Item = sequelize.define('Item', {
+    const Article_Procedures = sequelize.define('Article_Procedures', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
-            type: DataTypes.STRING,
-        },
-        parentID: {
+        articleID: {
             type: DataTypes.INTEGER,
-            refrences: {
+            references: {
                 model: 'Items',
                 key: 'id'
             }
         },
-        layer: {
+        procedureID: {
             type: DataTypes.INTEGER,
+            references: {
+                model: 'Procedures',
+                key: 'id'
+            }
         }
     }, {
         timestamps: false
     });
-    return Item;
-};
+    return Article_Procedures;
+}

@@ -11,9 +11,6 @@ module.exports = (sequelize:any, DataTypes:any) => {
         description: {
             type: DataTypes.STRING
         },
-        materials: {
-            type: DataTypes.ARRAY(DataTypes.STRING)
-        },
         catergory: {
             type: DataTypes.STRING
         }

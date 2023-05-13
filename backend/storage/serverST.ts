@@ -4,7 +4,6 @@ const cors = require("cors");
 const Sequelize = require("sequelize");
 const dbConfig = require('../db/config/config.json');
 const db = require("../db/models/");
-const {apply} = require("../db/associations");
 
 const app = express();
 const ip = require("ip");
@@ -19,7 +18,6 @@ app.use(cors());
 const sequelize = new Sequelize(dbConfig.development)
 
 
-
 sequelize.authenticate().then(() => {
     console.log("Connected to DB");
 }).catch((err:any) => {
@@ -27,33 +25,31 @@ sequelize.authenticate().then(() => {
 });
 
 
-db.Container.hasMany(db.Section)
-
+/* db.Container.hasMany(db.Section)
 db.Section.belongsTo(db.Container);
-
+*/
 
 db.Container.create({
-    code: "test",
-    location: "test",
-    procedure: 1,
-    description: "test"
+    code: "ZEBRA",
+    location: "P09",
+    procedure: 150,
+    description: "nxlmessenger"
 })
-
 
 db.Section.create({
-    id: 4,
-    boxID: 1,
-    orderID: "test",
+    num: 1,
+    orderID: "AA1234567",
     itemID: 1,
-    quantity: 1
-})
+    quantity: 25,
+    boxID: 1
+})  
+
 
 db.sequelize.sync().then(() => {
     console.log("tables created");
 }).catch((err:any) => {
     console.log("Unable to create tables", err);
 });
-
 
 
 

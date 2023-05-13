@@ -17,27 +17,24 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
         boxID:{
             type: DataTypes.INTEGER,
             references: {
-                model: 'Container',
-                key: 'boxID'
+                model: 'Containers',
+                key: 'id'
             }
         },
-        quantity_done:{
+        quantity_made:{
             type: DataTypes.INTEGER,
         },
         note:{
             type: DataTypes.STRING,
         },
-        time:{
-            type: DataTypes.INTEGER,
+        date:{
+            type: DataTypes.DATE,
         },
         start_time:{
             type: DataTypes.DATE,
         },
         end_time:{
             type: DataTypes.DATE,
-        },
-        breakTime:{
-            type: DataTypes.INTEGER,
         },
         running:{
             type: DataTypes.BOOLEAN,
@@ -48,9 +45,7 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
         finished:{
             type: DataTypes.BOOLEAN,
         }
-    }, {
-        timestamps: false
-    });
+    }, {});
 
     return Timer;
 

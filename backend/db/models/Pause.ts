@@ -1,25 +1,25 @@
 module.exports = (sequelize:any, DataTypes:any) => {
-    const Item = sequelize.define('Item', {
+    const Pause = sequelize.define('Pause', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
-            type: DataTypes.STRING,
-        },
-        parentID: {
+        timerID: {
             type: DataTypes.INTEGER,
-            refrences: {
-                model: 'Items',
+            references: {
+                model: 'Timers',
                 key: 'id'
             }
         },
-        layer: {
-            type: DataTypes.INTEGER,
+        start_time: {
+            type: DataTypes.DATE,
+        },
+        end_time: {
+            type: DataTypes.DATE,
         }
     }, {
         timestamps: false
     });
-    return Item;
-};
+    return Pause;
+}

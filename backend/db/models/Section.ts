@@ -5,18 +5,12 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
     const Section = sequelize.define('Section', {
         id: {
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
         num:{
             type: DataTypes.INTEGER,
         },  
-        boxID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Container,
-                key: 'boxID'
-            }
-        },
         orderID: {
             type: DataTypes.STRING,
         },
@@ -25,7 +19,14 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
         },
         quantity: {
             type: DataTypes.INTEGER,
-        }
+        },
+        boxID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: "Containers",
+                key: 'id'
+            }
+        } 
 
     }, {
         timestamps: false
