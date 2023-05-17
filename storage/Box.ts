@@ -11,7 +11,7 @@ export type box = {
     active: boolean;
     status: any;
     quantity:number;
-    position: string;
+    location: string;
     procedure: number | '';
     description: string;
     sections: Array<section>;
@@ -29,7 +29,7 @@ export class Box {
     
     private quantity!: number;
 
-    private position!: string;
+    private location!: string;
 
     private procedure!: number | '';
     
@@ -70,11 +70,11 @@ export class Box {
         this.quantity = value;
     }
 
-    public get getPosition(): string {
-        return this.position;
+    public get getlocation(): string {
+        return this.location;
     }
-    public set setPosition(value: string) {
-        this.position = value;
+    public set setlocation(value: string) {
+        this.location = value;
     }
     
     public get getProcedure(): number | '' {
@@ -102,7 +102,7 @@ export class Box {
         this.active = false;
         this.status = ''
         this.quantity = 0
-        this.position = ''
+        this.location = ''
         this.procedure = ''
         this.description = ''
         this.sections = []
@@ -112,7 +112,7 @@ export class Box {
         this.setActive = data.active;
         this.setStatus = data.status;
         this.setDescription = data.description;
-        this.setPosition = data.position;
+        this.setlocation = data.location;
         this.setProcedure = data.procedure;
         this.setSections = data.sections;
         this.setQuantity = data.sections.reduce(function (sum:any, section:any) {
@@ -127,7 +127,7 @@ export class Box {
 /* export const box1 = {
     status: "h",
     quanitity: 150,
-    position: "ZM-R8-06",
+    location: "ZM-R8-06",
     procedure: 150,
     description: "NXL Messenger Blau innen fdfdsfsf f dsfsd feaf  faf",
     sections: [

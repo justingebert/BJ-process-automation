@@ -8,7 +8,7 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
             autoIncrement: true,
             primaryKey: true
         },
-        num:{
+        section:{
             type: DataTypes.INTEGER,
         },  
         orderID: {
@@ -20,7 +20,7 @@ module.exports = (sequelize:Sequelize, DataTypes:any) => {
         quantity: {
             type: DataTypes.INTEGER,
         },
-        boxID: {
+        containerID: {
             type: DataTypes.INTEGER,
             references: {
                 model: "Containers",

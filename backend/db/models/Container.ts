@@ -5,7 +5,13 @@ module.exports = (sequelize:any, DataTypes:any) => {
             autoIncrement: true,
             primaryKey: true
         },
+        active: {
+            type: DataTypes.BOOLEAN,
+        },
         code: {
+            type: DataTypes.STRING,
+        },
+        status: {
             type: DataTypes.STRING,
         },
         location: {

@@ -27,7 +27,7 @@ function EditBox(){
 
     let ip = "";
 
-    let ipNum:number = 1;
+    let ipNum:number = 6;
 
     switch (ipNum) {
         case 1:
@@ -57,6 +57,7 @@ function EditBox(){
 
 
     const postBox = async () => {
+        
         const sendBox = await fetch(`http://${ip}:50056/edit/`+boxCode.id,
         {
             method: 'POST',
@@ -65,11 +66,10 @@ function EditBox(){
             },
             body: JSON.stringify(boxData)
         })
-        const content = await sendBox.json();
         console.log(boxData)
 
         if (window.confirm('Kiste Speichern?')){
-            //console.log(boxCode)
+            console.log(boxCode)
             navigate(`/info/${boxCode.id}`)
         }
     }
@@ -85,7 +85,7 @@ function EditBox(){
     const onInfoChange = async (info:any) => {
         await setBoxInfo(info)
         let newBoxData = boxData;
-        newBoxData!.position = info.position
+        newBoxData!.location = info.location
         newBoxData!.procedure = info.procedure
         newBoxData!.description = info.description
         setBoxData(newBoxData)
@@ -96,12 +96,13 @@ function EditBox(){
             const res = await fetch(`http://${ip}:50056/info/`+boxCode.id, {
                 method: 'GET'
             });
-            const dataBox = await res.json();
+            const dataBox = await res.json()
+            delete dataBox.id
             //console.log(dataBox);
             setBoxData(dataBox);
             setSectionData(dataBox.sections)
             setBoxInfo({
-                position: dataBox.position,
+                location: dataBox.location,
                 procedure: dataBox.procedure,
                 description: dataBox.description})
             setLoading(false);
@@ -129,43 +130,47 @@ function EditBox(){
 
 function EditBoxInfo({data, onInfoChange}:any){
 
-    const [position, setPosition] = useState(data.position)
+    const [location, setlocation] = useState(data.location)
     const [procedure, setProcedure] = useState(data.procedure)
     const [description, setDescription] = useState(data.description)
 
-    const InputPosition:any = useRef(null);
+    const Inputlocation:any = useRef(null);
     const InputProcedure:any = useRef(null);
     const InputDescription:any = useRef(null);
 
 
     useEffect(() => {
         const newData = {
-            position: position,
+            location: location,
             procedure: procedure,
             description: description
         }
         onInfoChange(newData)
-      }, [position, procedure, description]); 
+      }, [location, procedure, description]); 
 
     const descriptionChange = async() => {
-        await setDescription(InputDescription.current.value)
+        if(InputDescription.current.value == undefined) setDescription("")
+        else await setDescription(InputDescription.current.value)
+        
     }
 
     const procedureChange = async () => {
-        await setProcedure(parseInt(InputProcedure.current.value))
+        if(InputProcedure.current.value == undefined) setProcedure("")
+        else await setProcedure(parseInt(InputProcedure.current.value))
     }
 
-    const positionChange = async () => {
-        await setPosition(InputPosition.current.value)
+    const locationChange = async () => {
+        if(Inputlocation.current.value == undefined) setlocation("")
+        else await setlocation(Inputlocation.current.value)
     }
 
 
     return(
         <>
         <div id='EditBoxInfoContainer'>
-            <div className='BoxInfoInput' id='positionInput'>
+            <div className='BoxInfoInput' id='locationInput'>
                 <label>Ort:</label>
-                <input type="text" ref={InputPosition} value={position} onChange={positionChange}/>
+                <input type="text" ref={Inputlocation} value={location} onChange={locationChange}/>
             </div>
             <div className='BoxInfoInput' id='procedureInput'>
                 <label>Arbeitschritt:</label>

@@ -11,7 +11,7 @@ const ipUni = "141.45.33.70";
 
 let ip = "";
 
-let ipNum:number = 1;
+let ipNum:number = 6;
 
 switch (ipNum) {
     case 1:
@@ -108,7 +108,7 @@ function BoxInfo(props:any){
                  Menge:{props.data.quantity}
             </div>
             <div className='TextInfo' id='position'>
-                 Ort:{props.data.position}
+                 Ort:{props.data.location}
             </div>
             <div className='TextInfo' id='procedure'>
                 Arbeitschritt:{props.data.procedure}
