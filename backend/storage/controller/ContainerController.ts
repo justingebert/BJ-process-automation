@@ -1,3 +1,7 @@
+import { group } from "console";
+import sequelize, { Op } from "sequelize";
+import { setOriginalNode } from "typescript";
+
 const { Container, Section } = require('../../db/models/');
 //TODO implement correctly
 
@@ -10,6 +14,15 @@ const emptyContainer = (code:any) => {
       procedure: null,
       description: ""
     })
+}
+
+async function createEmptyContainer(code:any) {
+  const container = await Container.create({
+      active: false,
+      code: code,
+   });
+   console.log("created empty container with code:" + container.code)
+   return container
 }
 
 
@@ -34,6 +47,7 @@ exports.getAllContainers = async (req:any, res:any) => {
       }
 };
 
+//TODO dont find all sections with old oner for container
 exports.getContainerById = async (req:any, res:any) => {
     //console.log(req.params.code)
     try {
@@ -44,7 +58,28 @@ exports.getContainerById = async (req:any, res:any) => {
         if (!container) {
           container = await createEmptyContainer(req.params.code)
         }
-        const sections = await Section.findAll({ where: { containerID: container.id } });
+
+
+        const lastSection = await Section.findOne({
+          order: [['id', 'DESC']]
+        })
+        //console.log(lastSection)
+        const sectionNum = lastSection.section
+        
+        const sections = await 
+        Section.findAll({ 
+          order: [['id', 'DESC']],
+          where: {
+            section: {[Op.between]: [1, sectionNum]},
+            containerID: req.params.code,
+           },
+           limit: sectionNum
+        });
+        sections.reverse();
+        //let currentSections = sections.filter((sec))
+
+        //console.log(sections)
+
         if (!sections) {
             return res.status(404).json({ message: 'Container empty' });
           }
@@ -58,14 +93,6 @@ exports.getContainerById = async (req:any, res:any) => {
         res.status(500).json({ message: 'Server error' });
       }
 };
-
-async function createEmptyContainer(code:any) {
-    const container = await Container.create({
-        active: false,
-        code: code,
-     });
-     return container
-}
 
 exports.createContainer = async (req:any, res:any) => {
     try {
@@ -82,6 +109,7 @@ exports.createContainer = async (req:any, res:any) => {
 }
 
 exports.updateContainer = async (req:any, res:any) => {
+  console.log("updating container")
   console.log(req.body)
     try {
         const sections = req.body.sections
@@ -90,24 +118,28 @@ exports.updateContainer = async (req:any, res:any) => {
         
         Container.update(req.body, {where: {code: req.params.code}});
 
-
         const savedContainer = await Container.findOne({
           order: [['id', 'DESC']],
           where: { code: req.params.code }
         });
+        
+        //not good - deletes unchanged sections
+        await Section.destroy({ where: { containerID: savedContainer.id } });
 
         if(sections.length > 0) {
           console.log(savedContainer.id)
+          
           const savedSections = await Section.bulkCreate(sections.map((section:any) => (
-           
-            console.log({...section, containerID: savedContainer.id}),
-            {...section, containerID: savedContainer.id }
+            delete section.id,
+            console.log(section),
+            section.containerID == null ? {...section, containerID: savedContainer.id } : {...section}
           )));
-          console.log("created with sections")
           console.log(savedSections)
+          console.log("created with sections")
+          //console.log(savedSections)
         }
         else {
-            //console.log("created without sections")
+            console.log("updated without sections")
         }
         return res.json(savedContainer);
       } catch (error) {
@@ -116,4 +148,27 @@ exports.updateContainer = async (req:any, res:any) => {
       }
 }
 
+exports.deleteContainer = async (req:any, res:any) => {
+  const sections = req.body.sections
 
+    try {
+        const container = await Container.findByPk(req.params.id);
+        if (!container) {
+          return res.status(404).json({ message: 'Container not found' });
+        }
+
+        const savedContainer = await Container.findOne({
+          order: [['id', 'DESC']],
+          where: { code: req.params.code }
+        });
+        
+        //not good - deletes unchanged sections
+        await Section.destroy({ where: { containerID: savedContainer.id } });
+
+        await container.destroy();
+        return res.json({ message: 'Container with Sections deleted successfully' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+}

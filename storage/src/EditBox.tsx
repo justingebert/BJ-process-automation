@@ -101,6 +101,7 @@ function EditBox(){
             //console.log(dataBox);
             setBoxData(dataBox);
             setSectionData(dataBox.sections)
+
             setBoxInfo({
                 location: dataBox.location,
                 procedure: dataBox.procedure,
@@ -130,9 +131,9 @@ function EditBox(){
 
 function EditBoxInfo({data, onInfoChange}:any){
 
-    const [location, setlocation] = useState(data.location)
-    const [procedure, setProcedure] = useState(data.procedure)
-    const [description, setDescription] = useState(data.description)
+    const [location, setlocation] = useState(data.location || "")
+    const [procedure, setProcedure] = useState(data.procedure || "")
+    const [description, setDescription] = useState(data.description || "")
 
     const Inputlocation:any = useRef(null);
     const InputProcedure:any = useRef(null);
@@ -142,26 +143,23 @@ function EditBoxInfo({data, onInfoChange}:any){
     useEffect(() => {
         const newData = {
             location: location,
-            procedure: procedure,
+            procedure: parseInt(procedure),
             description: description
         }
         onInfoChange(newData)
       }, [location, procedure, description]); 
 
     const descriptionChange = async() => {
-        if(InputDescription.current.value == undefined) setDescription("")
-        else await setDescription(InputDescription.current.value)
+        await setDescription(InputDescription.current.value)
         
     }
 
     const procedureChange = async () => {
-        if(InputProcedure.current.value == undefined) setProcedure("")
-        else await setProcedure(parseInt(InputProcedure.current.value))
+        await setProcedure(InputProcedure.current.value)
     }
 
     const locationChange = async () => {
-        if(Inputlocation.current.value == undefined) setlocation("")
-        else await setlocation(Inputlocation.current.value)
+        await setlocation(Inputlocation.current.value)
     }
 
 
@@ -174,7 +172,7 @@ function EditBoxInfo({data, onInfoChange}:any){
             </div>
             <div className='BoxInfoInput' id='procedureInput'>
                 <label>Arbeitschritt:</label>
-                <input type="text" ref={InputProcedure} value={procedure} onChange={procedureChange}/>
+                <input type="number" ref={InputProcedure} value={procedure} onChange={procedureChange}/>
             </div>
             <div className='BoxInfoInput' id='descriptionInput'>
                 <label>Beschreibung:</label>

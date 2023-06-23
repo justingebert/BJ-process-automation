@@ -62,26 +62,19 @@ function SectionTableEdit({data, onSectionSubmit}:any){
     }
 
     const handleDataDelete = (deleteIndex:number) =>  {
-        let newData = sections.map((section:section, index:number) => {
-            if(deleteIndex === section.section){
-                return emptySection(deleteIndex)
-            }else{
-                return section
-            }
-        })
+        let newData = sections.filter((section:section) => {
+            return deleteIndex !== section.section;
+          });
         setSections(newData);
+        console.log(newData)
         sendSectionDataToPage(newData)
-
     }
 
     const provideEditData = () => {
 
     }
 
-    //render only non empty elements
-    const filteredArray = sections.filter((section:section) => section.orderID != '')
-
-    const sectionrows = filteredArray.map((section: section) => 
+    const sectionrows = sections.map((section: section) => 
             <SectionTableRowEdit 
             key={section.section}
             section={section.section}
