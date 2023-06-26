@@ -11,7 +11,7 @@ const ipUni = "141.45.33.70";
 
 let ip = "";
 
-let ipNum:number = 1;
+let ipNum:number = 6;
 
 switch (ipNum) {
     case 1:
@@ -96,7 +96,16 @@ function LookUpCode({boxId}:any){
     );
 }
 
+
+
 function BoxInfo(props:any){
+    const [quantity, setQuantity] = useState(props.data.quantity);
+
+    useEffect(()=>{
+        const sections = props.data.sections;
+        let sum = sections.reduce((a:any, b:any) => a + b.quantity, 0);
+        setQuantity(sum);
+    }, [props])
     //const boxInfo = useContext(boxCode);
     return(
         <>
@@ -105,10 +114,10 @@ function BoxInfo(props:any){
                  Status:{props.data.status}
             </div>
             <div className='TextInfo' id='quantity'>
-                 Menge:{props.data.quantity}
+                 Menge:{quantity}
             </div>
             <div className='TextInfo' id='position'>
-                 Ort:{props.data.position}
+                 Ort:{props.data.location}
             </div>
             <div className='TextInfo' id='procedure'>
                 Arbeitschritt:{props.data.procedure}
@@ -140,14 +149,8 @@ function EditBoxButtons({boxCode}:any){
 
     const newValues = async () => {
         if(cleared){
-            if (window.confirm('Kiste Leeren?')){
-                const newValueBox = await fetch(`http://${ip}:50056/newVal/`+boxCode, {
-                method: 'POST'
-                });
-                navigate(`/edit/${boxCode}`);
-            }
+            navigate(`/edit/${boxCode}`);
         }
-        
     }
 
     const newStyleC = {
