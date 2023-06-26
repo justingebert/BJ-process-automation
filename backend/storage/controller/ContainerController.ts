@@ -58,16 +58,19 @@ exports.getContainerById = async (req:any, res:any) => {
         if (!container) {
           container = await createEmptyContainer(req.params.code)
         }
-
+        const containerJson = container.toJSON();
 
         const lastSection = await Section.findOne({
           order: [['id', 'DESC']]
         })
-        //console.log(lastSection)
+        if(!lastSection) {
+          containerJson.sections = [];
+          return res.json(containerJson);
+        }
+
         const sectionNum = lastSection.section
         
-        const sections = await 
-        Section.findAll({ 
+        const sections = await Section.findAll({ 
           order: [['id', 'DESC']],
           where: {
             section: {[Op.between]: [1, sectionNum]},
@@ -75,18 +78,11 @@ exports.getContainerById = async (req:any, res:any) => {
            },
            limit: sectionNum
         });
+
         sections.reverse();
-        //let currentSections = sections.filter((sec))
-
-        //console.log(sections)
-
-        if (!sections) {
-            return res.status(404).json({ message: 'Container empty' });
-          }
-        const containerJson = container.toJSON();
         const sectionsJSON = sections.map((section:any) => section.toJSON());
         containerJson.sections = sectionsJSON;
-        //console.log(containerJson);
+
         return res.json(containerJson);
       } catch (error) {
         console.error(error);
@@ -123,7 +119,7 @@ exports.updateContainer = async (req:any, res:any) => {
           where: { code: req.params.code }
         });
         
-        //not good - deletes unchanged sections
+        //not good - deletes unchanged sections400
         await Section.destroy({ where: { containerID: savedContainer.id } });
 
         if(sections.length > 0) {
@@ -171,4 +167,15 @@ exports.deleteContainer = async (req:any, res:any) => {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
       }
+}
+
+exports.clearContainer = async (req:any, res:any) => {
+  const savedContainer = await Container.findOne({
+    order: [['id', 'DESC']],
+    where: { code: req.params.code }
+  });
+  
+  //not good - deletes unchanged sections
+  await Section.destroy({ where: { containerID: savedContainer.id } });
+  return res.json({ message: 'Sections deleted successfully' });
 }

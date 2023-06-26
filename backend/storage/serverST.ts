@@ -39,11 +39,8 @@ app.get("/allBoxes", ContainerController.getAllContainers);
 app.get("/info/:code", ContainerController.getContainerById);
 
 app.post("/edit/:code",ContainerController.updateContainer)
-
 //create a new box
-app.post("/clear/:code",(req, res) => {
-    
-})
+app.post("/clear/:code",ContainerController.clearContainer)
 
 //send new box to edit
 app.post("/new/:code",)

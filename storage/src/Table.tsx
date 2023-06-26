@@ -108,9 +108,9 @@ function SectionTableInfo(props:any){
     const [sections , setSections] = useState(props.data.sections);
     
     useEffect(() => {
-        setSections(props.data.sections)
+       setSections(props.data.sections)
       }, [props]);
-
+    
     const sectionrows = sections.map((section: section) => 
         <SectionTableRowInfo 
         key={section.section}

@@ -1,4 +1,6 @@
 
+const {Container, Section} = require('./models/');
+
 Container.create({
     code: "ZEBRA",
     active: true,
