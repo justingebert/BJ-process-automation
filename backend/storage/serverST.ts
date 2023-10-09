@@ -34,7 +34,7 @@ db.sequelize.sync().then(() => {
 });
 
 
-app.get("/allBoxes", ContainerController.getAllContainers);
+app.get("/info/all", ContainerController.getAllContainers);
 
 app.get("/info/:code", ContainerController.getContainerById);
 

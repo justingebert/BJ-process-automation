@@ -17,8 +17,10 @@ function App() {
         <Route path="/" element={<Head />}>
           <Route index element={<ViewBoxes />} />
           <Route path="edit/:id" element={<EditBox />} />
+          <Route path="info/all" element={<ViewBoxes />}></Route>
           <Route path="info" element={<ViewBox />}>
-            <Route path=':id' element={<ViewBox />}></Route> 
+            <Route path=':id' element={<ViewBox />}></Route>
+          
           </Route> 
         </Route>
         

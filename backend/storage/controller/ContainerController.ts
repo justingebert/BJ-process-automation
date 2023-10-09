@@ -1,6 +1,7 @@
 import { group } from "console";
 import sequelize, { Op } from "sequelize";
 import { setOriginalNode } from "typescript";
+import { section } from "../Box";
 
 const { Container, Section } = require('../../db/models/');
 //TODO implement correctly
@@ -25,26 +26,38 @@ async function createEmptyContainer(code:any) {
    return container
 }
 
-
+//TODO test this
 exports.getAllContainers = async (req:any, res:any) => {
-    try {
-        const container = await Container.findByPk(1);
-        if (!container) {
-          return res.status(404).json({ message: 'Container not found' });
-        }
-        const sections = await Section.findAll({ where: { containerID: 1 } });
-        if (!sections) {
-            return res.status(404).json({ message: 'Container empty' });
-          }
+  console.log("jajajaj")
+  try {
+    const containers = await Container.findAll({
+      order: [['id', 'DESC']]
+    });
+
+
+    const containersWithSections = await Promise.all(
+      containers.map(async (container:any) => {
         const containerJson = container.toJSON();
+        
+        const sections = await Section.findAll({
+          order: [['id', 'DESC']],
+          where: {
+            containerID: container.code
+          }
+        });
+
         const sectionsJSON = sections.map((section:any) => section.toJSON());
         containerJson.sections = sectionsJSON;
-        console.log(containerJson);
-        return res.json(containerJson);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-      }
+
+        return containerJson;
+      })
+    );
+
+    res.json(containersWithSections);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
 
 //TODO dont find all sections with old oner for container
