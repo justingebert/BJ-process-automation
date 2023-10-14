@@ -48,7 +48,7 @@ function TableBoxes(){
 }
 
 function BoxRows(){
-    const [boxes, setBoxes] = useState(null);
+    const [boxes, setBoxes] = useState([]);
 
     useEffect(()=>{
         const dataFetch = async () => {
